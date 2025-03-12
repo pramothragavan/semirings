@@ -16,11 +16,31 @@ Obj FuncTestCommandWithParams(Obj self, Obj param, Obj param2)
     return param;
 }
 
+Obj FuncIsLeftRightDistributive(Obj self, Obj A, Obj M)
+{   
+    unsigned int n, x, y, z;
+    if LEN_PLIST(A) <> LEN_PLIST(M) then
+        return False;
+    
+    n = LEN_PLIST(A);
+
+    for (x = 0, x < n, x++)
+    {
+        for (y = 0, y < n, y++)
+        {
+            for (z = y + 1, z < n, z++)
+            {
+                
+            }
+        }
+    }
+    
+}
 // Table of functions to export
 static StructGVarFunc GVarFuncs [] = {
     GVAR_FUNC(TestCommand, 0, ""),
     GVAR_FUNC(TestCommandWithParams, 2, "param, param2"),
-
+    GVAR_FUNC(IsLeftRightDistributive, 2, "A, M"),
     { 0 } /* Finish with an empty entry */
 };
 

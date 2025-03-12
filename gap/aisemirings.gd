@@ -16,4 +16,4 @@
 
 #! @Description
 #!   Insert documentation for your function here
-DeclareGlobalFunction( "aisemirings_Example" );
+DeclareGlobalFunction( "AllAiSemirings" );
