@@ -35,24 +35,24 @@
 #   return true;
 # end);
 
-BindGlobal("PermuteMultiplicationTable",
-function(M, sigma)
-  local n, permuted, i, j, invSigma, sigmaImages, invSigmaImages;
+# BindGlobal("PermuteMultiplicationTable",
+# function(M, sigma)
+#   local n, permuted, i, j, invSigma, sigmaImages, invSigmaImages;
 
-  n              := Length(M);
-  invSigma       := sigma ^ -1;
-  sigmaImages    := List([1 .. n], i -> i ^ sigma);
-  invSigmaImages := List([1 .. n], i -> i ^ invSigma);
-  permuted       := List([1 .. n], i -> [1 .. n]);
+#   n              := Length(M);
+#   invSigma       := sigma ^ -1;
+#   sigmaImages    := List([1 .. n], i -> i ^ sigma);
+#   invSigmaImages := List([1 .. n], i -> i ^ invSigma);
+#   permuted       := List([1 .. n], i -> [1 .. n]);
 
-  for i in [1 .. n] do
-    for j in [1 .. n] do
-      permuted[i][j] := sigmaImages[(M[invSigmaImages[i]][invSigmaImages[j]])];
-    od;
-  od;
+#   for i in [1 .. n] do
+#     for j in [1 .. n] do
+#       permuted[i][j] := sigmaImages[(M[invSigmaImages[i]][invSigmaImages[j]])];
+#     od;
+#   od;
 
-  return permuted;
-end);
+#   return permuted;
+# end);
 
 BindGlobal("IsomorphismFilter",
 function(S1, S2)
@@ -154,7 +154,7 @@ function(allA, allM, autMs, map, shift)
       fi;
 
       for sigma in reps do
-        M_sigma := OnMultiplicationTable(M, sigma);
+        M_sigma := PermuteMultiplicationTable(M, sigma);
         if IsLeftRightDistributive(AA, M_sigma) then
           # AddSet(temp, M_sigma);
           count := count + 1;
