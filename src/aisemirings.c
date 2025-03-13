@@ -17,6 +17,12 @@ Obj FuncIsLeftRightDistributive(Obj self, Obj A, Obj M) {
                     ELM_MAT(M, INTOBJ_INT(x), INTOBJ_INT(z)))) {
           return False;
         }
+        if (ELM_MAT(M, ELM_MAT(A, INTOBJ_INT(y), INTOBJ_INT(z)),
+                    INTOBJ_INT(x)) !=
+            ELM_MAT(A, ELM_MAT(M, INTOBJ_INT(z), INTOBJ_INT(x)),
+                    ELM_MAT(M, INTOBJ_INT(y), INTOBJ_INT(x)))) {
+          return False;
+        }
       }
     }
   }

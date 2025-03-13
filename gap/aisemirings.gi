@@ -4,20 +4,19 @@
 # Implementations
 #
 
-OnMultiplicationTableInplaceNC :=
+PermuteMultiplicationTable :=
 function(out, table, p)
-  local out;
+  local i, j, q, ii;
+  q := p ^ -1;
   for i in [1 .. Length(table)] do
+    ii := i ^ q;
     for j in [1 .. Length(table)] do
-      out[i, j] := table[i ^ p, j ^ p] ^ p;
+      out[i, j] := table[ii, j ^ q] ^ p;
     od;
-  do;
-  Apply(out, x -> OnTuples(x, p));
-  Apply(out, x -> Permuted(x, p));
-  return out;
+  od;
 end;
 
-# A = the additive semigroup, M the multiplicative
+
 # BindGlobal("IsLeftRightDistributive",
 # function(A, M)
 #   local n, x, y, z;
@@ -121,7 +120,7 @@ end);
 BindGlobal("Finder",
 function(allA, allM, autMs, map, shift)
   local A, AA, autA, list, M, autM, reps, sigma, M_sigma, j, i,
-  temp, doubleCosetCache, value, count, gens, total;
+  temp, doubleCosetCache, value, count, gens, total, tmp;
   FLOAT.DIG         := 2;
   FLOAT.VIEW_DIG    := 4;
   FLOAT.DECIMAL_DIG := 4;
@@ -129,6 +128,7 @@ function(allA, allM, autMs, map, shift)
   # list  := [];
   i     := 0;
   count := 0;
+  tmp := List([1 .. Size(allA[1])], x -> [1 .. Size(allA[1])]);
 
   for A in allA do
     AA   := MultiplicationTable(A);
@@ -167,8 +167,8 @@ function(allA, allM, autMs, map, shift)
       fi;
 
       for sigma in reps do
-        M_sigma := PermuteMultiplicationTable(M, sigma);
-        if IsLeftRightDistributive(AA, M_sigma) then
+        PermuteMultiplicationTable(tmp, M, sigma);
+        if IsLeftRightDistributive(AA, tmp) then
           # AddSet(temp, M_sigma);
           count := count + 1;
         fi;
