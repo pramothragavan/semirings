@@ -16,4 +16,9 @@
 
 #! @Description
 #!   Insert documentation for your function here
-DeclareGlobalFunction( "AllAiSemirings" );
+DeclareGlobalFunction("AllAiSemirings");
+DeclareGlobalFunction("NrAiSemirings");
+DeclareGlobalFunction("AllRingsWithOne");
+DeclareGlobalFunction("NrRingsWithOne");
+DeclareGlobalFunction("AllRings");
+DeclareGlobalFunction("NrRings");
