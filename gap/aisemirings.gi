@@ -4,7 +4,7 @@
 # Implementations
 #
 
-PermuteMultiplicationTable :=
+BindGlobal("PermuteMultiplicationTable",
 function(out, table, p)
   local i, j, q, ii;
   q := p ^ -1;
@@ -14,121 +14,20 @@ function(out, table, p)
       out[i, j] := table[ii, j ^ q] ^ p;
     od;
   od;
-end;
-
-
-# BindGlobal("IsLeftRightDistributive",
-# function(A, M)
-#   local n, x, y, z;
-
-#   if Size(A) <> Size(M) then
-#     return false;
-#   fi;
-
-#   n  := Size(A);
-#   x  := 0;
-
-#   while x < n do
-#     x := x + 1;
-#     y := 0;
-#     while y < n do
-#       y := y + 1;
-#       z := y;
-#       while z < n do
-#         z := z + 1;
-#         if M[x, A[y, z]] <> A[M[x, y], M[x, z]] then
-#           return false;
-#         elif M[A[y, z], x] <> A[M[y, x], M[z, x]] then
-#           return false;
-#         fi;
-#       od;
-#     od;
-#   od;
-#   return true;
-# end);
-
-# BindGlobal("PermuteMultiplicationTable",
-# function(M, sigma)
-#   local n, permuted, i, j, invSigma, sigmaImages, invSigmaImages;
-
-#   n              := Length(M);
-#   invSigma       := sigma ^ -1;
-#   sigmaImages    := List([1 .. n], i -> i ^ sigma);
-#   invSigmaImages := List([1 .. n], i -> i ^ invSigma);
-#   permuted       := List([1 .. n], i -> [1 .. n]);
-
-#   for i in [1 .. n] do
-#     for j in [1 .. n] do
-#       permuted[i][j] := sigmaImages[(M[invSigmaImages[i]][invSigmaImages[j]])];
-#     od;
-#   od;
-
-#   return permuted;
-# end);
-
-BindGlobal("IsomorphismFilter",
-function(S1, S2)
-  local M1, M2, sigma, G;
-
-  M1 := S1[2];
-  M2 := S2[2];
-  if S1[1] <> S2[1] then
-    return false;
-  fi;
-
-  G  := S1[3];
-  for sigma in G do
-    if OnMultiplicationTable(M1, sigma) = M2 then
-      return true;
-    fi;
-  od;
-  return false;
 end);
 
-BindGlobal("EquivalenceFilter",
-function(S1, S2)
-  local M1, T1;
-
-  if IsomorphismFilter(S1, S2) then
-    return true;
-  fi;
-  M1 := S1[2];
-  T1 := TransposedMat(M1);
-  if T1 <> M1 then
-    S1[2] := T1;
-    return IsomorphismFilter(S1, S2);
-  fi;
-  return false;
-end);
-
-# reduce whole orbit to one representative
-BindGlobal("CanonicalTwist",
-function(M, autA)
-  local sigma, min, temp;
-  min := M;
-  for sigma in autA do
-    temp := OnMultiplicationTable(M, sigma);
-    if temp < min then
-      min := temp;
-    fi;
-  od;
-
-  return min;
-end);
-
-# Function to enumerate ai-semirings using double cosets
-BindGlobal("Finder",
+# Function to count ai-semirings
+BindGlobal("CountFinder",
 function(allA, allM, autMs, map, shift)
-  local A, AA, autA, list, M, autM, reps, sigma, M_sigma, j, i,
-  temp, doubleCosetCache, value, count, gens, total, tmp;
+  local A, AA, autA, M, autM, reps, sigma, j, i,
+  doubleCosetCache, value, count, gens, tmp;
   FLOAT.DIG         := 2;
   FLOAT.VIEW_DIG    := 4;
   FLOAT.DECIMAL_DIG := 4;
 
-  # list  := [];
   i     := 0;
   count := 0;
-  tmp := List([1 .. Size(allA[1])], x -> [1 .. Size(allA[1])]);
+  tmp   := List([1 .. Size(allA[1])], x -> [1 .. Size(allA[1])]);
 
   for A in allA do
     AA   := MultiplicationTable(A);
@@ -136,7 +35,6 @@ function(allA, allM, autMs, map, shift)
     autA := Image(IsomorphismPermGroup(autA));
 
     j                := 0;
-    # temp             := [];
     doubleCosetCache := HashMap();
 
     for M in allM do
@@ -169,30 +67,92 @@ function(allA, allM, autMs, map, shift)
       for sigma in reps do
         PermuteMultiplicationTable(tmp, M, sigma);
         if IsLeftRightDistributive(AA, tmp) then
-          # AddSet(temp, M_sigma);
           count := count + 1;
         fi;
       od;
     od;
     i    := i + 1;
-    # temp := List(temp, x -> [AA, x]);
-    # UniteSet(list, temp);
   od;
     PrintFormatted("\nFound {} candidates!\n", count);
   return count;
 end);
 
-InstallGlobalFunction(AllAiSemirings,
-function(n)
+# Function to find ai-semirings
+BindGlobal("Finder",
+function(allA, allM, autMs, map, shift)
+  local A, AA, autA, list, M, autM, reps, sigma, j, i,
+  temp, doubleCosetCache, value, gens, temp_table;
+  FLOAT.DIG         := 2;
+  FLOAT.VIEW_DIG    := 4;
+  FLOAT.DECIMAL_DIG := 4;
+
+  list         := [];
+  i            := 0;
+  temp_table   := List([1 .. Size(allA[1])], x -> [1 .. Size(allA[1])]);
+
+  for A in allA do
+    AA   := MultiplicationTable(A);
+    autA := AutomorphismGroup(A);
+    autA := Image(IsomorphismPermGroup(autA));
+
+    j                := 0;
+    temp             := [];
+    doubleCosetCache := HashMap();
+
+    for M in allM do
+      j    := j + 1;
+      PrintFormatted("At {}%, found {} so far\r\c",
+                Float((i * Length(allM) + j) * 100 /
+                (Length(allA) * Length(allM))),
+                Length(list) + Length(temp));
+
+      if j <= Length(allM) - shift then
+        autM := autMs[map[j]];
+      else
+        autM := autMs[map[j - shift]];
+      fi;
+
+      M    := MultiplicationTable(M);
+      gens := GeneratorsSmallest(autM);
+
+      value := doubleCosetCache[gens];
+      if value <> fail then
+        reps := value;
+      else
+        # Compute double coset reps: Aut(A)\S_n/Aut(M)
+        reps := DoubleCosetRepsAndSizes(SymmetricGroup(Size(A)),
+                                        autM, autA);
+        reps                   := List(reps, x -> x[1]);
+        doubleCosetCache[gens] := reps;
+      fi;
+
+      for sigma in reps do
+        PermuteMultiplicationTable(temp_table, M, sigma);
+        if IsLeftRightDistributive(AA, temp_table) then
+          AddSet(temp, List(temp_table, ShallowCopy));
+        fi;
+      od;
+    od;
+    i    := i + 1;
+    temp := List(temp, x -> [AA, x]);
+    UniteSet(list, temp);
+  od;
+    PrintFormatted("\nFound {} candidates!\n", Length(list));
+  return list;
+end);
+
+BindGlobal("SETUPFINDER",
+function(n, flag, structA, structM)
   local allA, allM, NSD, anti, autMs, autM_NSD, SD, autM_SD,
   uniqueAutMs, map, shift;
-  PrintFormatted("{}GB of memory allocated\n",
-                Float(TotalMemoryAllocated() / 10 ^ 9));
-  allA := AllSmallSemigroups(n, IsBand, true, IsCommutative, true);
+
+  allA := CallFuncList(AllSmallSemigroups, Concatenation([n], structA));
   PrintFormatted("Found {} candidates for A!\n", Length(allA));
 
   Print("Finding non-self-dual semigroups...\n");
-  NSD      := AllSmallSemigroups(n, IsSelfDualSemigroup, false);
+  NSD      := CallFuncList(AllSmallSemigroups,
+                           Concatenation([n, IsSelfDualSemigroup, false],
+                                          structM));
   shift    := Length(NSD);
 
   Print("Finding corresponding dual semigroups...\n");
@@ -203,7 +163,9 @@ function(n)
                   x -> Image(IsomorphismPermGroup(AutomorphismGroup(x))));
 
   Print("Adding in self-dual semigroups...\n");
-  SD   := AllSmallSemigroups(n, IsSelfDualSemigroup, true);
+  SD   := CallFuncList(AllSmallSemigroups,
+                          Concatenation([n, IsSelfDualSemigroup, true],
+                                         structM));
   allM := Concatenation(SD, NSD, anti);
   PrintFormatted("Added in anti-iso! Found {} candidates for M!\n",
                   Length(allM));
@@ -223,86 +185,41 @@ function(n)
   Unbind(autMs);
   CollectGarbage(true);
 
-  Print("Finding ai-semirings...\n");
-  return Finder(allA, allM, uniqueAutMs, map, shift);
- end);
+  if flag then
+    Print("Counting ai-semirings...\n");
+    return CountFinder(allA, allM, uniqueAutMs, map, shift);
+  else
+    Print("Finding ai-semirings...\n");
+    return Finder(allA, allM, uniqueAutMs, map, shift);
+  fi;
+end);
 
- ######## ENUMERATOR VERSION ##############
+InstallGlobalFunction(NrAiSemirings,
+                      n -> SETUPFINDER(n, true,
+                                      [IsBand, true, IsCommutative, true],
+                                      []));
 
-# InstallGlobalFunction(AllAiSemirings,
-# function(n)
-#   local allA, allM, NSD, autMs, autM_NSD, SD, autM_SD, uniqueAutMs, map, shift;
+InstallGlobalFunction(AllAiSemirings,
+                      n -> SETUPFINDER(n, false,
+                                      [IsBand, true, IsCommutative, true],
+                                      []));
 
-#   allA := AllSmallSemigroups(n, IsBand, true, IsCommutative, true);
-#   PrintFormatted("Found {} candidates for A!\n", Length(allA));
+InstallGlobalFunction(NrRingsWithOne,
+            n -> SETUPFINDER(n, true,
+                            [IsGroupAsSemigroup, true, IsCommutative, true],
+                            [IsMonoidAsSemigroup, true]));
 
-#   Print("Finding non-self-dual semigroups and their automorphism groups...\n");
-#   NSD      := EnumeratorOfSmallSemigroups(n, IsSelfDualSemigroup, false);
-#   shift    := Length(NSD);
-#   autM_NSD := List(NSD,
-#                    x -> Image(IsomorphismPermGroup(AutomorphismGroup(x))));
+InstallGlobalFunction(AllRingsWithOne,
+            n -> SETUPFINDER(n, false,
+                            [IsGroupAsSemigroup, true, IsCommutative, true],
+                            [IsMonoidAsSemigroup, true]));
 
-#   Print("Adding in self-dual semigroups and their automorphism groups...\n");
-#   SD      := EnumeratorOfSmallSemigroups(n, IsSelfDualSemigroup, true);
-#   autM_SD := List(SD, x -> Image(IsomorphismPermGroup(AutomorphismGroup(x))));
+InstallGlobalFunction(NrRings,
+            n -> SETUPFINDER(n, true,
+                            [IsGroupAsSemigroup, true, IsCommutative, true],
+                            []));
 
-#   allM := EnumeratorByFunctions(SmallSemigroupEnumeratorFamily,
-#     rec(
-#       ElementNumber := function(enum, pos)
-#         if pos <= Length(SD) then
-#           return SD[pos];
-#         elif pos <= Length(SD) + Length(NSD) then
-#           return NSD[pos - Length(SD)];
-#         else
-#           return DualSemigroup(NSD[pos - Length(SD) - Length(NSD)]);
-#         fi;
-#       end,
-
-#       NumberElement := function(enum, elm)
-#         if elm in SD then
-#           return Position(SD, elm);
-#         elif elm in NSD then
-#           return Length(SD) + Position(NSD, elm);
-#         elif DualSemigroup(elm) in NSD then
-#           return Length(SD) + Length(NSD) + Position(NSD, DualSemigroup(elm));
-#         fi;
-
-#         return fail;
-#       end,
-
-#       Length := function(enum) return Length(SD) + 2 * Length(NSD);
-#     end));
-
-#   PrintFormatted("Found {} candidates for M!\n",
-#                   Length(allM));
-
-#   Print("Storing only unique automorphism groups and unbinding variables...\n");
-#   autMs       := Concatenation(autM_SD, autM_NSD);
-#   uniqueAutMs := Unique(autMs);
-#   map         := List(autMs, g -> Position(uniqueAutMs, g));
-
-#   Unbind(autM_NSD);
-#   Unbind(autM_SD);
-#   Unbind(autMs);
-#   CollectGarbage(true);
-
-#   Print("Finding ai-semirings...\n");
-#   return Finder(allA, allM, uniqueAutMs, map, shift);
-# end);
-
-# AllRingsWithOne := function(n)
-#   local allA, allM;
-
-#   allA := AllSmallSemigroups(n, IsGroupAsSemigroup, true, IsCommutative, true);
-#   allM := AllSmallSemigroups(n, IsMonoidAsSemigroup, true);
-#   allM := UpToIsomorphism(allM);
-#   return Finder(allA, allM);
-# end;
-
-# AllRings := function(n)
-#   local allA, allM;
-#   allA := AllSmallSemigroups(n, IsGroupAsSemigroup, true, IsCommutative, true);
-#   allM := AllSmallSemigroups(n);
-#   allM := UpToIsomorphism(allM);
-#   return Finder(allA, allM);
-# end;
+InstallGlobalFunction(AllRings,
+            n -> SETUPFINDER(n, false,
+                            [IsGroupAsSemigroup, true, IsCommutative, true],
+                            []));
