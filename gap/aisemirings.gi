@@ -35,6 +35,25 @@
 #   return true;
 # end);
 
+BindGlobal("PermuteMultiplicationTable",
+function(M, sigma)
+  local n, permuted, i, j, invSigma, sigmaImages, invSigmaImages;
+
+  n              := Length(M);
+  invSigma       := sigma ^ -1;
+  sigmaImages    := List([1 .. n], i -> i ^ sigma);
+  invSigmaImages := List([1 .. n], i -> i ^ invSigma);
+  permuted       := List([1 .. n], i -> [1 .. n]);
+
+  for i in [1 .. n] do
+    for j in [1 .. n] do
+      permuted[i][j] := sigmaImages[(M[invSigmaImages[i]][invSigmaImages[j]])];
+    od;
+  od;
+
+  return permuted;
+end);
+
 BindGlobal("IsomorphismFilter",
 function(S1, S2)
   local M1, M2, sigma, G;
@@ -152,64 +171,110 @@ end);
 
 InstallGlobalFunction(AllAiSemirings,
 function(n)
-  local allA, allM, NSD, autMs, autM_NSD, SD, autM_SD, uniqueAutMs, map, shift;
-
+  local allA, allM, NSD, anti, autMs, autM_NSD, SD, autM_SD,
+  uniqueAutMs, map, shift;
   allA := AllSmallSemigroups(n, IsBand, true, IsCommutative, true);
   PrintFormatted("Found {} candidates for A!\n", Length(allA));
 
-  Print("Finding non-self-dual semigroups and their automorphism groups...\n");
-  NSD      := EnumeratorOfSmallSemigroups(n, IsSelfDualSemigroup, false);
+  Print("Finding non-self-dual semigroups...\n");
+  NSD      := AllSmallSemigroups(n, IsSelfDualSemigroup, false);
   shift    := Length(NSD);
+
+  Print("Finding corresponding dual semigroups...\n");
+  anti   := List(NSD, DualSemigroup);
+
+  Print("Finding automorphism groups...\n");
   autM_NSD := List(NSD,
-                   x -> Image(IsomorphismPermGroup(AutomorphismGroup(x))));
+                  x -> Image(IsomorphismPermGroup(AutomorphismGroup(x))));
 
-  Print("Adding in self-dual semigroups and their automorphism groups...\n");
-  SD      := EnumeratorOfSmallSemigroups(n, IsSelfDualSemigroup, true);
-  autM_SD := List(SD, x -> Image(IsomorphismPermGroup(AutomorphismGroup(x))));
-
-  allM := EnumeratorByFunctions(SmallSemigroupEnumeratorFamily,
-    rec(
-      ElementNumber := function(enum, pos)
-        if pos <= Length(SD) then
-          return SD[pos];
-        elif pos <= Length(SD) + Length(NSD) then
-          return NSD[pos - Length(SD)];
-        else
-          return DualSemigroup(NSD[pos - Length(SD) - Length(NSD)]);
-        fi;
-      end,
-
-      NumberElement := function(enum, elm)
-        if elm in SD then
-          return Position(SD, elm);
-        elif elm in NSD then
-          return Length(SD) + Position(NSD, elm);
-        elif DualSemigroup(elm) in NSD then
-          return Length(SD) + Length(NSD) + Position(NSD, DualSemigroup(elm));
-        fi;
-
-        return fail;
-      end,
-
-      Length := function(enum) return Length(SD) + 2 * Length(NSD);
-    end));
-
-  PrintFormatted("Found {} candidates for M!\n",
+  Print("Adding in self-dual semigroups...\n");
+  SD   := AllSmallSemigroups(n, IsSelfDualSemigroup, true);
+  allM := Concatenation(SD, NSD, anti);
+  PrintFormatted("Added in anti-iso! Found {} candidates for M!\n",
                   Length(allM));
 
-  Print("Storing only unique automorphism groups and unbinding variables...\n");
-  autMs       := Concatenation(autM_SD, autM_NSD);
+  Print("Finding automorphism groups for self-dual semigroups...\n");
+  autM_SD := List(SD, x -> Image(IsomorphismPermGroup(AutomorphismGroup(x))));
+  autMs   := Concatenation(autM_SD, autM_NSD);
+
+  uniqueAutMs := Set(autMs);
   uniqueAutMs := Unique(autMs);
   map         := List(autMs, g -> Position(uniqueAutMs, g));
 
+  Unbind(NSD);
+  Unbind(anti);
   Unbind(autM_NSD);
+  Unbind(SD);
   Unbind(autM_SD);
   Unbind(autMs);
   CollectGarbage(true);
 
   Print("Finding ai-semirings...\n");
   return Finder(allA, allM, uniqueAutMs, map, shift);
-end);
+ end);
+
+ ######## ENUMERATOR VERSION ##############
+
+# InstallGlobalFunction(AllAiSemirings,
+# function(n)
+#   local allA, allM, NSD, autMs, autM_NSD, SD, autM_SD, uniqueAutMs, map, shift;
+
+#   allA := AllSmallSemigroups(n, IsBand, true, IsCommutative, true);
+#   PrintFormatted("Found {} candidates for A!\n", Length(allA));
+
+#   Print("Finding non-self-dual semigroups and their automorphism groups...\n");
+#   NSD      := EnumeratorOfSmallSemigroups(n, IsSelfDualSemigroup, false);
+#   shift    := Length(NSD);
+#   autM_NSD := List(NSD,
+#                    x -> Image(IsomorphismPermGroup(AutomorphismGroup(x))));
+
+#   Print("Adding in self-dual semigroups and their automorphism groups...\n");
+#   SD      := EnumeratorOfSmallSemigroups(n, IsSelfDualSemigroup, true);
+#   autM_SD := List(SD, x -> Image(IsomorphismPermGroup(AutomorphismGroup(x))));
+
+#   allM := EnumeratorByFunctions(SmallSemigroupEnumeratorFamily,
+#     rec(
+#       ElementNumber := function(enum, pos)
+#         if pos <= Length(SD) then
+#           return SD[pos];
+#         elif pos <= Length(SD) + Length(NSD) then
+#           return NSD[pos - Length(SD)];
+#         else
+#           return DualSemigroup(NSD[pos - Length(SD) - Length(NSD)]);
+#         fi;
+#       end,
+
+#       NumberElement := function(enum, elm)
+#         if elm in SD then
+#           return Position(SD, elm);
+#         elif elm in NSD then
+#           return Length(SD) + Position(NSD, elm);
+#         elif DualSemigroup(elm) in NSD then
+#           return Length(SD) + Length(NSD) + Position(NSD, DualSemigroup(elm));
+#         fi;
+
+#         return fail;
+#       end,
+
+#       Length := function(enum) return Length(SD) + 2 * Length(NSD);
+#     end));
+
+#   PrintFormatted("Found {} candidates for M!\n",
+#                   Length(allM));
+
+#   Print("Storing only unique automorphism groups and unbinding variables...\n");
+#   autMs       := Concatenation(autM_SD, autM_NSD);
+#   uniqueAutMs := Unique(autMs);
+#   map         := List(autMs, g -> Position(uniqueAutMs, g));
+
+#   Unbind(autM_NSD);
+#   Unbind(autM_SD);
+#   Unbind(autMs);
+#   CollectGarbage(true);
+
+#   Print("Finding ai-semirings...\n");
+#   return Finder(allA, allM, uniqueAutMs, map, shift);
+# end);
 
 # AllRingsWithOne := function(n)
 #   local allA, allM;
