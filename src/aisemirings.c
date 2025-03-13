@@ -29,52 +29,9 @@ Obj FuncIsLeftRightDistributive(Obj self, Obj A, Obj M) {
   return True;
 }
 
-Obj FuncPermuteMultiplicationTable(Obj self, Obj M, Obj sigma) {
-  int n = LEN_LIST(M);
-
-  int deg = DEG_PERM2(sigma);
-  UInt2 *permArr = ADDR_PERM2(sigma);
-
-  Obj invSigma = STOREDINV_PERM(sigma);
-  if (invSigma == 0) {
-    invSigma = INV(sigma);
-    SET_STOREDINV_PERM(sigma, invSigma);
-  }
-
-  UInt2 *invPermArr = ADDR_PERM2(invSigma);
-
-  Obj permuted = NEW_PLIST(T_PLIST, n);
-  SET_LEN_PLIST(permuted, n);
-
-  for (int i = 1; i <= n; i++) {
-    Obj row = NEW_PLIST(T_PLIST, n);
-    SET_LEN_PLIST(row, n);
-    SET_ELM_PLIST(permuted, i, row);
-  }
-
-  for (int i = 1; i <= n; i++) {
-    /* Compute invSigma image of i: i^invSigma = IMAGE(i-1, invPermArr, deg)+1
-     */
-    int invSigmaI = IMAGE(i - 1, invPermArr, deg) + 1;
-    Obj rowM = ELM_LIST(M, invSigmaI); /* Get row of M at index i^invSigma */
-    for (int j = 1; j <= n; j++) {
-      int invSigmaJ = IMAGE(j - 1, invPermArr, deg) + 1;
-      int mVal = Int_ObjInt(
-          ELM_LIST(rowM, invSigmaJ)); /* Get M[invSigmaI][invSigmaJ] */
-
-      Obj sigmaImage = INTOBJ_INT(IMAGE(mVal - 1, permArr, deg) + 1);
-
-      Obj rowPerm = ELM_LIST(permuted, i);
-      SET_ELM_PLIST(rowPerm, j, sigmaImage);
-    }
-  }
-  return permuted;
-}
-
 // Table of functions to export
 static StructGVarFunc GVarFuncs[] = {
     GVAR_FUNC(IsLeftRightDistributive, 2, "A, M"),
-    GVAR_FUNC(PermuteMultiplicationTable, 2, "M, sigma"),
     {0} /* Finish with an empty entry */
 };
 
