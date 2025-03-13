@@ -4,6 +4,19 @@
 # Implementations
 #
 
+OnMultiplicationTableInplaceNC :=
+function(out, table, p)
+  local out;
+  for i in [1 .. Length(table)] do
+    for j in [1 .. Length(table)] do
+      out[i, j] := table[i ^ p, j ^ p] ^ p;
+    od;
+  do;
+  Apply(out, x -> OnTuples(x, p));
+  Apply(out, x -> Permuted(x, p));
+  return out;
+end;
+
 # A = the additive semigroup, M the multiplicative
 # BindGlobal("IsLeftRightDistributive",
 # function(A, M)
@@ -173,6 +186,8 @@ InstallGlobalFunction(AllAiSemirings,
 function(n)
   local allA, allM, NSD, anti, autMs, autM_NSD, SD, autM_SD,
   uniqueAutMs, map, shift;
+  PrintFormatted("{}GB of memory allocated\n",
+                Float(TotalMemoryAllocated() / 10 ^ 9));
   allA := AllSmallSemigroups(n, IsBand, true, IsCommutative, true);
   PrintFormatted("Found {} candidates for A!\n", Length(allA));
 
@@ -197,7 +212,6 @@ function(n)
   autM_SD := List(SD, x -> Image(IsomorphismPermGroup(AutomorphismGroup(x))));
   autMs   := Concatenation(autM_SD, autM_NSD);
 
-  uniqueAutMs := Set(autMs);
   uniqueAutMs := Unique(autMs);
   map         := List(autMs, g -> Position(uniqueAutMs, g));
 
