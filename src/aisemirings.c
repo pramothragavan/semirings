@@ -17,30 +17,77 @@ Obj FuncTestCommandWithParams(Obj self, Obj param, Obj param2)
 }
 
 Obj FuncIsLeftRightDistributive(Obj self, Obj A, Obj M)
-{   
-    unsigned int n, x, y, z;
-    if LEN_PLIST(A) <> LEN_PLIST(M) then
-        return False;
-    
-    n = LEN_PLIST(A);
+{
+    int n = LEN_LIST(A);
 
-    for (x = 0, x < n, x++)
-    {
-        for (y = 0, y < n, y++)
-        {
-            for (z = y + 1, z < n, z++)
-            {
-                
+    for (int x = 1; x <= n; x++) {
+        Obj ox = ObjInt_Int(x);
+        for (int y = 1; y <= n; y++) {
+            Obj oy = ObjInt_Int(y);
+            for (int z = y + 1; z <= n; z++) {
+                Obj oz = ObjInt_Int(z);
+                if (ELM_MAT(M, ox, ELM_MAT(A, oy, oz))
+                    != ELM_MAT(A, ELM_MAT(M, ox, oy), ELM_MAT(M, ox, oz))) {
+                    return False;
+                }
+                if (ELM_MAT(M, ELM_MAT(A, oy, oz), ox)
+                    != ELM_MAT(A, ELM_MAT(M, oy, ox), ELM_MAT(M, oz, ox))) {
+                    return False;
+                }            
             }
         }
     }
-    
+    return True;
 }
+
+Obj FuncPermuteMultiplicationTable(Obj self, Obj M, Obj sigma)
+{
+    int n = LEN_LIST(M);
+
+    int deg = DEG_PERM2(sigma);
+    UInt2 *permArr = ADDR_PERM2(sigma);
+
+    Obj invSigma = STOREDINV_PERM(sigma);
+    if (invSigma == 0) {
+        invSigma = INV(sigma);
+        SET_STOREDINV_PERM(sigma, invSigma);
+    }
+
+    UInt2 *invPermArr = ADDR_PERM2(invSigma);
+
+    Obj permuted = NEW_PLIST(T_PLIST, n);
+    SET_LEN_PLIST(permuted, n);
+
+    for (int i = 1; i <= n; i++) {
+        Obj row = NEW_PLIST(T_PLIST, n);
+        SET_LEN_PLIST(row, n);
+        SET_ELM_PLIST(permuted, i, row);
+    }
+
+    for (int i = 1; i <= n; i++) {
+        /* Compute invSigma image of i: i^invSigma = IMAGE(i-1, invPermArr, deg)+1 */
+        int invSigmaI = IMAGE(i - 1, invPermArr, deg) + 1 ;
+        Obj rowM = ELM_LIST(M, invSigmaI);  /* Get row of M at index i^invSigma */
+        for (int j = 1; j <= n; j++) {
+            int invSigmaJ = IMAGE(j - 1, invPermArr, deg) + 1 ;
+            int mVal = Int_ObjInt(ELM_LIST(rowM, invSigmaJ)); /* Get M[invSigmaI][invSigmaJ] */
+
+            Obj sigmaImage = INTOBJ_INT( IMAGE(mVal - 1, permArr, deg) + 1 );
+
+            Obj rowPerm = ELM_LIST(permuted, i);
+            SET_ELM_PLIST(rowPerm, j, sigmaImage);
+        }
+    }
+    return permuted;
+}
+
+
 // Table of functions to export
 static StructGVarFunc GVarFuncs [] = {
     GVAR_FUNC(TestCommand, 0, ""),
     GVAR_FUNC(TestCommandWithParams, 2, "param, param2"),
     GVAR_FUNC(IsLeftRightDistributive, 2, "A, M"),
+    GVAR_FUNC(PermuteMultiplicationTable, 2, "M, sigma"),
     { 0 } /* Finish with an empty entry */
 };
 
