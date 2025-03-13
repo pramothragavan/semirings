@@ -68,12 +68,8 @@ Obj FuncPermuteMultiplicationTable(Obj self, Obj M, Obj sigma) {
 // Table of functions to export
 static StructGVarFunc GVarFuncs[] = {
     GVAR_FUNC(IsLeftRightDistributive, 2, "A, M"),
-<<<<<<< HEAD
     GVAR_FUNC(PermuteMultiplicationTable, 2, "M, sigma"),
     {0} /* Finish with an empty entry */
-=======
-    {0} /* Finish with an empty entry */
->>>>>>> ca5991c (Add C version of IsLeftRight..)
 };
 
 /****************************************************************************
