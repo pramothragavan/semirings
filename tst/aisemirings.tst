@@ -1,5 +1,7 @@
 gap> START_TEST("AiSemiring tests");
 gap> LoadPackage("aisemirings", false);;
+gap> level := InfoLevel(InfoSmallsemi);;
+gap> SetInfoLevel(InfoSmallsemi, 0);
 gap> NrAiSemirings(2);
 Found 1 candidates for A!
 Finding non-self-dual semigroups...
@@ -144,4 +146,5 @@ Counting ai-semirings...
 
 Found 1 candidates!
 1
+gap> SetInfoLevel(InfoSmallsemi, level);
 gap> STOP_TEST("AiSemiring tests", 0);
