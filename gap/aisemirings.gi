@@ -172,6 +172,7 @@ function(n, flag, structA, structM)
     else
       map[i] := pos;
     fi;
+    Unbind(allM[i]!.AutomorphismGroup);
   od;
 
   PrintFormatted("Found {} unique automorphism groups!\n", Length(uniqueAutMs));
@@ -179,11 +180,6 @@ function(n, flag, structA, structM)
 
   for sg in NSD do
     Unbind(sg!.DualSemigroup);
-    Unbind(sg!.AutomorphismGroup);
-  od;
-
-  for sg in SD do
-    Unbind(sg!.AutomorphismGroup);
   od;
 
   allM := Concatenation(allM, anti);
