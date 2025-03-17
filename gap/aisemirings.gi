@@ -4,18 +4,6 @@
 # Implementations
 #
 
-BindGlobal("PermuteMultiplicationTable",
-function(out, table, p)
-  local i, j, q, ii;
-  q := p ^ -1;
-  for i in [1 .. Length(table)] do
-    ii := i ^ q;
-    for j in [1 .. Length(table)] do
-      out[i, j] := table[ii, j ^ q] ^ p;
-    od;
-  od;
-end);
-
 # Function to count ai-semirings
 BindGlobal("CountFinder",
 function(allA, allM, autMs, map, shift)
@@ -50,7 +38,7 @@ function(allA, allM, autMs, map, shift)
         autM := autMs[map[j - shift]];
       fi;
 
-      M    := MultiplicationTable(M);
+      M    := M!.MultiplicationTable;
       gens := GeneratorsSmallest(autM);
 
       value := doubleCosetCache[gens];
@@ -112,7 +100,7 @@ function(allA, allM, autMs, map, shift)
         autM := autMs[map[j - shift]];
       fi;
 
-      M    := MultiplicationTable(M);
+      M    := M!.MultiplicationTable;
       gens := GeneratorsSmallest(autM);
 
       value := doubleCosetCache[gens];
@@ -143,8 +131,8 @@ end);
 
 BindGlobal("SETUPFINDER",
 function(n, flag, structA, structM)
-  local allA, allM, NSD, anti, autMs, autM_NSD, SD, autM_SD,
-  uniqueAutMs, map, shift;
+  local allA, allM, NSD, anti, SD, autM, pos,
+  uniqueAutMs, map, shift, sg, i;
 
   allA := CallFuncList(AllSmallSemigroups, Concatenation([n], structA));
   PrintFormatted("Found {} candidates for A!\n", Length(allA));
@@ -158,31 +146,51 @@ function(n, flag, structA, structM)
   Print("Finding corresponding dual semigroups...\n");
   anti   := List(NSD, DualSemigroup);
 
-  Print("Finding automorphism groups...\n");
-  autM_NSD := List(NSD,
-                  x -> Image(IsomorphismPermGroup(AutomorphismGroup(x))));
+  for sg in anti do
+    sg!.MultiplicationTable :=
+      TransposedMat(sg!.DualSemigroup!.MultiplicationTable);
+  od;
 
   Print("Adding in self-dual semigroups...\n");
   SD   := CallFuncList(AllSmallSemigroups,
                           Concatenation([n, IsSelfDualSemigroup, true],
                                          structM));
-  allM := Concatenation(SD, NSD, anti);
-  PrintFormatted("Added in anti-iso! Found {} candidates for M!\n",
-                  Length(allM));
 
-  Print("Finding automorphism groups for self-dual semigroups...\n");
-  autM_SD := List(SD, x -> Image(IsomorphismPermGroup(AutomorphismGroup(x))));
-  autMs   := Concatenation(autM_SD, autM_NSD);
+  allM        := Concatenation(SD, NSD);
+  PrintFormatted("Found {} candidates for M!\n", Length(SD) + Length(NSD) * 2);
 
-  uniqueAutMs := Unique(autMs);
-  map         := List(autMs, g -> Position(uniqueAutMs, g));
+  uniqueAutMs := [];
+  map         := List([1 .. Length(allM)], ReturnFail);
+
+  Print("Finding automorphism groups...\n");
+  for i in [1 .. Length(allM)] do
+    autM := Image(IsomorphismPermGroup(AutomorphismGroup(allM[i])));
+    pos  := Position(uniqueAutMs, autM);
+    if pos = fail then
+      Add(uniqueAutMs, autM);
+      map[i] := Length(uniqueAutMs);
+    else
+      map[i] := pos;
+    fi;
+  od;
+
+  PrintFormatted("Found {} unique automorphism groups!\n", Length(uniqueAutMs));
+  Print("Unbinding variables and collecting garbage...\n");
+
+  for sg in NSD do
+    Unbind(sg!.DualSemigroup);
+    Unbind(sg!.AutomorphismGroup);
+  od;
+
+  for sg in SD do
+    Unbind(sg!.AutomorphismGroup);
+  od;
+
+  allM := Concatenation(allM, anti);
 
   Unbind(NSD);
   Unbind(anti);
-  Unbind(autM_NSD);
   Unbind(SD);
-  Unbind(autM_SD);
-  Unbind(autMs);
   CollectGarbage(true);
 
   if flag then
