@@ -52,29 +52,29 @@ static inline PermAddr GetAddr(Obj perm, int perm_type) {
 
 void FuncPermuteMultiplicationTable(Obj self, Obj temp, Obj M, Obj p) {
   int n = LEN_LIST(M);
-  int deg_p, deg_q;
-  int p_type, q_type;
-  
-  p_type = TNUM_OBJ(p);
+
+  int p_type = TNUM_OBJ(p);
+  int deg_p;
   if (p_type == T_PERM2) {
       deg_p = DEG_PERM2(p);
   } else {
       deg_p = DEG_PERM4(p);
   }
-  
+
   Obj q = STOREDINV_PERM(p);
   if (q == 0) {
       q = INV(p);
       SET_STOREDINV_PERM(p, q);
   }
 
-  q_type = TNUM_OBJ(q);
+  int q_type = TNUM_OBJ(q);
+  int deg_q;
   if (q_type == T_PERM2) {
       deg_q = DEG_PERM2(q);
   } else {
       deg_q = DEG_PERM4(q);
   }
-
+  
   for (int i = 1; i <= n; i++) {
     Obj row = ELM_LIST(temp, i);
     int ii = GetImage(i, GetAddr(q, q_type), deg_q, q_type);
