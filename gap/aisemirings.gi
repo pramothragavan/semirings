@@ -7,14 +7,30 @@
 # Function to count ai-semirings
 BindGlobal("CountFinder",
 function(allA, allM, mapA, mapM, shift, cosetReps)
-  local A, M, reps, sigma, j, i, count, tmp, keyM, keyA;
+  local A, M, reps, sigma, j, i, count, tmp, keyM, keyA,
+  totalComputations, completedComputations, totals;
   FLOAT.DIG         := 2;
   FLOAT.VIEW_DIG    := 4;
   FLOAT.DECIMAL_DIG := 4;
 
-  i     := 0;
-  count := 0;
-  tmp   := List([1 .. Size(allA[1])], x -> [1 .. Size(allA[1])]);
+  count  := 0;
+  tmp    := List([1 .. Size(allA[1])], x -> [1 .. Size(allA[1])]);
+  totals := List(cosetReps, row -> List(row, Length));
+
+  totalComputations := 0;
+  for i in [1 .. Length(allA)] do
+    for j in [1 .. Length(allM)] do
+      if j <= Length(mapM) then
+        totalComputations := totalComputations + totals[mapA[i]][mapM[j]];
+      else
+        totalComputations := totalComputations +
+                             totals[mapA[i]][mapM[j - shift]];
+      fi;
+    od;
+  od;
+
+  i                     := 0;
+  completedComputations := 0;
 
   for A in allA do
     keyA := mapA[i + 1];
@@ -22,17 +38,17 @@ function(allA, allM, mapA, mapM, shift, cosetReps)
 
     for M in allM do
       j    := j + 1;
-      PrintFormatted("At {}%, found {} so far\r\c",
-                Float((i * Length(allM) + j) * 100 /
-                (Length(allA) * Length(allM))),
-                count);
 
       if j <= Length(allM) - shift then
         keyM := mapM[j];
       else
         keyM := mapM[j - shift];
       fi;
-      reps := cosetReps[keyA][keyM];
+      reps                  := cosetReps[keyA][keyM];
+
+      completedComputations := completedComputations + totals[keyA][keyM];
+      Info(InfoSemirings, 1, "At ", Float((completedComputations) * 100 /
+                (totalComputations)), "%, found ", count, " so far");
 
       for sigma in reps do
         PermuteMultiplicationTable(tmp, M, sigma);
@@ -50,15 +66,31 @@ end);
 # Function to find ai-semirings
 BindGlobal("Finder",
 function(allA, allM, mapA, mapM, shift, cosetReps)
-  local A, list, M, reps, sigma, j, i,
-  tmp, temp_table, keyA, keyM;
+  local A, list, M, reps, sigma, j, i, totals,
+  tmp, temp_table, keyA, keyM, totalComputations,
+  completedComputations;
   FLOAT.DIG         := 2;
   FLOAT.VIEW_DIG    := 4;
   FLOAT.DECIMAL_DIG := 4;
 
   list         := [];
-  i            := 0;
   temp_table   := List([1 .. Size(allA[1])], x -> [1 .. Size(allA[1])]);
+  totals       := List(cosetReps, row -> List(row, Length));
+
+  totalComputations := 0;
+  for i in [1 .. Length(allA)] do
+    for j in [1 .. Length(allM)] do
+      if j <= Length(mapM) then
+        totalComputations := totalComputations + totals[mapA[i]][mapM[j]];
+      else
+        totalComputations := totalComputations +
+                             totals[mapA[i]][mapM[j - shift]];
+      fi;
+    od;
+  od;
+
+  i                     := 0;
+  completedComputations := 0;
 
   for A in allA do
     keyA := mapA[i + 1];
@@ -67,17 +99,19 @@ function(allA, allM, mapA, mapM, shift, cosetReps)
 
     for M in allM do
       j    := j + 1;
-      PrintFormatted("At {}%, found {} so far\r\c",
-                Float((i * Length(allM) + j) * 100 /
-                (Length(allA) * Length(allM))),
-                Length(list) + Length(tmp));
+
 
       if j <= Length(allM) - shift then
         keyM := mapM[j];
       else
         keyM := mapM[j - shift];
       fi;
-      reps := cosetReps[keyA][keyM];
+
+      reps                  := cosetReps[keyA][keyM];
+      completedComputations := completedComputations + totals[keyA][keyM];
+      Info(InfoSemirings, 1, "At ", Float((completedComputations) * 100 /
+                (totalComputations)), "%, found ", Length(list) + Length(tmp),
+                " so far");
 
       for sigma in reps do
         PermuteMultiplicationTable(temp_table, M, sigma);
