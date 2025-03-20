@@ -1,0 +1,82 @@
+\documentclass{article}
+\usepackage{booktabs} % For professional tables
+\usepackage{amsmath, amssymb, amsthm} % Recommended for math symbols
+\setlength{\parskip}{5pt}  
+\setlength{\parindent}{0pt}
+\newtheorem{theorem}{Theorem}
+
+\begin{document}
+\begin{theorem}
+    Let \((A, +)\) be an abelian group and \((M, \cdot)\) a group such that \((A, M)\) forms a semiring with the usual operations. For any permutation \(\sigma \in \operatorname{Sym}(M)\), let \(M^\sigma\) denote the semigroup obtained by permuting \(M\) via \(\sigma\). Then the following statements are equivalent:
+    \begin{enumerate}
+        \item The semirings \((A, M^\sigma)\) and \((A, M^\tau)\) are isomorphic.
+        \item \(\sigma\) and \(\tau\) lie in the same double coset of \(\operatorname{Aut}(A) \backslash \operatorname{Sym}(M) / \operatorname{Aut}(M)\).
+    \end{enumerate}
+\begin{proof}
+    We will denote the product \(i\cdot j\) in \(M\) by \(M(i,j)\).
+
+    For the forward direction, suppose \((A, M^\sigma) \cong (A, M^\tau)\). Equivalently, there exists an isomorphism \(\phi: (A, M^\sigma) \to (A, M^\tau)\) such that:
+    \begin{gather}
+         \phi \in \operatorname{Aut}(A)\\
+         \phi(M^\sigma(i,j)) = M^\tau(\phi(i),\phi(j))
+    \end{gather}
+
+    Writing \(\gamma = \tau^{-1}\phi\sigma\), \(x = \sigma^{-1}(i)\text{ and } y = \sigma^{-1}(j)\) where necessary, we have
+    \begin{align*}
+        (2) &\implies \phi\sigma(M(\sigma^{-1}(i), \sigma^{-1}(j))) = \tau(M(\tau^{-1}\phi(i), \tau^{-1}\phi(j))) \\
+        &\implies \tau^{-1}\phi\sigma(M(\sigma^{-1}(i),\sigma^{-1}(j))) = M(\tau^{-1}\phi(i), \tau^{-1}\phi(j))\\
+        &\implies \gamma(M(\sigma^{-1}(i), \sigma^{-1}(j)) = M(\gamma\sigma^{-1}(i), \gamma\sigma^{-1}(j))  \\
+        &\implies \gamma M(x,y)=M(\gamma(x), \gamma(y))\\
+        &\implies \gamma\in\operatorname{Aut}(M)\\
+        &\implies \gamma^{-1}\in\operatorname{Aut}(M)\\
+    \end{align*}
+    Now, by rearranging to \(\tau = \phi\sigma\gamma^{-1}\), and noting that from (1) we have that \(\phi\in\operatorname{Aut}(A)\), we have shown that \(\tau\) and \(\sigma\) are in the same double coset of \(\operatorname{Aut}(A)\backslash\operatorname{Sym(M)}/\operatorname{Aut}(M)\)
+
+    For the reverse direction, we begin by supposing that \(\sigma\) and \(\tau\) are in the same double coset.
+
+    Choose \(\alpha\in\operatorname{Aut}(M)\text{ and } \beta\in\operatorname{Aut}(A)\) such that 
+    \[\tau=\beta\sigma\alpha\]
+
+    Note that for a function \(\phi\) to be an isomorphism from \((A,M^\sigma)\to(A, M^\tau)\), it must satisfy properties (1) and (2) detailed in the forward direction.
+
+    We claim that \(\beta\) satisfies these properties. The first property follows trivially from the definition of \(\beta\). For the second property, 
+
+    \begin{align*}
+        \beta(M^\sigma(i,j)&=\beta\sigma(M(\sigma^{-1}(i),\sigma^{-1}(j)))\\
+        &=\tau\alpha^{-1}M(\sigma^{-1}(i),\sigma^{-1}(j))\\
+        &\overset{*}{=}\tau M(\alpha^{-1}\sigma^{-1}(i),\alpha^{-1}\sigma^{-1}(j))\\
+        &=\tau M(\tau^{-1}\beta(i),\tau^{-1}\beta(j))\\
+        &=M^\tau(\beta(i),\beta(j))
+    \end{align*}
+
+    where we have used the fact that \(\alpha\in\operatorname{Aut}(M)\text{ and therefore }\alpha^{-1}\in\operatorname{Aut}(M)\) to justify the equality labelled `*'.
+
+    Hence, we have shown that \(\beta\) satisfies (1) and (2) and is therefore the necessary isomorphism.
+\end{proof}
+
+
+
+
+
+  
+\end{theorem}
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{l|r|r}
+    \toprule
+    $n$ & up to isomorphism & up to isomorphism + anti-isomorphism \\
+    \midrule
+    1 & 1      & 1 \\
+    2 & 6      & 5 \\
+    3 & 61     & ? \\
+    4 & 866    & ? \\
+    5 & 15,751 & ? \\
+    6 & 354,409 & ? \\
+  \end{tabular}
+  \caption{Numbers of ai-semirings with $n$ elements up to isomorphism and up
+  to isomorphism or anti-isomorphism.}
+  \label{tab:example}
+\end{table}
+
+\end{document}
