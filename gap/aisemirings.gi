@@ -237,7 +237,7 @@ end);
 
 BindGlobal("ForJoe", function(i)
   local file, line, cores;
-  file := InputTextFile("cores.txt");
+  file := InputTextFile(Concatenation(GAPInfo.PackagesLoaded.aisemirings[1], "cores.txt"));
   line := ReadLine(file);
   CloseStream(file);
 
