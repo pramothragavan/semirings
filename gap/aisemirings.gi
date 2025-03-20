@@ -100,7 +100,6 @@ function(allA, allM, mapA, mapM, shift, cosetReps)
     for M in allM do
       j    := j + 1;
 
-
       if j <= Length(allM) - shift then
         keyM := mapM[j];
       else
@@ -147,11 +146,20 @@ function(all)
 end);
 
 BindGlobal("SETUPFINDER",
-function(n, flag, structA, structM)
+function(args...)
   local allA, allM, NSD, anti, SD, autM, out, mapA, mapM,
-  uniqueAutMs, shift, sg, i, autA, uniqueAutAs, reps, j;
+  uniqueAutMs, shift, sg, i, autA, uniqueAutAs, reps, j,
+  n, flag, structA, structM, totals, totalComputations, columnTotals;
+
+  n       := args[1];
+  flag    := args[2];
+  structA := args[3];
+  structM := args[4];
 
   allA := CallFuncList(AllSmallSemigroups, Concatenation([n], structA));
+  if Length(args) = 5 then
+    allA := List(args[5], i -> allA[i]);
+  fi;
   PrintFormatted("Found {} candidates for A!\n", Length(allA));
 
   Print("Finding non-self-dual semigroups...\n");
@@ -216,6 +224,7 @@ function(n, flag, structA, structM)
   Unbind(uniqueAutAs);
   Unbind(out);
   CollectGarbage(true);
+  Exec("date");
 
   if flag then
     Print("Counting ai-semirings...\n");
@@ -224,6 +233,16 @@ function(n, flag, structA, structM)
     Print("Finding ai-semirings...\n");
     return Finder(allA, allM, mapA, mapM, shift, reps);
   fi;
+end);
+
+BindGlobal("ForJoe", function(i)
+  local file, line, cores;
+  file := InputTextFile("cores.txt");
+  line := ReadLine(file);
+  CloseStream(file);
+
+  cores := EvalString(line)[i];
+  return SETUPFINDER(7, true, [IsBand, true, IsCommutative, true], [], cores);
 end);
 
 InstallGlobalFunction(NrAiSemirings,
