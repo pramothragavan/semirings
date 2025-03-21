@@ -3,62 +3,80 @@
 \usepackage{amsmath, amssymb, amsthm} % Recommended for math symbols
 \setlength{\parskip}{5pt}  
 \setlength{\parindent}{0pt}
+\theoremstyle{definition}
 \newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
 
 \begin{document}
+\begin{definition}
+    A \emph{semiring} is a set \(S\) equipped with two binary operations \((+, \cdot)\) such that:
+    \begin{itemize}
+        \item The \emph{additive reduct} \((S, +)\), which we denote by \(A\), is a commutative semigroup.
+        \item The \emph{multiplicative reduct} \((S, \cdot)\), which we denote by \(M\), is a semigroup.
+        \item Multiplication distributes over addition, i.e. for all \(a, b, c \in S\),
+        \[
+        a \cdot (b + c) = (a \cdot b) + (a \cdot c) \quad \text{and} \quad (b + c) \cdot a = (b \cdot a) + (c \cdot a).
+        \]
+    \end{itemize}
+    Thus, we may identify the semiring \(S\) with the pair \((A, M)\).
+    \end{definition}
+    Note that since both \(A\) and \(M\) have the underlying set 
+    \(S\), the symmetric group \(\operatorname{Sym}(S)\) naturally acts on both structures.
+    \begin{definition}[Semiring isomorphism]
+        We say that two semirings \(S = (A, M)\) and \(S' = (A', M')\) are \emph{isomorphic} if there exists a bijection \(\phi: S \to S'\) such that \(A \overset{\phi}\cong A'\) and \(M \overset{\phi}\cong M'\), where \(\overset{\phi}\cong\) denotes a semigroup isomorphism under \(\phi\).
+    \end{definition}
+
 \begin{theorem}
-    Let \((A, +)\) be an abelian group and \((M, \cdot)\) a group such that \((A, M)\) forms a semiring with the usual operations. For any permutation \(\sigma \in \operatorname{Sym}(M)\), let \(M^\sigma\) denote the semigroup obtained by permuting \(M\) via \(\sigma\). Then the following statements are equivalent:
+    Let \(S = (A, M)\) be a semiring. For any permutation \(\sigma \in \operatorname{Sym}(S)\), let \(M^\sigma\) denote the semigroup obtained by permuting \(M\) via \(\sigma\). Then the following statements are equivalent:
     \begin{enumerate}
         \item The semirings \((A, M^\sigma)\) and \((A, M^\tau)\) are isomorphic.
-        \item \(\sigma\) and \(\tau\) lie in the same double coset of \(\operatorname{Aut}(A) \backslash \operatorname{Sym}(M) / \operatorname{Aut}(M)\).
+        \item \(\sigma\) and \(\tau\) lie in the same double coset of \(\operatorname{Aut}(A) \backslash \operatorname{Sym}(S) / \operatorname{Aut}(M)\).
     \end{enumerate}
 \begin{proof}
     We will denote the product \(i\cdot j\) in \(M\) by \(M(i,j)\).
 
-    For the forward direction, suppose \((A, M^\sigma) \cong (A, M^\tau)\). Equivalently, there exists an isomorphism \(\phi: (A, M^\sigma) \to (A, M^\tau)\) such that:
+    For the forward direction, suppose \((A, M^\sigma) \cong (A, M^\tau)\). Equivalently, there exists a bijection \(\phi: (A, M^\sigma) \to (A, M^\tau)\) such that for all \(i, j \in S\),:
     \begin{gather}
          \phi \in \operatorname{Aut}(A)\\
          \phi(M^\sigma(i,j)) = M^\tau(\phi(i),\phi(j))
     \end{gather}
 
-    Writing \(\gamma = \tau^{-1}\phi\sigma\), \(x = \sigma^{-1}(i)\text{ and } y = \sigma^{-1}(j)\) where necessary, we have
-    \begin{align*}
-        (2) &\implies \phi\sigma(M(\sigma^{-1}(i), \sigma^{-1}(j))) = \tau(M(\tau^{-1}\phi(i), \tau^{-1}\phi(j))) \\
-        &\implies \tau^{-1}\phi\sigma(M(\sigma^{-1}(i),\sigma^{-1}(j))) = M(\tau^{-1}\phi(i), \tau^{-1}\phi(j))\\
-        &\implies \gamma(M(\sigma^{-1}(i), \sigma^{-1}(j)) = M(\gamma\sigma^{-1}(i), \gamma\sigma^{-1}(j))  \\
-        &\implies \gamma M(x,y)=M(\gamma(x), \gamma(y))\\
-        &\implies \gamma\in\operatorname{Aut}(M)\\
-        &\implies \gamma^{-1}\in\operatorname{Aut}(M)\\
-    \end{align*}
-    Now, by rearranging to \(\tau = \phi\sigma\gamma^{-1}\), and noting that from (1) we have that \(\phi\in\operatorname{Aut}(A)\), we have shown that \(\tau\) and \(\sigma\) are in the same double coset of \(\operatorname{Aut}(A)\backslash\operatorname{Sym(M)}/\operatorname{Aut}(M)\)
+    From (2), we have:
+    \begin{gather*}
+        \phi\sigma(M(\sigma^{-1}(i), \sigma^{-1}(j))) = \tau(M(\tau^{-1}\phi(i), \tau^{-1}\phi(j))) \\
+        \tau^{-1}\phi\sigma(M(\sigma^{-1}(i), \sigma^{-1}(j))) = M(\tau^{-1}\phi(i), \tau^{-1}\phi(j))
+    \end{gather*}
+    Now, let \(\gamma = \tau^{-1}\phi\sigma\), \(x = \sigma^{-1}(i)\text{ and }y=\sigma^{-1}(j)\). Then,
+    \begin{gather*}
+        \gamma(M(x, y)) = M(\gamma(x), \gamma(y)) \\
+        \gamma \in \operatorname{Aut}(M) \\
+        \gamma^{-1} \in \operatorname{Aut}(M)
+    \end{gather*}
 
+    Rearranging the definition of \(\gamma\), we obtain \(\tau = \phi\sigma\gamma^{-1}\). Since \(\phi \in \operatorname{Aut}(A)\), we conclude that \(\tau\) and \(\sigma\) lie in the same double coset of \(\operatorname{Aut}(A) \backslash \operatorname{Sym}(S) / \operatorname{Aut}(M)\).
+
+    \vspace{2em}
     For the reverse direction, we begin by supposing that \(\sigma\) and \(\tau\) are in the same double coset.
 
     Choose \(\alpha\in\operatorname{Aut}(M)\text{ and } \beta\in\operatorname{Aut}(A)\) such that 
     \[\tau=\beta\sigma\alpha\]
 
-    Note that for a function \(\phi\) to be an isomorphism from \((A,M^\sigma)\to(A, M^\tau)\), it must satisfy properties (1) and (2) detailed in the forward direction.
+    Note that for a function \(\phi\) to be an isomorphism from \((A,M^\sigma)\to(A, M^\tau)\), it must satisfy properties (1) and (2) detailed in the forward direction. In particular, if we have property (1), then as an automorphism of \(A\), \(\phi\) would automatically be bijective on the underlying set \(S\).
 
     We claim that \(\beta\) satisfies these properties. The first property follows trivially from the definition of \(\beta\). For the second property, 
 
     \begin{align*}
-        \beta(M^\sigma(i,j)&=\beta\sigma(M(\sigma^{-1}(i),\sigma^{-1}(j)))\\
-        &=\tau\alpha^{-1}M(\sigma^{-1}(i),\sigma^{-1}(j))\\
-        &\overset{*}{=}\tau M(\alpha^{-1}\sigma^{-1}(i),\alpha^{-1}\sigma^{-1}(j))\\
-        &=\tau M(\tau^{-1}\beta(i),\tau^{-1}\beta(j))\\
+        \beta(M^\sigma(i,j))&=\beta\sigma(M(\sigma^{-1}(i),\sigma^{-1}(j)))\\
+        &=\tau\alpha^{-1}(M(\sigma^{-1}(i),\sigma^{-1}(j)))\\
+        &\overset{*}{=}\tau(M(\alpha^{-1}\sigma^{-1}(i),\alpha^{-1}\sigma^{-1}(j)))\\
+        &=\tau(M(\tau^{-1}\beta(i),\tau^{-1}\beta(j)))\\
         &=M^\tau(\beta(i),\beta(j))
     \end{align*}
 
-    where we have used the fact that \(\alpha\in\operatorname{Aut}(M)\text{ and therefore }\alpha^{-1}\in\operatorname{Aut}(M)\) to justify the equality labelled `*'.
+    where we have used \(\alpha\in\operatorname{Aut}(M)\text{ and therefore }\alpha^{-1}\in\operatorname{Aut}(M)\) to justify the equality labelled `*'.
 
     Hence, we have shown that \(\beta\) satisfies (1) and (2) and is therefore the necessary isomorphism.
 \end{proof}
-
-
-
-
-
-  
 \end{theorem}
 
 \begin{table}[h]
