@@ -1,7 +1,7 @@
 DISTRIBUTE := function(args...)
   local allA, allM, NSD, anti, SD, autM, out, mapA, mapM,
   uniqueAutMs, shift, sg, i, autA, uniqueAutAs, reps, j,
-  n, structA, structM, totals, f;
+  n, structA, structM, totals, f, path;
 
   n       := args[1];
   structA := args[3];
@@ -79,15 +79,15 @@ DISTRIBUTE := function(args...)
   CollectGarbage(true);
 
   totals := List(reps, row -> Sum(List(row, Length)));
-  Print(totals);
-  f := IO_CompressedFile("totals.txt", "w");
+  path   := GAPInfo.PackagesLoaded.aisemirings[1];
+  f      := IO_CompressedFile(Concatenation(path, "totals.txt"), "w");
   IO_Write(f, totals);
   IO_Close(f);
-  f := IO_CompressedFile("mapA.txt", "w");
+  f := IO_CompressedFile(Concatenation(path, "mapA.txt"), "w");
   IO_Write(f, mapA);
   IO_Close(f);
-  Exec("python distribute.py");
-  Exec("rm totals.txt mapA.txt");
+  Exec(Concatenation("python ", path, "distribute.py"));
+  Exec(Concatenation("rm ", path, "totals.txt ", path, "mapA.txt"));
 end;
 
 DISTRIBUTE(7, true, [IsBand, true, IsCommutative, true], []);

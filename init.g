@@ -6,6 +6,7 @@
 if not LoadKernelExtension("aisemirings") then
   Error("failed to load kernel module of package aisemirings");
 fi;
-ReadPackage( "aisemirings", "gap/aisemirings.gd");
+ReadPackage("aisemirings", "gap/aisemirings.gd");
 
 DeclareInfoClass("InfoSemirings");
+SetInfoLevel(InfoSemirings, 1);

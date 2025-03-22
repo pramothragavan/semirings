@@ -7,8 +7,8 @@
 # Function to count ai-semirings
 BindGlobal("CountFinder",
 function(allA, allM, mapA, mapM, shift, cosetReps)
-  local A, M, reps, sigma, j, i, count, tmp, keyM, keyA,
-  totalComputations, completedComputations, totals;
+  local A, M, reps, sigma, j, i, count, tmp, keyM, keyA, completed,
+  total, totals;
   FLOAT.DIG         := 2;
   FLOAT.VIEW_DIG    := 4;
   FLOAT.DECIMAL_DIG := 4;
@@ -17,24 +17,27 @@ function(allA, allM, mapA, mapM, shift, cosetReps)
   tmp    := List([1 .. Size(allA[1])], x -> [1 .. Size(allA[1])]);
   totals := List(cosetReps, row -> List(row, Length));
 
-  totalComputations := 0;
+  total := 0;
   for i in [1 .. Length(allA)] do
     for j in [1 .. Length(allM)] do
       if j <= Length(mapM) then
-        totalComputations := totalComputations + totals[mapA[i]][mapM[j]];
+        total := total + totals[mapA[i]][mapM[j]];
       else
-        totalComputations := totalComputations +
-                             totals[mapA[i]][mapM[j - shift]];
+        total := total + totals[mapA[i]][mapM[j - shift]];
       fi;
     od;
   od;
+  Unbind(totals);
 
-  i                     := 0;
-  completedComputations := 0;
+  i         := 0;
+  completed := 0;
 
   for A in allA do
     keyA := mapA[i + 1];
     j    := 0;
+    Info(InfoSemirings, 1, "At ", Float((completed) * 100 /
+          (total)), "%, found ", count,
+          " so far");
 
     for M in allM do
       j    := j + 1;
@@ -44,11 +47,9 @@ function(allA, allM, mapA, mapM, shift, cosetReps)
       else
         keyM := mapM[j - shift];
       fi;
-      reps                  := cosetReps[keyA][keyM];
 
-      completedComputations := completedComputations + totals[keyA][keyM];
-      Info(InfoSemirings, 1, "At ", Float((completedComputations) * 100 /
-                (totalComputations)), "%, found ", count, " so far");
+      reps      := cosetReps[keyA][keyM];
+      completed := completed + Length(reps);
 
       for sigma in reps do
         PermuteMultiplicationTable(tmp, M, sigma);
@@ -67,8 +68,7 @@ end);
 BindGlobal("Finder",
 function(allA, allM, mapA, mapM, shift, cosetReps)
   local A, list, M, reps, sigma, j, i, totals,
-  tmp, temp_table, keyA, keyM, totalComputations,
-  completedComputations;
+  tmp, temp_table, keyA, keyM, completed, total;
   FLOAT.DIG         := 2;
   FLOAT.VIEW_DIG    := 4;
   FLOAT.DECIMAL_DIG := 4;
@@ -77,25 +77,28 @@ function(allA, allM, mapA, mapM, shift, cosetReps)
   temp_table   := List([1 .. Size(allA[1])], x -> [1 .. Size(allA[1])]);
   totals       := List(cosetReps, row -> List(row, Length));
 
-  totalComputations := 0;
+  total := 0;
   for i in [1 .. Length(allA)] do
     for j in [1 .. Length(allM)] do
       if j <= Length(mapM) then
-        totalComputations := totalComputations + totals[mapA[i]][mapM[j]];
+        total := total + totals[mapA[i]][mapM[j]];
       else
-        totalComputations := totalComputations +
-                             totals[mapA[i]][mapM[j - shift]];
+        total := total + totals[mapA[i]][mapM[j - shift]];
       fi;
     od;
   od;
+  Unbind(totals);
 
-  i                     := 0;
-  completedComputations := 0;
+  i         := 0;
+  completed := 0;
 
   for A in allA do
     keyA := mapA[i + 1];
     j    := 0;
     tmp  := [];
+    Info(InfoSemirings, 1, "At ", Float((completed) * 100 /
+          (total)), "%, found ", Length(list) + Length(tmp),
+          " so far");
 
     for M in allM do
       j    := j + 1;
@@ -106,11 +109,8 @@ function(allA, allM, mapA, mapM, shift, cosetReps)
         keyM := mapM[j - shift];
       fi;
 
-      reps                  := cosetReps[keyA][keyM];
-      completedComputations := completedComputations + totals[keyA][keyM];
-      Info(InfoSemirings, 1, "At ", Float((completedComputations) * 100 /
-                (totalComputations)), "%, found ", Length(list) + Length(tmp),
-                " so far");
+      reps      := cosetReps[keyA][keyM];
+      completed := completed + Length(reps);
 
       for sigma in reps do
         PermuteMultiplicationTable(temp_table, M, sigma);
@@ -149,7 +149,7 @@ BindGlobal("SETUPFINDER",
 function(args...)
   local allA, allM, NSD, anti, SD, autM, out, mapA, mapM,
   uniqueAutMs, shift, sg, i, autA, uniqueAutAs, reps, j,
-  n, flag, structA, structM, totals, totalComputations, columnTotals;
+  n, flag, structA, structM;
 
   n       := args[1];
   flag    := args[2];
@@ -237,7 +237,8 @@ end);
 
 BindGlobal("ForJoe", function(i)
   local file, line, cores;
-  file := InputTextFile(Concatenation(GAPInfo.PackagesLoaded.aisemirings[1], "cores.txt"));
+  file := InputTextFile(Concatenation(GAPInfo.PackagesLoaded.aisemirings[1],
+                                      "cores.txt"));
   line := ReadLine(file);
   CloseStream(file);
 
