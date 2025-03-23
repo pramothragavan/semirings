@@ -60,7 +60,6 @@ function(allA, allM, mapA, mapM, shift, cosetReps)
     od;
     i := i + 1;
   od;
-    PrintFormatted("\nFound {} candidates!\n", count);
   return count;
 end);
 
@@ -97,7 +96,7 @@ function(allA, allM, mapA, mapM, shift, cosetReps)
     j    := 0;
     tmp  := [];
     Info(InfoSemirings, 1, "At ", Float((completed) * 100 /
-          (total)), "%, found ", Length(list) + Length(tmp),
+          (total)), "%, found ", Length(list),
           " so far");
 
     for M in allM do
@@ -122,7 +121,6 @@ function(allA, allM, mapA, mapM, shift, cosetReps)
     i    := i + 1;
     UniteSet(list, List(tmp, x -> [A, x]));
   od;
-    PrintFormatted("\nFound {} candidates!\n", Length(list));
   return list;
 end);
 
@@ -160,15 +158,15 @@ function(args...)
   if Length(args) = 5 then
     allA := List(args[5], i -> allA[i]);
   fi;
-  PrintFormatted("Found {} candidates for A!\n", Length(allA));
+  Info(InfoSemirings, 1, "Found ", Length(allA), " candidates for A!");
 
-  Print("Finding non-self-dual semigroups...\n");
+  Info(InfoSemirings, 1, "Finding non-self-dual semigroups...");
   NSD := CallFuncList(AllSmallSemigroups,
                       Concatenation([n, IsSelfDualSemigroup, false],
                                      structM));
   shift := Length(NSD);
 
-  Print("Finding corresponding dual semigroups...\n");
+  Info(InfoSemirings, 1, "Finding corresponding dual semigroups...");
   anti := List(NSD, DualSemigroup);
 
   for sg in anti do
@@ -176,15 +174,16 @@ function(args...)
       TransposedMat(sg!.DualSemigroup!.MultiplicationTable);
   od;
 
-  Print("Adding in self-dual semigroups...\n");
+  Info(InfoSemirings, 1, "Adding in self-dual semigroups...");
   SD := CallFuncList(AllSmallSemigroups,
                      Concatenation([n, IsSelfDualSemigroup, true],
                                     structM));
 
   allM := Concatenation(SD, NSD);
-  PrintFormatted("Found {} candidates for M!\n", Length(SD) + Length(NSD) * 2);
+  Info(InfoSemirings, 1, "Found ", Length(SD) + Length(NSD) * 2,
+       " candidates for M!");
 
-  Print("Finding automorphism groups...\n");
+  Info(InfoSemirings, 1, "Finding automorphism groups...");
   out         := UniqueAutomorphismGroups(allM);
   uniqueAutMs := out[1];
   mapM        := out[2];
@@ -193,12 +192,12 @@ function(args...)
   uniqueAutAs := out[1];
   mapA        := out[2];
 
-  PrintFormatted("Found {} unique automorphism groups for A!\n",
-                 Length(uniqueAutAs));
-  PrintFormatted("Found {} unique automorphism groups for M!\n",
-                 Length(uniqueAutMs));
+  Info(InfoSemirings, 1, "Found ", Length(uniqueAutAs),
+       " unique automorphism groups for A!");
+  Info(InfoSemirings, 1, "Found ", Length(uniqueAutMs),
+       " unique automorphism groups for M!");
 
-  Print("Finding double coset reps...\n");
+  Info(InfoSemirings, 1, "Finding double coset reps...");
   reps := List([1 .. Length(uniqueAutAs)],
                x -> List([1 .. Length(uniqueAutMs)]));
   i := 0;
@@ -212,7 +211,7 @@ function(args...)
     od;
   od;
 
-  Print("Unbinding variables and collecting garbage...\n");
+  Info(InfoSemirings, 1, "Unbinding variables and collecting garbage...");
   allM := Concatenation(allM, anti);
   allM := List(allM, x -> x!.MultiplicationTable);
   allA := List(allA, x -> x!.MultiplicationTable);
@@ -224,13 +223,12 @@ function(args...)
   Unbind(uniqueAutAs);
   Unbind(out);
   CollectGarbage(true);
-  Exec("date");
 
   if flag then
-    Print("Counting ai-semirings...\n");
+    Info(InfoSemirings, 1, "Counting ai-semirings...");
     return CountFinder(allA, allM, mapA, mapM, shift, reps);
   else
-    Print("Finding ai-semirings...\n");
+    Info(InfoSemirings, 1, "Finding ai-semirings...");
     return Finder(allA, allM, mapA, mapM, shift, reps);
   fi;
 end);
