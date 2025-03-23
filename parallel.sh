@@ -38,11 +38,9 @@ done
 
 total=0
 echo "----------------------------------------------------------------------"
-echo "Results summary:"
 for i in {1..10}; do
     if [ -f "results/result_$i.txt" ]; then
         result=$(cat "results/result_$i.txt")
-        echo "ForJoe($i) result: $result"
         total=$((total + result))
     else
         echo "ERROR: results/result_$i.txt not found for ForJoe($i)"
