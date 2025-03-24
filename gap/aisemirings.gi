@@ -240,8 +240,14 @@ BindGlobal("ForJoe", function(i)
   line := ReadLine(file);
   CloseStream(file);
 
-  cores := EvalString(line)[i];
-  return SETUPFINDER(7, true, [IsBand, true, IsCommutative, true], [], cores);
+  cores := EvalString(line);
+  if i > Length(cores) then
+    return 0;
+  else
+    cores := cores[i];
+  fi;
+
+  return SETUPFINDER(5, true, [IsBand, true, IsCommutative, true], [], cores);
 end);
 
 InstallGlobalFunction(NrAiSemirings,

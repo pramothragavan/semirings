@@ -25,7 +25,7 @@ with open(path + '/mapA.txt', 'r') as file:
 with open(path + '/totals.txt', 'r') as file:
     totals = ast.literal_eval(file.read().strip())
 
-p = 10
+p = min(10, len(mapA))
 assignment = distribute_to_piles(mapA, totals, p)
 
 piles_lists = [[] for _ in range(p)]
