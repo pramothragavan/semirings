@@ -6,6 +6,7 @@
 \theoremstyle{definition}
 \newtheorem{theorem}{Theorem}
 \newtheorem{definition}{Definition}
+\newtheorem{cor}{Corollary}
 
 \begin{document}
 \begin{definition}
@@ -79,18 +80,28 @@
 \end{proof}
 \end{theorem}
 
+Note that the above theorem can be easily adapted to yield the following result for equivalence of semirings.
+\begin{cor}
+    Let \(S = (A, M)\) be a semiring. For any permutation \(\sigma \in \operatorname{Sym}(S)\), let \(M^\sigma\) denote the semigroup obtained by permuting \(M\) via \(\sigma\). Then the following statements are equivalent:
+    \begin{enumerate}
+        \item The semirings \((A, M^\sigma)\) and \((A, M^\tau)\) are equivalent, i.e. isomorphic or anti-isomorphic.
+        \item \(\sigma\) and \(\tau\) lie in the same double coset of \(\operatorname{Aut}(A) \backslash \operatorname{Sym}(S) / \operatorname{Aut}^*(M)\).
+    \end{enumerate}
+    where \(\operatorname{Aut}^*(M)\) denotes the group of automorphisms and anti-automorphisms of \(M\).
+\end{cor}
 \begin{table}[h]
   \centering
   \begin{tabular}{l|r|r}
     \toprule
     $n$ & up to isomorphism & up to isomorphism + anti-isomorphism \\
     \midrule
-    1 & 1      & 1 \\
-    2 & 6      & 5 \\
-    3 & 61     & ? \\
-    4 & 866    & ? \\
-    5 & 15,751 & ? \\
-    6 & 354,409 & ? \\
+    1 & 1         & 1 \\
+    2 & 6         & 5 \\
+    3 & 61        & ? \\
+    4 & 866       & ? \\
+    5 & 15,751    & ? \\
+    6 & 354,409   & ? \\
+    7 & 9,908,909 & ? \\
   \end{tabular}
   \caption{Numbers of ai-semirings with $n$ elements up to isomorphism and up
   to isomorphism or anti-isomorphism.}
