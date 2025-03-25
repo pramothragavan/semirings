@@ -60,6 +60,7 @@ function(allA, allM, mapA, mapM, shift, cosetReps)
     od;
     i := i + 1;
   od;
+  Info(InfoSemirings, 1, "At 100%, found ", count);
   return count;
 end);
 
@@ -121,6 +122,7 @@ function(allA, allM, mapA, mapM, shift, cosetReps)
     i    := i + 1;
     UniteSet(list, List(tmp, x -> [A, x]));
   od;
+  Info(InfoSemirings, 1, "At 100%, found ", Length(list));
   return list;
 end);
 
@@ -144,19 +146,13 @@ function(all)
 end);
 
 BindGlobal("SETUPFINDER",
-function(args...)
+function(n, flag, structA, structM, args...)
   local allA, allM, NSD, anti, SD, autM, out, mapA, mapM,
-  uniqueAutMs, shift, sg, i, autA, uniqueAutAs, reps, j,
-  n, flag, structA, structM;
-
-  n       := args[1];
-  flag    := args[2];
-  structA := args[3];
-  structM := args[4];
+  uniqueAutMs, shift, sg, i, autA, uniqueAutAs, reps, j;
 
   allA := CallFuncList(AllSmallSemigroups, Concatenation([n], structA));
-  if Length(args) = 5 then
-    allA := List(args[5], i -> allA[i]);
+  if Length(args) > 0 then
+    allA := List(args[1], i -> allA[i]);
   fi;
   Info(InfoSemirings, 1, "Found ", Length(allA), " candidates for A!");
 
@@ -231,23 +227,6 @@ function(args...)
     Info(InfoSemirings, 1, "Finding ai-semirings...");
     return Finder(allA, allM, mapA, mapM, shift, reps);
   fi;
-end);
-
-BindGlobal("ForJoe", function(i)
-  local file, line, cores;
-  file := InputTextFile(Concatenation(GAPInfo.PackagesLoaded.aisemirings[1],
-                                      "cores.txt"));
-  line := ReadLine(file);
-  CloseStream(file);
-
-  cores := EvalString(line);
-  if i > Length(cores) then
-    return 0;
-  else
-    cores := cores[i];
-  fi;
-
-  return SETUPFINDER(5, true, [IsBand, true, IsCommutative, true], [], cores);
 end);
 
 InstallGlobalFunction(NrAiSemirings,

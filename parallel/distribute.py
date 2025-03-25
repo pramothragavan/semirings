@@ -16,8 +16,7 @@ def distribute_to_piles(mapA, totals, p):
 
     return assignment
 
-import ast
-import json, pathlib
+import ast, json, pathlib
 path = str(pathlib.Path(__file__).parent.resolve()) 
 with open(path + '/mapA.txt', 'r') as file:
     mapA = ast.literal_eval(file.read().strip())

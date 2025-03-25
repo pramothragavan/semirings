@@ -79,7 +79,7 @@ DISTRIBUTE := function(args...)
   CollectGarbage(true);
 
   totals := List(reps, row -> Sum(List(row, Length)));
-  path   := GAPInfo.PackagesLoaded.aisemirings[1];
+  path   := Concatenation(GAPInfo.PackagesLoaded.aisemirings[1], "parallel/");
   f      := IO_CompressedFile(Concatenation(path, "totals.txt"), "w");
   IO_Write(f, totals);
   IO_Close(f);
@@ -90,4 +90,9 @@ DISTRIBUTE := function(args...)
   Exec(Concatenation("rm ", path, "totals.txt ", path, "mapA.txt"));
 end;
 
-DISTRIBUTE(7, true, [IsBand, true, IsCommutative, true], []);
+f := InputTextFile(Concatenation(GAPInfo.PackagesLoaded.aisemirings[1],
+                   "parallel/structure.txt"));
+structure := EvalString(ReadLine(f));
+CloseStream(f);
+CallFuncList(DISTRIBUTE, structure);
+quit;

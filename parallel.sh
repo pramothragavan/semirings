@@ -1,25 +1,51 @@
 #!/bin/bash
 
-mkdir -p results
-mkdir -p logs
-mkdir -p runs
-mkdir -p pid
+mkdir -p parallel/results
+mkdir -p parallel/logs
+mkdir -p parallel/runs
+mkdir -p parallel/pid
+
+rm -rf parallel/logs/*
+
+if [ ! -f "parallel/cores.txt" ]; then
+    echo "cores.txt not found. Generating partition from structure.txt..."
+    
+    gap -q parallel/distribute.g
+    touch parallel/gen
+fi
 
 run_forjoe() {
     local i=$1
-    echo "Starting ForJoe($i) in the background..."
+    echo "Starting process $i..."
     
-    cat > "runs/run_$i.g" << EOF
+    cat > "parallel/runs/run_$i.g" << EOF
 LoadPackage("aisemirings");
-result := ForJoe($i);
-PrintTo("results/result_$i.txt", result);
+flag := false;
+file := InputTextFile(Concatenation(GAPInfo.PackagesLoaded.aisemirings[1], "parallel/cores.txt"));
+line := ReadLine(file);
+CloseStream(file);
+cores := EvalString(line);
+if $i > Length(cores) then
+    PrintTo("parallel/results/result_$i.txt", 0);
+    Info(InfoSemirings, 1, "Not enough processes to warrant using core $i");
+    flag := true;
+else
+    cores := cores[$i];
+fi;
+if not flag then
+    file := InputTextFile(Concatenation(GAPInfo.PackagesLoaded.aisemirings[1], "parallel/structure.txt"));
+    structure := EvalString(ReadLine(file));
+    CloseStream(file);
+    result := CallFuncList(SETUPFINDER, Concatenation(structure, [cores]));
+    PrintTo("parallel/results/result_$i.txt", result);
+fi;
 quit;
 EOF
     
-    gap -q runs/run_$i.g > "logs/forjoe_$i.log" 2>&1 &
+    gap -q parallel/runs/run_$i.g > "parallel/logs/$i.log" 2>&1 &
     
-    echo $! > "pid/pid_$i.txt"
-    echo "ForJoe($i) started with PID $(cat pid/pid_$i.txt). Output logged to logs/forjoe_$i.log"
+    echo $! > "parallel/pid/pid_$i.txt"
+    echo "Process $i started with PID $(cat parallel/pid/pid_$i.txt). Output @ parallel/logs/$i.log"
 }
 
 for i in {1..10}; do
@@ -29,30 +55,32 @@ done
 
 echo "Waiting for all processes to complete..."
 for i in {1..10}; do
-    if [ -f "pid/pid_$i.txt" ]; then
-        pid=$(cat "pid/pid_$i.txt")
+    if [ -f "parallel/pid/pid_$i.txt" ]; then
+        pid=$(cat "parallel/pid/pid_$i.txt")
         wait $pid 2>/dev/null
-        echo "ForJoe($i) completed"
+        echo "Process $i completed"
     fi
 done
 
 total=0
 echo "----------------------------------------------------------------------"
 for i in {1..10}; do
-    if [ -f "results/result_$i.txt" ]; then
-        result=$(cat "results/result_$i.txt")
+    if [ -f "parallel/results/result_$i.txt" ]; then
+        result=$(cat "parallel/results/result_$i.txt")
         total=$((total + result))
     else
-        echo "ERROR: results/result_$i.txt not found for ForJoe($i)"
+        echo "ERROR: parallel/results/result_$i.txt not found"
     fi
 done
 
 echo "----------------------------------------------------------------------"
 echo "Total: $total"
 
-rm -f runs/run_*.g
-rm -f pid/pid_*.txt
-rm -rf results
-rm -rf logs
-rm -rf runs
-rm -rf pid
+rm -rf parallel/runs
+rm -rf parallel/pid
+rm -rf parallel/results
+
+if [ -f "parallel/gen" ]; then
+    rm -f parallel/cores.txt
+    rm -f parallel/gen
+fi
