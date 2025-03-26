@@ -297,6 +297,7 @@ InstallGlobalFunction(AllSemirings,
                             [],
                             false));
 
+# rings without requirement for negatives (sometimes called semirings)
 InstallGlobalFunction(NrRigs,
             n -> SETUPFINDER(n, true,
                             [IsCommutative, true, IsMonoidAsSemigroup, true],
@@ -319,4 +320,18 @@ InstallGlobalFunction(AllAiRigs,
             n -> SETUPFINDER(n, false,
                             [IsBand, true, IsCommutative, true, IsMonoidAsSemigroup, true],
                             [IsMonoidAsSemigroup, true, IsSemigroupWithZero, true],
+                            true));
+
+# rings without requirement for negatives or multiplicative identity
+# there's probably a better name for this
+InstallGlobalFunction(NrRgs,  # https://math.stackexchange.com/a/3961173/322208
+            n -> SETUPFINDER(n, true,
+                            [IsCommutative, true, IsMonoidAsSemigroup, true],
+                            [IsSemigroupWithZero, true],
+                            true));
+
+InstallGlobalFunction(AllRgs,
+            n -> SETUPFINDER(n, false,
+                            [IsCommutative, true, IsMonoidAsSemigroup, true],
+                            [IsSemigroupWithZero, true],
                             true));

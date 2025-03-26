@@ -28,3 +28,5 @@ DeclareGlobalFunction("AllRigs");
 DeclareGlobalFunction("NrRigs");
 DeclareGlobalFunction("AllAiRigs");
 DeclareGlobalFunction("NrAiRigs");
+DeclareGlobalFunction("AllRgs");
+DeclareGlobalFunction("NrRgs");
