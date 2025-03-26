@@ -26,9 +26,8 @@
 
 /tmp/
 /gh-pages/
-info.aux
-info.bbl
-info.blg
-info.log
-info.synctex.gz
+info.*
+!info.pdf
+!info.tex
 parallel/logs/*
+.DS_Store
