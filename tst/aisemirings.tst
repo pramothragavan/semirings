@@ -13,21 +13,25 @@ gap> NrAiSemirings(4);
 gap> NrAiSemirings(5);
 15751
 gap> NrRings(2);
-2
+1
 gap> NrRings(3);
-2
+1
 gap> NrRings(4);
-11
-gap> NrRings(5);
-2
-gap> NrRingsWithOne(2);
-1
-gap> NrRingsWithOne(3);
-1
-gap> NrRingsWithOne(4);
 4
-gap> NrRingsWithOne(5);
+gap> NrRings(5);
 1
+gap> NrRings(6);
+1
+gap> NrRngs(2);
+2
+gap> NrRngs(3);
+2
+gap> NrRngs(4);
+11
+gap> NrRngs(5);
+2
+gap> NrRngs(6);
+4
 gap> SetInfoLevel(InfoSmallsemi, l1);
 gap> SetInfoLevel(InfoSemirings, l2);
 gap> STOP_TEST("AiSemiring tests", 0);

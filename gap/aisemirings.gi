@@ -6,7 +6,7 @@
 
 # Function to count ai-semirings
 BindGlobal("CountFinder",
-function(allA, allM, mapA, mapM, shift, cosetReps)
+function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
   local A, M, reps, sigma, j, i, count, tmp, keyM, keyA, completed,
   total, totals;
   FLOAT.DIG         := 2;
@@ -54,7 +54,13 @@ function(allA, allM, mapA, mapM, shift, cosetReps)
       for sigma in reps do
         PermuteMultiplicationTable(tmp, M, sigma);
         if IsLeftRightDistributive(A, tmp) then
-          count := count + 1;
+          if IsRig then
+            if FindAdditiveIdentity(A) = FindMultiplicativeZero(tmp) then
+              count := count + 1;
+            fi;
+          else
+            count := count + 1;
+          fi;
         fi;
       od;
     od;
@@ -66,7 +72,7 @@ end);
 
 # Function to find ai-semirings
 BindGlobal("Finder",
-function(allA, allM, mapA, mapM, shift, cosetReps)
+function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
   local A, list, M, reps, sigma, j, i, totals,
   tmp, temp_table, keyA, keyM, completed, total;
   FLOAT.DIG         := 2;
@@ -115,7 +121,13 @@ function(allA, allM, mapA, mapM, shift, cosetReps)
       for sigma in reps do
         PermuteMultiplicationTable(temp_table, M, sigma);
         if IsLeftRightDistributive(A, temp_table) then
-          AddSet(tmp, List(temp_table, ShallowCopy));
+          if IsRig then
+            if FindAdditiveIdentity(A) = FindMultiplicativeZero(temp_table) then
+              AddSet(tmp, List(temp_table, ShallowCopy));
+            fi;
+          else
+            AddSet(tmp, List(temp_table, ShallowCopy));
+          fi;
         fi;
       od;
     od;
@@ -146,7 +158,7 @@ function(all)
 end);
 
 BindGlobal("SETUPFINDER",
-function(n, flag, structA, structM, args...)
+function(n, flag, structA, structM, IsRig, args...)
   local allA, allM, NSD, anti, SD, autM, out, mapA, mapM,
   uniqueAutMs, shift, sg, i, autA, uniqueAutAs, reps, j;
 
@@ -222,39 +234,89 @@ function(n, flag, structA, structM, args...)
 
   if flag then
     Info(InfoSemirings, 1, "Counting ai-semirings...");
-    return CountFinder(allA, allM, mapA, mapM, shift, reps);
+    return CountFinder(allA, allM, mapA, mapM, shift, reps, IsRig);
   else
     Info(InfoSemirings, 1, "Finding ai-semirings...");
-    return Finder(allA, allM, mapA, mapM, shift, reps);
+    return Finder(allA, allM, mapA, mapM, shift, reps, IsRig);
   fi;
 end);
 
+# Breakdown of parameters:
+# n: order of the semiring
+# flag: true for counting, false for enumerating
+# structA: structure of A as a semigroup
+# structM: structure of M as a semigroup
+# IsRig: true if we are looking for rigs, false otherwise (rigs require an extra condition to be checked)
+# args: optional list of indices to filter on (for parallel approaches)
+
 InstallGlobalFunction(NrAiSemirings,
-                      n -> SETUPFINDER(n, true,
-                                      [IsBand, true, IsCommutative, true],
-                                      []));
+            n -> SETUPFINDER(n, true,
+                            [IsBand, true, IsCommutative, true],
+                            [],
+                            false));
 
 InstallGlobalFunction(AllAiSemirings,
-                      n -> SETUPFINDER(n, false,
-                                      [IsBand, true, IsCommutative, true],
-                                      []));
-
-InstallGlobalFunction(NrRingsWithOne,
-            n -> SETUPFINDER(n, true,
-                            [IsGroupAsSemigroup, true, IsCommutative, true],
-                            [IsMonoidAsSemigroup, true]));
-
-InstallGlobalFunction(AllRingsWithOne,
             n -> SETUPFINDER(n, false,
-                            [IsGroupAsSemigroup, true, IsCommutative, true],
-                            [IsMonoidAsSemigroup, true]));
+                            [IsBand, true, IsCommutative, true],
+                            [],
+                            false));
 
-InstallGlobalFunction(NrRings,
+InstallGlobalFunction(NrRings,  # A037291
             n -> SETUPFINDER(n, true,
                             [IsGroupAsSemigroup, true, IsCommutative, true],
-                            []));
+                            [IsMonoidAsSemigroup, true],
+                            false));
 
 InstallGlobalFunction(AllRings,
             n -> SETUPFINDER(n, false,
                             [IsGroupAsSemigroup, true, IsCommutative, true],
-                            []));
+                            [IsMonoidAsSemigroup, true],
+                            false));
+
+InstallGlobalFunction(NrRngs,  # A027623
+            n -> SETUPFINDER(n, true,
+                            [IsGroupAsSemigroup, true, IsCommutative, true],
+                            [],
+                            false));
+
+InstallGlobalFunction(AllRngs,
+            n -> SETUPFINDER(n, false,
+                            [IsGroupAsSemigroup, true, IsCommutative, true],
+                            [],
+                            false));
+
+InstallGlobalFunction(NrSemirings,
+            n -> SETUPFINDER(n, true,
+                            [IsCommutative, true],
+                            [],
+                            false));
+
+InstallGlobalFunction(AllSemirings,
+            n -> SETUPFINDER(n, false,
+                            [IsCommutative, true],
+                            [],
+                            false));
+
+InstallGlobalFunction(NrRigs,
+            n -> SETUPFINDER(n, true,
+                            [IsCommutative, true, IsMonoidAsSemigroup, true],
+                            [IsMonoidAsSemigroup, true, IsSemigroupWithZero, true],
+                            true));
+
+InstallGlobalFunction(AllRigs,
+            n -> SETUPFINDER(n, false,
+                            [IsCommutative, true, IsMonoidAsSemigroup, true],
+                            [IsMonoidAsSemigroup, true, IsSemigroupWithZero, true],
+                            true));
+
+InstallGlobalFunction(NrAiRigs,
+            n -> SETUPFINDER(n, true,
+                            [IsBand, true, IsCommutative, true, IsMonoidAsSemigroup, true],
+                            [IsMonoidAsSemigroup, true, IsSemigroupWithZero, true],
+                            true));
+
+InstallGlobalFunction(AllAiRigs,
+            n -> SETUPFINDER(n, false,
+                            [IsBand, true, IsCommutative, true, IsMonoidAsSemigroup, true],
+                            [IsMonoidAsSemigroup, true, IsSemigroupWithZero, true],
+                            true));

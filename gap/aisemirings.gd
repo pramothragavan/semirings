@@ -18,7 +18,13 @@
 #!   Insert documentation for your function here
 DeclareGlobalFunction("AllAiSemirings");
 DeclareGlobalFunction("NrAiSemirings");
-DeclareGlobalFunction("AllRingsWithOne");
-DeclareGlobalFunction("NrRingsWithOne");
+DeclareGlobalFunction("AllRngs");
+DeclareGlobalFunction("NrRngs");
 DeclareGlobalFunction("AllRings");
 DeclareGlobalFunction("NrRings");
+DeclareGlobalFunction("AllSemirings");
+DeclareGlobalFunction("NrSemirings");
+DeclareGlobalFunction("AllRigs");
+DeclareGlobalFunction("NrRigs");
+DeclareGlobalFunction("AllAiRigs");
+DeclareGlobalFunction("NrAiRigs");
