@@ -16,9 +16,10 @@ fi
 
 run_forjoe() {
     local i=$1
-    echo "Starting process $i..."
     
     cat > "parallel/runs/run_$i.g" << EOF
+LoadPackage("semigroups");
+LoadPackage("smallsemi");
 LoadPackage("aisemirings");
 flag := false;
 file := InputTextFile(Concatenation(GAPInfo.PackagesLoaded.aisemirings[1], "parallel/cores.txt"));
@@ -39,6 +40,7 @@ if not flag then
     result := CallFuncList(SETUPFINDER, Concatenation(structure, [cores]));
     PrintTo("parallel/results/result_$i.txt", result);
 fi;
+Print(Runtimes());
 quit;
 EOF
     
@@ -63,7 +65,6 @@ for i in {1..10}; do
 done
 
 total=0
-echo "----------------------------------------------------------------------"
 for i in {1..10}; do
     if [ -f "parallel/results/result_$i.txt" ]; then
         result=$(cat "parallel/results/result_$i.txt")
@@ -74,7 +75,10 @@ for i in {1..10}; do
 done
 
 echo "----------------------------------------------------------------------"
-echo "Total: $total"
+structure=$(cat parallel/structure.txt)
+echo "RESULT for structure $structure"
+echo "Total = $total"
+echo "----------------------------------------------------------------------"
 
 rm -rf parallel/runs
 rm -rf parallel/pid
