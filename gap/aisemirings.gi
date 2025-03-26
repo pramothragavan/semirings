@@ -297,7 +297,11 @@ InstallGlobalFunction(AllSemirings,
                             [],
                             false));
 
-# rings without requirement for negatives (sometimes called semirings)
+# rings without requirement for negatives
+# often referred to as a semiring in literature
+# referred to as a unital semiring in
+# https://math.stackexchange.com/a/3961173/322208
+# although I think this name is nonstandard
 InstallGlobalFunction(NrRigs,
             n -> SETUPFINDER(n, true,
                             [IsCommutative, true, IsMonoidAsSemigroup, true],
@@ -323,8 +327,10 @@ InstallGlobalFunction(AllAiRigs,
                             true));
 
 # rings without requirement for negatives or multiplicative identity
-# there's probably a better name for this
-InstallGlobalFunction(NrRgs,  # https://math.stackexchange.com/a/3961173/322208
+# there's probably a better name for this, but it is called a semiring in
+# https://math.stackexchange.com/a/3961173/322208
+# although I think this name is nonstandard
+InstallGlobalFunction(NrRgs,
             n -> SETUPFINDER(n, true,
                             [IsCommutative, true, IsMonoidAsSemigroup, true],
                             [IsSemigroupWithZero, true],
