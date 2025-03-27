@@ -29,5 +29,8 @@
 info.*
 !info.pdf
 !info.tex
-parallel/logs/*
+parallel/logs
+parallel/results
+parallel/pid
+parallel/runs
 .DS_Store

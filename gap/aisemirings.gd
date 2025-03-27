@@ -17,16 +17,23 @@
 #! @Description
 #!   Insert documentation for your function here
 DeclareGlobalFunction("AllAiSemirings");
-DeclareGlobalFunction("NrAiSemirings");
-DeclareGlobalFunction("AllRngs");
-DeclareGlobalFunction("NrRngs");
 DeclareGlobalFunction("AllRings");
-DeclareGlobalFunction("NrRings");
-DeclareGlobalFunction("AllSemirings");
-DeclareGlobalFunction("NrSemirings");
+DeclareGlobalFunction("AllRngs");
 DeclareGlobalFunction("AllRigs");
-DeclareGlobalFunction("NrRigs");
+DeclareGlobalFunction("AllSemirings");
 DeclareGlobalFunction("AllAiRigs");
-DeclareGlobalFunction("NrAiRigs");
+DeclareGlobalFunction("AllAiRgs");
 DeclareGlobalFunction("AllRgs");
+DeclareGlobalFunction("AllAiSemiringsWithOne");
+DeclareGlobalFunction("AllSemiringsWithOne");
+
+DeclareGlobalFunction("NrAiSemirings");
+DeclareGlobalFunction("NrRings");
+DeclareGlobalFunction("NrRngs");
+DeclareGlobalFunction("NrSemirings");
+DeclareGlobalFunction("NrRigs");
+DeclareGlobalFunction("NrAiRigs");
 DeclareGlobalFunction("NrRgs");
+DeclareGlobalFunction("NrAiRgs");
+DeclareGlobalFunction("NrAiSemiringsWithOne");
+DeclareGlobalFunction("NrSemiringsWithOne");

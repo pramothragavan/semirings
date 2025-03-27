@@ -40,7 +40,7 @@ if not flag then
     result := CallFuncList(SETUPFINDER, Concatenation(structure, [cores]));
     PrintTo("parallel/results/result_$i.txt", result);
 fi;
-Print(Runtimes());
+Print("\nTime taken: ", Float(Runtimes().user_time) / 3600000, " hours\n");
 quit;
 EOF
     
@@ -50,13 +50,14 @@ EOF
     echo "Process $i started with PID $(cat parallel/pid/pid_$i.txt). Output @ parallel/logs/$i.log"
 }
 
-for i in {1..10}; do
+c=10
+for ((i=1; i<=c; i++)); do
     run_forjoe $i
     sleep 1
 done
 
 echo "Waiting for all processes to complete..."
-for i in {1..10}; do
+for ((i=1; i<=c; i++)); do
     if [ -f "parallel/pid/pid_$i.txt" ]; then
         pid=$(cat "parallel/pid/pid_$i.txt")
         wait $pid 2>/dev/null
@@ -65,7 +66,7 @@ for i in {1..10}; do
 done
 
 total=0
-for i in {1..10}; do
+for ((i=1; i<=c; i++)); do
     if [ -f "parallel/results/result_$i.txt" ]; then
         result=$(cat "parallel/results/result_$i.txt")
         total=$((total + result))

@@ -35,9 +35,8 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
   for A in allA do
     keyA := mapA[i + 1];
     j    := 0;
-    Info(InfoSemirings, 1, "At ", Float((completed) * 100 /
-          (total)), "%, found ", count,
-          " so far");
+    Info(InfoSemirings, 1, "At ", String(Float((completed) * 100 / (total))),
+    "%, found ", count, " so far");
 
     for M in allM do
       j    := j + 1;
@@ -102,9 +101,8 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
     keyA := mapA[i + 1];
     j    := 0;
     tmp  := [];
-    Info(InfoSemirings, 1, "At ", Float((completed) * 100 /
-          (total)), "%, found ", Length(list),
-          " so far");
+    Info(InfoSemirings, 1, "At ", String(Float((completed) * 100 / (total))),
+         "%, found ", Length(list), " so far");
 
     for M in allM do
       j    := j + 1;
@@ -233,10 +231,10 @@ function(n, flag, structA, structM, IsRig, args...)
   CollectGarbage(true);
 
   if flag then
-    Info(InfoSemirings, 1, "Counting ai-semirings...");
+    Info(InfoSemirings, 1, "Counting...");
     return CountFinder(allA, allM, mapA, mapM, shift, reps, IsRig);
   else
-    Info(InfoSemirings, 1, "Finding ai-semirings...");
+    Info(InfoSemirings, 1, "Enumerating...");
     return Finder(allA, allM, mapA, mapM, shift, reps, IsRig);
   fi;
 end);
@@ -249,6 +247,8 @@ end);
 # IsRig: true if we are looking for rigs, false otherwise (rigs require an extra condition to be checked)
 # args: optional list of indices to filter on (for parallel approaches)
 
+# up to n = 4 available at
+# https://math.chapman.edu/~jipsen/structures/doku.php?id=idempotent_semirings
 InstallGlobalFunction(NrAiSemirings,
             n -> SETUPFINDER(n, true,
                             [IsBand, true, IsCommutative, true],
@@ -261,6 +261,7 @@ InstallGlobalFunction(AllAiSemirings,
                             [],
                             false));
 
+# we define rings as having a multiplicative identity
 InstallGlobalFunction(NrRings,  # A037291
             n -> SETUPFINDER(n, true,
                             [IsGroupAsSemigroup, true, IsCommutative, true],
@@ -285,6 +286,8 @@ InstallGlobalFunction(AllRngs,
                             [],
                             false));
 
+# up to n = 4 available here:
+# https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings
 InstallGlobalFunction(NrSemirings,
             n -> SETUPFINDER(n, true,
                             [IsCommutative, true],
@@ -299,45 +302,86 @@ InstallGlobalFunction(AllSemirings,
 
 # rings without requirement for negatives
 # often referred to as a semiring in literature
-# referred to as a unital semiring in
-# https://math.stackexchange.com/a/3961173/322208
-# although I think this name is nonstandard
+# up to n = 6 available here:
+# https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings_with_identity_and_zero
 InstallGlobalFunction(NrRigs,
             n -> SETUPFINDER(n, true,
-                            [IsCommutative, true, IsMonoidAsSemigroup, true],
-                            [IsMonoidAsSemigroup, true, IsSemigroupWithZero, true],
-                            true));
+                [IsCommutative, true, IsMonoidAsSemigroup, true],
+                [IsMonoidAsSemigroup, true, IsSemigroupWithZero, true],
+                true));
 
 InstallGlobalFunction(AllRigs,
             n -> SETUPFINDER(n, false,
-                            [IsCommutative, true, IsMonoidAsSemigroup, true],
-                            [IsMonoidAsSemigroup, true, IsSemigroupWithZero, true],
-                            true));
+                [IsCommutative, true, IsMonoidAsSemigroup, true],
+                [IsMonoidAsSemigroup, true, IsSemigroupWithZero, true],
+                true));
 
+# up to n = 7 available here:
+# https://math.chapman.edu/~jipsen/structures/doku.php?id=idempotent_semirings_with_identity_and_zero
 InstallGlobalFunction(NrAiRigs,
             n -> SETUPFINDER(n, true,
-                            [IsBand, true, IsCommutative, true, IsMonoidAsSemigroup, true],
-                            [IsMonoidAsSemigroup, true, IsSemigroupWithZero, true],
-                            true));
+                [IsBand, true, IsCommutative, true, IsMonoidAsSemigroup, true],
+                [IsMonoidAsSemigroup, true, IsSemigroupWithZero, true],
+                true));
 
 InstallGlobalFunction(AllAiRigs,
             n -> SETUPFINDER(n, false,
-                            [IsBand, true, IsCommutative, true, IsMonoidAsSemigroup, true],
-                            [IsMonoidAsSemigroup, true, IsSemigroupWithZero, true],
-                            true));
+                [IsBand, true, IsCommutative, true, IsMonoidAsSemigroup, true],
+                [IsMonoidAsSemigroup, true, IsSemigroupWithZero, true],
+                true));
 
 # rings without requirement for negatives or multiplicative identity
-# there's probably a better name for this, but it is called a semiring in
-# https://math.stackexchange.com/a/3961173/322208
-# although I think this name is nonstandard
+# up to n = 4 available here:
+# https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings_with_zero
 InstallGlobalFunction(NrRgs,
             n -> SETUPFINDER(n, true,
-                            [IsCommutative, true, IsMonoidAsSemigroup, true],
-                            [IsSemigroupWithZero, true],
-                            true));
+                [IsCommutative, true, IsMonoidAsSemigroup, true],
+                [IsSemigroupWithZero, true],
+                true));
 
 InstallGlobalFunction(AllRgs,
             n -> SETUPFINDER(n, false,
-                            [IsCommutative, true, IsMonoidAsSemigroup, true],
-                            [IsSemigroupWithZero, true],
-                            true));
+                [IsCommutative, true, IsMonoidAsSemigroup, true],
+                [IsSemigroupWithZero, true],
+                true));
+
+# up to n = 5 available here:
+# https://math.chapman.edu/~jipsen/structures/doku.php?id=idempotent_semirings_with_zero
+InstallGlobalFunction(NrAiRgs,
+            n -> SETUPFINDER(n, true,
+                [IsBand, true, IsCommutative, true, IsMonoidAsSemigroup, true],
+                [IsSemigroupWithZero, true],
+                true));
+
+InstallGlobalFunction(AllAiRgs,
+            n -> SETUPFINDER(n, false,
+                [IsBand, true, IsCommutative, true, IsMonoidAsSemigroup, true],
+                [IsSemigroupWithZero, true],
+                true));
+
+# up to n = 5 available here:
+# (page seems to be incorrectly named)
+# https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings_with_identity
+InstallGlobalFunction(NrAiSemiringsWithOne,
+            n -> SETUPFINDER(n, true,
+                [IsBand, true, IsCommutative, true],
+                [IsMonoidAsSemigroup, true],
+                false));
+
+InstallGlobalFunction(AllAiSemiringsWithOne,
+            n -> SETUPFINDER(n, false,
+                [IsBand, true, IsCommutative, true],
+                [IsMonoidAsSemigroup, true],
+                false));
+
+InstallGlobalFunction(NrSemiringsWithOne,
+            n -> SETUPFINDER(n, true,
+                [IsCommutative, true],
+                [IsMonoidAsSemigroup, true],
+                false));
+
+InstallGlobalFunction(AllSemiringsWithOne,
+            n -> SETUPFINDER(n, false,
+                [IsCommutative, true],
+                [IsMonoidAsSemigroup, true],
+                false));

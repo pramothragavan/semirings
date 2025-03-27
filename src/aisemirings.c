@@ -3,7 +3,6 @@
  */
 
 #include <gap_all.h> // GAP headers
-#include <stdbool.h>
 
 Obj FuncIsLeftRightDistributive(Obj self, Obj A, Obj M) {
 
