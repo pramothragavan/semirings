@@ -158,7 +158,7 @@ end);
 BindGlobal("SETUPFINDER",
 function(n, flag, structA, structM, IsRig, args...)
   local allA, allM, NSD, anti, SD, autM, out, mapA, mapM,
-  uniqueAutMs, shift, sg, i, autA, uniqueAutAs, reps, j;
+  uniqueAutMs, shift, i, autA, uniqueAutAs, reps, j;
 
   allA := CallFuncList(AllSmallSemigroups, Concatenation([n], structA));
   if Length(args) > 0 then
@@ -173,12 +173,8 @@ function(n, flag, structA, structM, IsRig, args...)
   shift := Length(NSD);
 
   Info(InfoSemirings, 1, "Finding corresponding dual semigroups...");
-  anti := List(NSD, DualSemigroup);
-
-  for sg in anti do
-    sg!.MultiplicationTable :=
-      TransposedMat(sg!.DualSemigroup!.MultiplicationTable);
-  od;
+  anti := List([1 .. Length(NSD)],
+              x -> TransposedMat(NSD[x]!.MultiplicationTable));
 
   Info(InfoSemirings, 1, "Adding in self-dual semigroups...");
   SD := CallFuncList(AllSmallSemigroups,
@@ -188,15 +184,20 @@ function(n, flag, structA, structM, IsRig, args...)
   allM := Concatenation(SD, NSD);
   Info(InfoSemirings, 1, "Found ", Length(SD) + Length(NSD) * 2,
        " candidates for M!");
+  Unbind(NSD);
+  Unbind(SD);
+  CollectGarbage(true);
 
   Info(InfoSemirings, 1, "Finding automorphism groups...");
   out         := UniqueAutomorphismGroups(allM);
   uniqueAutMs := out[1];
   mapM        := out[2];
+  allM        := List(allM, x -> x!.MultiplicationTable);
 
   out         := UniqueAutomorphismGroups(allA);
   uniqueAutAs := out[1];
   mapA        := out[2];
+  allA        := List(allA, x -> x!.MultiplicationTable);
 
   Info(InfoSemirings, 1, "Found ", Length(uniqueAutAs),
        " unique automorphism groups for A!");
@@ -219,12 +220,8 @@ function(n, flag, structA, structM, IsRig, args...)
 
   Info(InfoSemirings, 1, "Unbinding variables and collecting garbage...");
   allM := Concatenation(allM, anti);
-  allM := List(allM, x -> x!.MultiplicationTable);
-  allA := List(allA, x -> x!.MultiplicationTable);
 
-  Unbind(NSD);
   Unbind(anti);
-  Unbind(SD);
   Unbind(uniqueAutMs);
   Unbind(uniqueAutAs);
   Unbind(out);

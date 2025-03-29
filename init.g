@@ -10,3 +10,4 @@ ReadPackage("aisemirings", "gap/aisemirings.gd");
 
 DeclareInfoClass("InfoSemirings");
 SetInfoLevel(InfoSemirings, 1);
+SetInfoLevel(InfoSmallsemi, 0);
