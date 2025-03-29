@@ -5,6 +5,18 @@
 #
 
 # Function to count ai-semirings
+
+BindGlobal("GAPAdditiveIdentityIsMultiplicativeZero",
+function(A, M)
+  local i, n;
+  n := Length(A);
+  i := 1;
+  while A[i] <> [1 .. n] do
+    i := i + 1;
+  od;
+  return M[i] = List([1 .. n], x -> i);
+end);
+
 BindGlobal("CountFinder",
 function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
   local A, M, reps, sigma, j, i, count, tmp, keyM, keyA, completed,
@@ -54,7 +66,7 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
         PermuteMultiplicationTable(tmp, M, sigma);
         if IsLeftRightDistributive(A, tmp) then
           if IsRig then
-            if FindAdditiveIdentity(A) = FindMultiplicativeZero(tmp) then
+            if GAPAdditiveIdentityIsMultiplicativeZero(A, tmp) then
               count := count + 1;
             fi;
           else
@@ -120,7 +132,7 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
         PermuteMultiplicationTable(temp_table, M, sigma);
         if IsLeftRightDistributive(A, temp_table) then
           if IsRig then
-            if FindAdditiveIdentity(A) = FindMultiplicativeZero(temp_table) then
+            if GAPAdditiveIdentityIsMultiplicativeZero(A, M) then
               AddSet(tmp, List(temp_table, ShallowCopy));
             fi;
           else
@@ -237,12 +249,12 @@ function(n, flag, structA, structM, IsRig, args...)
 end);
 
 # Breakdown of parameters:
-# n: order of the semiring
-# flag: true for counting, false for enumerating
-# structA: structure of A as a semigroup
-# structM: structure of M as a semigroup
-# IsRig: true if we are looking for rigs, false otherwise (rigs require an extra condition to be checked)
-# args: optional list of indices to filter on (for parallel approaches)
+# n:        order of the semiring
+# flag:     true for counting, false for enumerating
+# structA:  constraints on A as a semigroup
+# structM:  constraints on M as a semigroup
+# IsRig:    true if we need to check that the additive identity
+#           is a multiplicative zero
 
 # up to n = 4 available at
 # https://math.chapman.edu/~jipsen/structures/doku.php?id=idempotent_semirings

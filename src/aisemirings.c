@@ -73,50 +73,42 @@ void FuncPermuteMultiplicationTable(Obj self, Obj temp, Obj M, Obj p) {
   CHANGED_BAG(temp);
 }
 
-Obj FuncFindAdditiveIdentity(Obj self, Obj table) {
-  Int n = LEN_PLIST(table);
-  Obj okay;
-  for (Int id = 1; id <= n; id++) {
-    okay = True;
-    for (Int i = 1; i <= n; i++) {
-      if (ELM_MAT(table, INTOBJ_INT(id), INTOBJ_INT(i)) != INTOBJ_INT(i) ||
-            ELM_MAT(table, INTOBJ_INT(i), INTOBJ_INT(id)) != INTOBJ_INT(i)) {
-        okay = False;
-        break;
-      }
-    }
-    if (okay == True) {
-      return INTOBJ_INT(id);
-    }
-  }
-  return Fail;
-}
 
-Obj FuncFindMultiplicativeZero(Obj self, Obj table) {
-  Int n = LEN_PLIST(table);
-  Obj okay;
-  for (Int z = 1; z <= n; z++) {
-    okay = True;
-    for (Int i = 1; i <= n; i++) {
-      if (ELM_MAT(table, INTOBJ_INT(z), INTOBJ_INT(i)) != INTOBJ_INT(z) ||
-            ELM_MAT(table, INTOBJ_INT(i), INTOBJ_INT(z)) != INTOBJ_INT(z)) {
-        okay = False;
-        break;
-      }
+Obj FuncAdditiveIdentityIsMultiplicativeZero(Obj self, Obj A, Obj M)
+{
+    Int n, i, zero = 1;
+    Obj idList, constList, Mrow;
+
+    n = LEN_PLIST(A);
+    idList = NEW_PLIST(T_PLIST, n);
+    SET_LEN_PLIST(idList, n);
+    for (i = 1; i <= n; i++) {
+        SET_ELM_PLIST(idList, i, ObjInt_Int(i));
     }
-    if (okay == True) {
-      return INTOBJ_INT(z);
+
+    while (!(EQ(ELM_PLIST(A, zero), idList))) {
+      zero++;
     }
-  }
-  return Fail;
+
+    constList = NEW_PLIST(T_PLIST, n);
+    SET_LEN_PLIST(constList, n);
+    for (i = 1; i <= n; i++) {
+        SET_ELM_PLIST(constList, i, ObjInt_Int(zero));
+    }
+
+    if (EQ(ELM_PLIST(M, zero), constList))
+        return True;
+    else
+        return False;
 }
 
 // Table of functions to export
 static StructGVarFunc GVarFuncs[] = {
     GVAR_FUNC(IsLeftRightDistributive, 2, "A, M"),
-    GVAR_FUNC(PermuteMultiplicationTable, 3, "temp, M, p"),
+    // GVAR_FUNC(PermuteMultiplicationTable, 3, "temp, M, p"),
     GVAR_FUNC(FindAdditiveIdentity, 1, "table"),
     GVAR_FUNC(FindMultiplicativeZero, 1, "table"),
+    GVAR_FUNC(AdditiveIdentityIsMultiplicativeZero, 2, "A, M"),
     {0} /* Finish with an empty entry */
 };
 
