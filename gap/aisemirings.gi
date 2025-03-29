@@ -7,20 +7,19 @@
 # Function to count ai-semirings
 
 BindGlobal("GAPAdditiveIdentityIsMultiplicativeZero",
-function(A, M)
-  local i, n;
-  n := Length(A);
+function(A, M, idList, constLists)
+  local i;
   i := 1;
-  while A[i] <> [1 .. n] do
+  while A[i] <> idList do
     i := i + 1;
   od;
-  return M[i] = List([1 .. n], x -> i);
+  return M[i] = constLists[i];
 end);
 
 BindGlobal("CountFinder",
 function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
   local A, M, reps, sigma, j, i, count, tmp, keyM, keyA, completed,
-  total, totals;
+  total, totals, R1, R2;
   FLOAT.DIG         := 2;
   FLOAT.VIEW_DIG    := 4;
   FLOAT.DECIMAL_DIG := 4;
@@ -28,6 +27,11 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
   count  := 0;
   tmp    := List([1 .. Size(allA[1])], x -> [1 .. Size(allA[1])]);
   totals := List(cosetReps, row -> List(row, Length));
+  if IsRig then
+    R1   := [1 .. Size(allA[1])];
+    R2   := List([1 .. Size(allA[1])],
+                        i -> List([1 .. Size(allA[1])], x -> i));
+  fi;
 
   total := 0;
   for i in [1 .. Length(allA)] do
@@ -53,20 +57,20 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
     for M in allM do
       j    := j + 1;
 
-      if j <= Length(allM) - shift then
-        keyM := mapM[j];
-      else
+      if j > Length(mapM) then
         keyM := mapM[j - shift];
+      else
+        keyM := mapM[j];
       fi;
 
       reps      := cosetReps[keyA][keyM];
       completed := completed + Length(reps);
 
       for sigma in reps do
-        PermuteMultiplicationTable(tmp, M, sigma);
+        PermuteMultiplicationTableNC(tmp, M, sigma);
         if IsLeftRightDistributive(A, tmp) then
           if IsRig then
-            if GAPAdditiveIdentityIsMultiplicativeZero(A, tmp) then
+            if AdditiveIdentityIsMultiplicativeZero(A, tmp, R1, R2) then
               count := count + 1;
             fi;
           else
@@ -84,7 +88,7 @@ end);
 # Function to find ai-semirings
 BindGlobal("Finder",
 function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
-  local A, list, M, reps, sigma, j, i, totals,
+  local A, list, M, reps, sigma, j, i, totals, R1, R2,
   tmp, temp_table, keyA, keyM, completed, total;
   FLOAT.DIG         := 2;
   FLOAT.VIEW_DIG    := 4;
@@ -93,6 +97,11 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
   list         := [];
   temp_table   := List([1 .. Size(allA[1])], x -> [1 .. Size(allA[1])]);
   totals       := List(cosetReps, row -> List(row, Length));
+  if IsRig then
+    R1      := [1 .. Size(allA[1])];
+    R2      := List([1 .. Size(allA[1])],
+                        i -> List([1 .. Size(allA[1])], x -> i));
+  fi;
 
   total := 0;
   for i in [1 .. Length(allA)] do
@@ -119,20 +128,20 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
     for M in allM do
       j    := j + 1;
 
-      if j <= Length(allM) - shift then
-        keyM := mapM[j];
-      else
+      if j > Length(mapM) then
         keyM := mapM[j - shift];
+      else
+        keyM := mapM[j];
       fi;
 
       reps      := cosetReps[keyA][keyM];
       completed := completed + Length(reps);
 
       for sigma in reps do
-        PermuteMultiplicationTable(temp_table, M, sigma);
+        PermuteMultiplicationTableNC(temp_table, M, sigma);
         if IsLeftRightDistributive(A, temp_table) then
           if IsRig then
-            if GAPAdditiveIdentityIsMultiplicativeZero(A, M) then
+            if AdditiveIdentityIsMultiplicativeZero(A, temp_table, R1, R2) then
               AddSet(tmp, List(temp_table, ShallowCopy));
             fi;
           else
@@ -154,15 +163,28 @@ function(all)
   uniqueAuts := [];
   map        := List([1 .. Length(all)], ReturnFail);
   for i in [1 .. Length(all)] do
-    aut  := Image(IsomorphismPermGroup(AutomorphismGroup(all[i])));
+    if IsDualSemigroupRep(all[i]) then
+      if IsBound(all[i]!.DualSemigroup!.map) then
+        map[i] := all[i]!.DualSemigroup!.map;
+        continue;
+      else
+        aut := Image(IsomorphismPermGroup(
+                    AutomorphismGroup(all[i]!.DualSemigroup)));
+      fi;
+      Unbind(all[i]!.DualSemigroup!.AutomorphismGroup);
+    else
+      aut  := Image(IsomorphismPermGroup(AutomorphismGroup(all[i])));
+      Unbind(all[i]!.AutomorphismGroup);
+    fi;
     pos  := Position(uniqueAuts, aut);
     if pos = fail then
       Add(uniqueAuts, aut);
-      map[i] := Length(uniqueAuts);
+      map[i]      := Length(uniqueAuts);
+      all[i]!.map := Length(uniqueAuts);
     else
-      map[i] := pos;
+      map[i]      := pos;
+      all[i]!.map := pos;
     fi;
-    Unbind(all[i]!.AutomorphismGroup);
   od;
   return [uniqueAuts, map];
 end);
@@ -170,12 +192,9 @@ end);
 BindGlobal("SETUPFINDER",
 function(n, flag, structA, structM, IsRig, args...)
   local allA, allM, NSD, anti, SD, autM, out, mapA, mapM,
-  uniqueAutMs, shift, i, autA, uniqueAutAs, reps, j;
+  uniqueAutMs, shift, i, autA, uniqueAutAs, reps, j, sg;
 
   allA := CallFuncList(AllSmallSemigroups, Concatenation([n], structA));
-  if Length(args) > 0 then
-    allA := List(args[1], i -> allA[i]);
-  fi;
   Info(InfoSemirings, 1, "Found ", Length(allA), " candidates for A!");
 
   Info(InfoSemirings, 1, "Finding non-self-dual semigroups...");
@@ -185,8 +204,16 @@ function(n, flag, structA, structM, IsRig, args...)
   shift := Length(NSD);
 
   Info(InfoSemirings, 1, "Finding corresponding dual semigroups...");
-  anti := List([1 .. Length(NSD)],
-              x -> TransposedMat(NSD[x]!.MultiplicationTable));
+  if Length(args) > 0 then
+    anti := List(NSD, DualSemigroup);
+    for sg in anti do
+      sg!.MultiplicationTable :=
+            TransposedMat(sg!.DualSemigroup!.MultiplicationTable);
+    od;
+  else
+    anti := List([1 .. Length(NSD)],
+                 i -> TransposedMat(NSD[i]!.MultiplicationTable));
+  fi;
 
   Info(InfoSemirings, 1, "Adding in self-dual semigroups...");
   SD := CallFuncList(AllSmallSemigroups,
@@ -201,6 +228,11 @@ function(n, flag, structA, structM, IsRig, args...)
   CollectGarbage(true);
 
   Info(InfoSemirings, 1, "Finding automorphism groups...");
+  if Length(args) > 0 then
+    allM := Concatenation(allM, anti);
+    allM := List(args[1], i -> allM[i]);
+    Unbind(anti);
+  fi;
   out         := UniqueAutomorphismGroups(allM);
   uniqueAutMs := out[1];
   mapM        := out[2];
@@ -231,9 +263,11 @@ function(n, flag, structA, structM, IsRig, args...)
   od;
 
   Info(InfoSemirings, 1, "Unbinding variables and collecting garbage...");
-  allM := Concatenation(allM, anti);
+  if Length(args) = 0 then
+    allM := Concatenation(allM, anti);
+    Unbind(anti);
+  fi;
 
-  Unbind(anti);
   Unbind(uniqueAutMs);
   Unbind(uniqueAutAs);
   Unbind(out);
@@ -312,7 +346,7 @@ InstallGlobalFunction(AllSemirings,
 # rings without requirement for negatives
 # often referred to as a semiring in literature
 # up to n = 6 available here:
-# https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings_with_identity_and_zero
+# https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings_with_identity_and_zero
 InstallGlobalFunction(NrRigs,
             n -> SETUPFINDER(n, true,
                 [IsCommutative, true, IsMonoidAsSemigroup, true],

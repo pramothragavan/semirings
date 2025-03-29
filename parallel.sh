@@ -10,8 +10,16 @@ rm -rf parallel/logs/*
 if [ ! -f "parallel/cores.txt" ]; then
     echo "cores.txt not found. Generating partition from structure.txt..."
     
+    if [ ! -f "parallel/structure.txt" ]; then
+        echo "ERROR: parallel/structure.txt not found"
+        rm -rf parallel/runs
+        rm -rf parallel/pid
+        rm -rf parallel/results
+        exit 1
+    fi
+
     gap -q parallel/distribute.g
-    touch parallel/gen
+    touch parallel/gen_core
 fi
 
 run_forjoe() {
@@ -85,7 +93,7 @@ rm -rf parallel/runs
 rm -rf parallel/pid
 rm -rf parallel/results
 
-if [ -f "parallel/gen" ]; then
+if [ -f "parallel/gen_core" ]; then
     rm -f parallel/cores.txt
-    rm -f parallel/gen
+    rm -f parallel/gen_core
 fi

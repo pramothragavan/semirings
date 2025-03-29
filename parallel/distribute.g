@@ -1,57 +1,53 @@
 DISTRIBUTE := function(args...)
-  local allA, allM, NSD, anti, SD, autM, out, mapA, mapM,
-  uniqueAutMs, shift, sg, i, autA, uniqueAutAs, reps, j,
-  n, structA, structM, totals, f, path;
+  local allA, allM, NSD, SD, autM, out, mapM, totals, n, structA,
+  structM, uniqueAutMs, i, autA, uniqueAutAs, reps, j, path, f, shift,
+  colTotals;
 
   n       := args[1];
   structA := args[3];
   structM := args[4];
 
   allA := CallFuncList(AllSmallSemigroups, Concatenation([n], structA));
+  Info(InfoSemirings, 1, "Found ", Length(allA), " candidates for A!");
 
-  PrintFormatted("Found {} candidates for A!\n", Length(allA));
-
-  Print("Finding non-self-dual semigroups...\n");
+  Info(InfoSemirings, 1, "Finding non-self-dual semigroups...");
   NSD := CallFuncList(AllSmallSemigroups,
                       Concatenation([n, IsSelfDualSemigroup, false],
                                      structM));
   shift := Length(NSD);
 
-  Print("Finding corresponding dual semigroups...\n");
-  anti := List(NSD, DualSemigroup);
-
-  for sg in anti do
-    sg!.MultiplicationTable :=
-      TransposedMat(sg!.DualSemigroup!.MultiplicationTable);
-  od;
-
-  Print("Adding in self-dual semigroups...\n");
+  Info(InfoSemirings, 1, "Adding in self-dual semigroups...");
   SD := CallFuncList(AllSmallSemigroups,
                      Concatenation([n, IsSelfDualSemigroup, true],
                                     structM));
 
   allM := Concatenation(SD, NSD);
-  PrintFormatted("Found {} candidates for M!\n", Length(SD) + Length(NSD) * 2);
+  Info(InfoSemirings, 1, "Found ", Length(SD) + Length(NSD) * 2,
+       " candidates for M!");
+  Unbind(NSD);
+  Unbind(SD);
+  CollectGarbage(true);
 
-  Print("Finding automorphism groups...\n");
+  Info(InfoSemirings, 1, "Finding automorphism groups...");
   out         := UniqueAutomorphismGroups(allM);
   uniqueAutMs := out[1];
   mapM        := out[2];
-
-  for i in [1 .. shift] do
-    Add(mapM, mapM[Length(mapM) - shift - 1 + i]);
-  od;
+  i           := 0;
+  mapM        := Concatenation(mapM,
+                              List([Length(allM) - shift + 1 .. Length(allM)],
+                                   x -> mapM[x]));
+  allM        := List(allM, x -> x!.MultiplicationTable);
 
   out         := UniqueAutomorphismGroups(allA);
   uniqueAutAs := out[1];
-  mapA        := out[2];
+  allA        := List(allA, x -> x!.MultiplicationTable);
 
-  PrintFormatted("Found {} unique automorphism groups for A!\n",
-                 Length(uniqueAutAs));
-  PrintFormatted("Found {} unique automorphism groups for M!\n",
-                 Length(uniqueAutMs));
+  Info(InfoSemirings, 1, "Found ", Length(uniqueAutAs),
+       " unique automorphism groups for A!");
+  Info(InfoSemirings, 1, "Found ", Length(uniqueAutMs),
+       " unique automorphism groups for M!");
 
-  Print("Finding double coset reps...\n");
+  Info(InfoSemirings, 1, "Finding double coset reps...");
   reps := List([1 .. Length(uniqueAutAs)],
                x -> List([1 .. Length(uniqueAutMs)]));
   i := 0;
@@ -65,29 +61,28 @@ DISTRIBUTE := function(args...)
     od;
   od;
 
-  Print("Unbinding variables and collecting garbage...\n");
-  allM := Concatenation(allM, anti);
-  allM := List(allM, x -> x!.MultiplicationTable);
-  allA := List(allA, x -> x!.MultiplicationTable);
+  totals    := List(reps, row -> List(row, Length));
+  colTotals := List([1 .. Length(totals[1])],
+           j -> Sum([1 .. Length(totals)], i -> totals[i][j]));
 
-  Unbind(NSD);
-  Unbind(anti);
-  Unbind(SD);
+  Info(InfoSemirings, 1, "Unbinding variables and collecting garbage...");
+  Unbind(allA);
+  Unbind(allM);
+  Unbind(reps);
   Unbind(uniqueAutMs);
   Unbind(uniqueAutAs);
   Unbind(out);
   CollectGarbage(true);
 
-  totals := List(reps, row -> Sum(List(row, Length)));
   path   := Concatenation(GAPInfo.PackagesLoaded.aisemirings[1], "parallel/");
   f      := IO_CompressedFile(Concatenation(path, "totals.txt"), "w");
-  IO_Write(f, totals);
+  IO_Write(f, colTotals);
   IO_Close(f);
-  f := IO_CompressedFile(Concatenation(path, "mapA.txt"), "w");
-  IO_Write(f, mapA);
+  f := IO_CompressedFile(Concatenation(path, "mapM.txt"), "w");
+  IO_Write(f, mapM);
   IO_Close(f);
   Exec(Concatenation("python ", path, "distribute.py"));
-  Exec(Concatenation("rm ", path, "totals.txt ", path, "mapA.txt"));
+  Exec(Concatenation("rm ", path, "totals.txt ", path, "mapM.txt"));
 end;
 
 f := InputTextFile(Concatenation(GAPInfo.PackagesLoaded.aisemirings[1],
