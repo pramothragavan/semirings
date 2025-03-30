@@ -6,6 +6,9 @@ mkdir -p parallel/runs
 mkdir -p parallel/pid
 
 rm -rf parallel/logs/*
+rm -rf parallel/runs/*
+rm -rf parallel/pid/*
+rm -rf parallel/results/*
 
 if [ ! -f "parallel/cores.txt" ]; then
     echo "cores.txt not found. Generating partition from structure.txt..."

@@ -221,18 +221,22 @@ function(n, flag, structA, structM, IsRig, args...)
                                     structM));
 
   allM := Concatenation(SD, NSD);
-  Info(InfoSemirings, 1, "Found ", Length(SD) + Length(NSD) * 2,
-       " candidates for M!");
+
+  if Length(args) > 0 then
+    allM := Concatenation(allM, anti);
+    allM := List(args[1], i -> allM[i]);
+    Info(InfoSemirings, 1, "Found ", Length(allM),
+        " candidates for M!");
+    Unbind(anti);
+  else
+    Info(InfoSemirings, 1, "Found ", Length(SD) + Length(NSD) * 2,
+         " candidates for M!");
+  fi;
   Unbind(NSD);
   Unbind(SD);
   CollectGarbage(true);
 
   Info(InfoSemirings, 1, "Finding automorphism groups...");
-  if Length(args) > 0 then
-    allM := Concatenation(allM, anti);
-    allM := List(args[1], i -> allM[i]);
-    Unbind(anti);
-  fi;
   out         := UniqueAutomorphismGroups(allM);
   uniqueAutMs := out[1];
   mapM        := out[2];
