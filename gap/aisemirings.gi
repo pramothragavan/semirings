@@ -290,34 +290,34 @@ BindGlobal("SEMIRINGS_STRUCTURE_REC",
 rec(
 # up to n = 4 available at
 # https://math.chapman.edu/~jipsen/structures/doku.php?id=idempotent_semirings
-  AiSemirings      := [[IsBand, true, IsCommutative, true],
-                          [],
-                          false],
+  AiSemirings        := [[IsBand, true, IsCommutative, true],
+                         [],
+                         false],
 
 # A037291
   Rings              := [[IsGroupAsSemigroup, true, IsCommutative, true],
-                          [IsMonoidAsSemigroup, true],
-                          false],
+                         [IsMonoidAsSemigroup, true],
+                         false],
 
 # A027623
   Rngs               := [[IsGroupAsSemigroup, true, IsCommutative, true],
-                          [],
-                          false],
+                         [],
+                         false],
 
 # up to n = 4 available here:
 # https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings
   Semirings          := [[IsCommutative, true],
-                          [],
-                          false],
+                         [],
+                         false],
 
 # rings without requirement for negatives
 # often referred to as a semiring in literature
 # up to n = 6 available here:
 # https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings_with_identity_and_zero
   Rigs               := [[IsCommutative, true, IsMonoidAsSemigroup, true],
-                          [IsMonoidAsSemigroup, true,
-                           IsSemigroupWithZero, true],
-                          true],
+                         [IsMonoidAsSemigroup, true,
+                          IsSemigroupWithZero, true],
+                         true],
 
 # up to n = 7 available here:
 # https://math.chapman.edu/~jipsen/structures/doku.php?id=idempotent_semirings_with_identity_and_zero
@@ -331,26 +331,26 @@ rec(
 # up to n = 4 available here:
 # https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings_with_zero
   Rgs                := [[IsCommutative, true, IsMonoidAsSemigroup, true],
-                          [IsSemigroupWithZero, true],
-                          true],
+                         [IsSemigroupWithZero, true],
+                         true],
 
 # up to n = 5 available here:
 # https://math.chapman.edu/~jipsen/structures/doku.php?id=idempotent_semirings_with_zero
   AiRgs              := [[IsBand, true, IsCommutative, true,
                           IsMonoidAsSemigroup, true],
-                          [IsSemigroupWithZero, true],
-                          true],
+                         [IsSemigroupWithZero, true],
+                         true],
 
 # up to n = 5 available here:
 # (page seems to be incorrectly named)
 # https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings_with_identity
   AiSemiringsWithOne := [[IsBand, true, IsCommutative, true],
-                          [IsMonoidAsSemigroup, true],
-                          false],
+                         [IsMonoidAsSemigroup, true],
+                         false],
 
   SemiringsWithOne   := [[IsCommutative, true],
-                          [IsMonoidAsSemigroup, true],
-                          false]));
+                         [IsMonoidAsSemigroup, true],
+                         false]));
 
 BindGlobal("WRITE_STRUCTURE",
 function(f, n)
