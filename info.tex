@@ -7,6 +7,7 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{definition}{Definition}
 \newtheorem{cor}{Corollary}
+\newtheorem{remark}{Remark}
 
 \begin{document}
 \begin{definition}
@@ -88,18 +89,27 @@ Note that the above theorem can be easily adapted to yield the following result 
     \end{enumerate}
     where \(\operatorname{Aut}^*(M)\) denotes the group of automorphisms and anti-automorphisms of \(M\).
 \end{cor}
+
+\begin{remark}
+    \(\operatorname{Aut}(M)\) and \(\operatorname{Aut}^*(M)\) are equal if \(M\) is non-self-dual.
+\end{remark}
+
+\begin{remark}
+    Suppose \(M\) is a self-dual semigroup and \(\tau\) is an anti-automorphism on \(M\). Then, 
+    \[\operatorname{Aut}^*(M) = \langle\operatorname{Generators}(\operatorname{Aut}(M)) \cup \{\tau\}\rangle.\]
+\end{remark}
 \begin{table}[ht]
     \centering
     \begin{tabular}{l|r|r}
       \toprule
       $n$ & up to isomorphism & up to isomorphism + anti-isomorphism \\
       \midrule
-      1 & 1         & ? \\
-      2 & 10        & ? \\
-      3 & 132       & ? \\
-      4 & 2,341      & ? \\
-      5 & 57,427    & ? \\
-      6 & 7,571,579 & ? \\
+      1 & 1         & 1         \\
+      2 & 10        & 9         \\
+      3 & 132       & 106       \\
+      4 & 2,341     & 1,713     \\
+      5 & 57,427    & 38,247    \\
+      6 & 7,571,579 & 4,102,358 \\
     \end{tabular}
     \caption{Numbers of semirings with $n$ elements up to isomorphism and up
     to isomorphism or anti-isomorphism.}
@@ -112,13 +122,13 @@ Note that the above theorem can be easily adapted to yield the following result 
     \toprule
     $n$ & up to isomorphism & up to isomorphism + anti-isomorphism \\
     \midrule
-    1 & 1         & 1 \\
-    2 & 6         & 5 \\
-    3 & 61        & ? \\
-    4 & 866       & ? \\
-    5 & 15,751    & ? \\
-    6 & 354,409   & ? \\
-    7 & 9,908,909 & ? \\
+    1 & 1         & 1       \\
+    2 & 6         & 5       \\
+    3 & 61        & 45      \\
+    4 & 866       & 581     \\
+    5 & 15,751    & 9,750   \\
+    6 & 354,409   & 205,744 \\
+    7 & 9,908,909 & ?       \\
   \end{tabular}
   \caption{Numbers of ai-semirings with $n$ elements up to isomorphism and up
   to isomorphism or anti-isomorphism.}
@@ -131,13 +141,13 @@ Note that the above theorem can be easily adapted to yield the following result 
       \toprule
       $n$ & up to isomorphism & up to isomorphism + anti-isomorphism \\
       \midrule
-      1 & 1         & ? \\
-      2 & 2         & ? \\
-      3 & 6         & ? \\
-      4 & 40        & ? \\
-      5 & 295       & ? \\
-      6 & 3,246     & ? \\
-      7 & 59,314    & ? \\
+      1 & 1         & 1     \\
+      2 & 2         & 2     \\
+      3 & 6         & 6     \\
+      4 & 40        & 38    \\
+      5 & 295       & 262   \\
+      6 & 3,246     & 2,681 \\
+      7 & 59,314    & 43,331     \\
     \end{tabular}
     \caption{Numbers of rigs with $n$ elements up to isomorphism and up
     to isomorphism or anti-isomorphism.}
@@ -150,13 +160,13 @@ Note that the above theorem can be easily adapted to yield the following result 
       \toprule
       $n$ & up to isomorphism & up to isomorphism + anti-isomorphism \\
       \midrule
-      1 & 1         & ? \\
-      2 & 1         & ? \\
-      3 & 3         & ? \\
-      4 & 20        & ? \\
-      5 & 149       & ? \\
-      6 & 1,488     & ? \\
-      7 & 18,554    & ? \\
+      1 & 1         & 1 \\
+      2 & 1         & 1 \\
+      3 & 3         & 3 \\
+      4 & 20        & 18 \\
+      5 & 149       & 125 \\
+      6 & 1,488     & 1,150 \\
+      7 & 18,554    & 13,171 \\
       8 & ?         & ? \\
     \end{tabular}
     \caption{Numbers of ai-rigs with $n$ elements up to isomorphism and up
@@ -170,12 +180,12 @@ Note that the above theorem can be easily adapted to yield the following result 
       \toprule
       $n$ & up to isomorphism & up to isomorphism + anti-isomorphism \\
       \midrule
-      1 & 1         & ? \\
-      2 & 4         & ? \\
-      3 & 22        & ? \\
-      4 & 169       & ? \\
-      5 & 1,819     & ? \\
-      6 & 41,104    & ? \\
+      1 & 1         & 1 \\
+      2 & 4         & 4 \\
+      3 & 22        & 21 \\
+      4 & 169       & 155 \\
+      5 & 1,819     & 1,561 \\
+      6 & 41,104    & 30,112 \\
       7 & ?         & ? \\
     \end{tabular}
     \caption{Numbers of unital semirings with $n$ elements up to isomorphism and up

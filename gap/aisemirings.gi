@@ -6,20 +6,20 @@
 
 # Function to count ai-semirings
 
-BindGlobal("GAPAdditiveIdentityIsMultiplicativeZero",
-function(A, M, idList, constLists)
+BindGlobal("AdditiveIdentityNC",
+function(A, idList)
   local i;
   i := 1;
   while A[i] <> idList do
     i := i + 1;
   od;
-  return M[i] = constLists[i];
+  return i;
 end);
 
 BindGlobal("CountFinder",
 function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
   local A, M, reps, sigma, j, i, count, tmp, keyM, keyA, completed,
-  total, totals, R1, R2;
+  total, totals, idList, constLists, idA;
   FLOAT.DIG         := 2;
   FLOAT.VIEW_DIG    := 4;
   FLOAT.DECIMAL_DIG := 4;
@@ -28,8 +28,8 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
   tmp    := List([1 .. Size(allA[1])], x -> [1 .. Size(allA[1])]);
   totals := List(cosetReps, row -> List(row, Length));
   if IsRig then
-    R1   := [1 .. Size(allA[1])];
-    R2   := List([1 .. Size(allA[1])],
+    idList     := [1 .. Size(allA[1])];
+    constLists := List([1 .. Size(allA[1])],
                         i -> List([1 .. Size(allA[1])], x -> i));
   fi;
 
@@ -54,6 +54,10 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
     Info(InfoSemirings, 1, "At ", String(Float((completed) * 100 / (total))),
     "%, found ", count, " so far");
 
+    if IsRig then
+      idA := AdditiveIdentityNC(A, idList);
+    fi;
+
     for M in allM do
       j    := j + 1;
 
@@ -68,14 +72,11 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
 
       for sigma in reps do
         PermuteMultiplicationTableNC(tmp, M, sigma);
+        if IsRig and tmp[idA] <> constLists[idA] then
+            continue;
+        fi;
         if IsLeftRightDistributive(A, tmp) then
-          if IsRig then
-            if AdditiveIdentityIsMultiplicativeZero(A, tmp, R1, R2) then
-              count := count + 1;
-            fi;
-          else
-            count := count + 1;
-          fi;
+          count := count + 1;
         fi;
       od;
     od;
@@ -88,8 +89,8 @@ end);
 # Function to find ai-semirings
 BindGlobal("Finder",
 function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
-  local A, list, M, reps, sigma, j, i, totals, R1, R2,
-  tmp, temp_table, keyA, keyM, completed, total;
+  local A, list, M, reps, sigma, j, i, totals, idList, constLists,
+  tmp, temp_table, keyA, keyM, completed, total, idA;
   FLOAT.DIG         := 2;
   FLOAT.VIEW_DIG    := 4;
   FLOAT.DECIMAL_DIG := 4;
@@ -98,8 +99,8 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
   temp_table   := List([1 .. Size(allA[1])], x -> [1 .. Size(allA[1])]);
   totals       := List(cosetReps, row -> List(row, Length));
   if IsRig then
-    R1      := [1 .. Size(allA[1])];
-    R2      := List([1 .. Size(allA[1])],
+    idList     := [1 .. Size(allA[1])];
+    constLists := List([1 .. Size(allA[1])],
                         i -> List([1 .. Size(allA[1])], x -> i));
   fi;
 
@@ -125,6 +126,10 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
     Info(InfoSemirings, 1, "At ", String(Float((completed) * 100 / (total))),
          "%, found ", Length(list), " so far");
 
+    if IsRig then
+      idA := AdditiveIdentityNC(A, idList);
+    fi;
+
     for M in allM do
       j    := j + 1;
 
@@ -139,14 +144,11 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
 
       for sigma in reps do
         PermuteMultiplicationTableNC(temp_table, M, sigma);
+        if IsRig and temp_table[idA] <> constLists[idA] then
+            continue;
+        fi;
         if IsLeftRightDistributive(A, temp_table) then
-          if IsRig then
-            if AdditiveIdentityIsMultiplicativeZero(A, temp_table, R1, R2) then
-              AddSet(tmp, List(temp_table, ShallowCopy));
-            fi;
-          else
-            AddSet(tmp, List(temp_table, ShallowCopy));
-          fi;
+          AddSet(tmp, List(temp_table, ShallowCopy));
         fi;
       od;
     od;
@@ -157,9 +159,12 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
   return list;
 end);
 
-BindGlobal("FindAntiIsomorphism",
+BindGlobal("FindAntiAutomorphism",
 function(M)
   local n, perm, tmp;
+  if IsCommutative(M) then
+    return ();
+  fi;
   n   := Size(M);
   M   := M!.MultiplicationTable;
   tmp := List(M, ShallowCopy);
@@ -170,7 +175,7 @@ function(M)
       return perm;
     fi;
   od;
-  ErrorNoReturn("No anti-isomorphism found!");
+  ErrorNoReturn("No anti-automorphism found!");
 end);
 
 BindGlobal("UniqueAutomorphismGroups",
@@ -188,16 +193,14 @@ function(all, U2E)
                     AutomorphismGroup(all[i]!.DualSemigroup)));
       fi;
       Unbind(all[i]!.DualSemigroup!.AutomorphismGroup);
+    elif U2E and IsSelfDualSemigroup(all[i]) then
+      aut := Image(IsomorphismPermGroup(AutomorphismGroup(all[i])));
+      aut := Group(Concatenation(
+                  GeneratorsOfGroup(aut), [FindAntiAutomorphism(all[i])]));
+      Unbind(all[i]!.AutomorphismGroup);
     else
-      if U2E and IsSelfDualSemigroup(all[i]) then
-          aut := Image(IsomorphismPermGroup(AutomorphismGroup(all[i])));
-          aut := Group(Concatenation(
-                      GeneratorsOfGroup(aut), [FindAntiIsomorphism(all[i])]));
-          Unbind(all[i]!.AutomorphismGroup);
-      else
-        aut  := Image(IsomorphismPermGroup(AutomorphismGroup(all[i])));
-        Unbind(all[i]!.AutomorphismGroup);
-      fi;
+      aut  := Image(IsomorphismPermGroup(AutomorphismGroup(all[i])));
+      Unbind(all[i]!.AutomorphismGroup);
     fi;
     pos  := Position(uniqueAuts, aut);
     if pos = fail then
@@ -405,7 +408,7 @@ function(f, n, args...)
   out := ReplacedString(out, "<Property \"", "");
   out := ReplacedString(out, "\">", "");
   IO_Write(file, out);
-  Print("Successfully wrote to file.\n");
+  Info(InfoSemirings, 1, "Successfully wrote to file.");
   IO_Close(file);
 end);
 
@@ -417,10 +420,12 @@ for key in RecNames(SEMIRINGS_STRUCTURE_REC) do
             return CallFuncList(SETUPFINDER,
               Concatenation([n, true], SEMIRINGS_STRUCTURE_REC.(capturedKey),
                             [false]));
-           else
+           elif Length(args) = 1 then
             return CallFuncList(SETUPFINDER,
               Concatenation([n, true], SEMIRINGS_STRUCTURE_REC.(capturedKey),
                             args));
+           else
+            ErrorNoReturn("Invalid number of arguments!");
            fi;
          end;
        end)(key));
@@ -432,10 +437,12 @@ for key in RecNames(SEMIRINGS_STRUCTURE_REC) do
             return CallFuncList(SETUPFINDER,
               Concatenation([n, false], SEMIRINGS_STRUCTURE_REC.(capturedKey),
                             [false]));
-           else
+           elif Length(args) = 1 then
             return CallFuncList(SETUPFINDER,
               Concatenation([n, false], SEMIRINGS_STRUCTURE_REC.(capturedKey),
                             args));
+           else
+            ErrorNoReturn("Invalid number of arguments!");
            fi;
          end;
        end)(key));
