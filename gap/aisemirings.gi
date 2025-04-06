@@ -68,8 +68,14 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
 
       for sigma in reps do
         PermuteMultiplicationTableNC(tmp, M, sigma);
-        if IsLeftRightDistributive(A, tmp) and AdditiveIdentityIsMultiplicativeZero(A, tmp, R1, R2) then
+        if IsLeftRightDistributive(A, tmp) then
+          if IsRig then
+            if AdditiveIdentityIsMultiplicativeZero(A, tmp, R1, R2) then
               count := count + 1;
+            fi;
+          else
+            count := count + 1;
+          fi;
         fi;
       od;
     od;
