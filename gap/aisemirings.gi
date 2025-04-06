@@ -85,9 +85,50 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
   return count;
 end);
 
+# BindGlobal("AntiIsomorphismFilter",
+# function(all)
+#   local result, processed, i, j, A1, M1, aut1, A2, M2, p, tmp, isAntiIso;
+
+#   result    := [];
+#   processed := [];
+#   tmp       := List([1 .. Size(all[1][2])], x -> [1 .. Size(all[1][2])]);
+
+#   for i in [1 .. Length(all)] do
+#     if not i in processed then
+#       Add(result, all[i]);
+#       A1   := all[i][1];
+#       M1   := all[i][2];
+#       aut1 := all[i][3];
+
+#       for j in [i + 1 .. Length(all)] do
+#         if not j in processed then
+#           A2   := all[j][1];
+#           M2   := all[j][2];
+
+#           if A1 = A2 then
+#             isAntiIso := false;
+#             for p in aut1 do
+#               PermuteMultiplicationTableNC(tmp, M1, p);
+#               if tmp = TransposedMat(M2) then
+#                 isAntiIso := true;
+#                 break;
+#               fi;
+#             od;
+
+#             if isAntiIso then
+#               AddSet(processed, j);
+#             fi;
+#           fi;
+#         fi;
+#       od;
+#     fi;
+#   od;
+#   return result;
+# end);
+
 # Function to find ai-semirings
 BindGlobal("Finder",
-function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
+function(allA, allM, mapA, mapM, shift, cosetReps, IsRig, uniqueAutAs)
   local A, list, M, reps, sigma, j, i, totals, R1, R2,
   tmp, temp_table, keyA, keyM, completed, total;
   FLOAT.DIG         := 2;
@@ -142,22 +183,77 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
         if IsLeftRightDistributive(A, temp_table) then
           if IsRig then
             if AdditiveIdentityIsMultiplicativeZero(A, temp_table, R1, R2) then
-              AddSet(tmp, List(temp_table, ShallowCopy));
+              AddSet(tmp, [List(temp_table, ShallowCopy), uniqueAutAs[keyA]]);
             fi;
           else
-            AddSet(tmp, List(temp_table, ShallowCopy));
+            AddSet(tmp, [List(temp_table, ShallowCopy), uniqueAutAs[keyA]]);
           fi;
         fi;
       od;
     od;
     i    := i + 1;
-    UniteSet(list, List(tmp, x -> [A, x]));
+    UniteSet(list, List(tmp, x -> Concatenation([A], x)));
   od;
   Info(InfoSemirings, 1, "At 100%, found ", Length(list));
   return list;
 end);
 
+BindGlobal("FindAntiIsomorphism",
+function(M)
+  local n, perm, tmp;
+  n   := Size(M);
+  M   := M!.MultiplicationTable;
+  tmp := List(M, ShallowCopy);
+
+  for perm in SymmetricGroup(n) do
+    PermuteMultiplicationTableNC(tmp, M, perm);
+    if M = TransposedMat(tmp) then
+      return perm;
+    fi;
+  od;
+  ErrorNoReturn("No anti-isomorphism found!");
+end);
+
 BindGlobal("UniqueAutomorphismGroups",
+function(all, U2E)
+  local uniqueAuts, map, aut, pos, i;
+  uniqueAuts := [];
+  map        := List([1 .. Length(all)], ReturnFail);
+  for i in [1 .. Length(all)] do
+    if IsDualSemigroupRep(all[i]) then
+      if IsBound(all[i]!.DualSemigroup!.map) then
+        map[i] := all[i]!.DualSemigroup!.map;
+        continue;
+      else
+        aut := Image(IsomorphismPermGroup(
+                    AutomorphismGroup(all[i]!.DualSemigroup)));
+      fi;
+      Unbind(all[i]!.DualSemigroup!.AutomorphismGroup);
+    else
+      if U2E and IsSelfDualSemigroup(all[i]) then
+          aut := Image(IsomorphismPermGroup(AutomorphismGroup(all[i])));
+          aut := Group(Concatenation(
+                      GeneratorsOfGroup(aut), [FindAntiIsomorphism(all[i])]));
+          Unbind(all[i]!.AutomorphismGroup);
+      else
+        aut  := Image(IsomorphismPermGroup(AutomorphismGroup(all[i])));
+        Unbind(all[i]!.AutomorphismGroup);
+      fi;
+    fi;
+    pos  := Position(uniqueAuts, aut);
+    if pos = fail then
+      Add(uniqueAuts, aut);
+      map[i]      := Length(uniqueAuts);
+      all[i]!.map := Length(uniqueAuts);
+    else
+      map[i]      := pos;
+      all[i]!.map := pos;
+    fi;
+  od;
+  return [uniqueAuts, map];
+end);
+
+BindGlobal("UniqueAutomorphismGroupsU2E",
 function(all)
   local uniqueAuts, map, aut, pos, i;
   uniqueAuts := [];
@@ -172,6 +268,11 @@ function(all)
                     AutomorphismGroup(all[i]!.DualSemigroup)));
       fi;
       Unbind(all[i]!.DualSemigroup!.AutomorphismGroup);
+    elif IsSelfDualSemigroup(all[i]) then
+      aut := Image(IsomorphismPermGroup(AutomorphismGroup(all[i])));
+      aut := Group(Concatenation(
+                  GeneratorsOfGroup(aut), [FindAntiIsomorphism(all[i])]));
+      Unbind(all[i]!.AutomorphismGroup);
     else
       aut  := Image(IsomorphismPermGroup(AutomorphismGroup(all[i])));
       Unbind(all[i]!.AutomorphismGroup);
@@ -190,7 +291,7 @@ function(all)
 end);
 
 BindGlobal("SETUPFINDER",
-function(n, flag, structA, structM, IsRig, args...)
+function(n, flag, structA, structM, IsRig, U2E, args...)
   local allA, allM, NSD, anti, SD, autM, out, mapA, mapM,
   uniqueAutMs, shift, i, autA, uniqueAutAs, reps, j, sg;
 
@@ -204,7 +305,7 @@ function(n, flag, structA, structM, IsRig, args...)
   shift := Length(NSD);
 
   Info(InfoSemirings, 1, "Finding corresponding dual semigroups...");
-  if Length(args) > 0 then
+  if Length(args) > 0 and not U2E then
     anti := List(NSD, DualSemigroup);
     for sg in anti do
       sg!.MultiplicationTable :=
@@ -222,27 +323,40 @@ function(n, flag, structA, structM, IsRig, args...)
 
   allM := Concatenation(SD, NSD);
 
-  if Length(args) > 0 then
-    allM := Concatenation(allM, anti);
-    allM := List(args[1], i -> allM[i]);
-    Info(InfoSemirings, 1, "Found ", Length(allM),
-        " candidates for M!");
-    Unbind(anti);
+  if not U2E then
+    if Length(args) > 0 then
+      allM := Concatenation(allM, anti);
+      allM := List(args[1], i -> allM[i]);
+      Info(InfoSemirings, 1, "Found ", Length(allM),
+          " candidates for M!");
+      Unbind(anti);
+    else
+      Info(InfoSemirings, 1, "Found ", Length(SD) + Length(NSD) * 2,
+          " candidates for M!");
+    fi;
   else
-    Info(InfoSemirings, 1, "Found ", Length(SD) + Length(NSD) * 2,
-         " candidates for M!");
+    if Length(args) > 0 then
+      allM := List(args[1], i -> allM[i]);
+      Info(InfoSemirings, 1, "Found ", Length(allM),
+          " candidates for M!");
+      Unbind(anti);
+    else
+      Info(InfoSemirings, 1, "Found ", Length(SD) + Length(NSD),
+          " candidates for M!");
+    fi;
   fi;
+
   Unbind(NSD);
   Unbind(SD);
   CollectGarbage(true);
 
   Info(InfoSemirings, 1, "Finding automorphism groups...");
-  out         := UniqueAutomorphismGroups(allM);
+  out         := UniqueAutomorphismGroups(allM, U2E);
   uniqueAutMs := out[1];
   mapM        := out[2];
   allM        := List(allM, x -> x!.MultiplicationTable);
 
-  out         := UniqueAutomorphismGroups(allA);
+  out         := UniqueAutomorphismGroups(allA, false);
   uniqueAutAs := out[1];
   mapA        := out[2];
   allA        := List(allA, x -> x!.MultiplicationTable);
@@ -267,13 +381,13 @@ function(n, flag, structA, structM, IsRig, args...)
   od;
 
   Info(InfoSemirings, 1, "Unbinding variables and collecting garbage...");
-  if Length(args) = 0 then
+  if Length(args) = 0 and not U2E then
     allM := Concatenation(allM, anti);
     Unbind(anti);
   fi;
 
   Unbind(uniqueAutMs);
-  Unbind(uniqueAutAs);
+  # Unbind(uniqueAutAs);
   Unbind(out);
   CollectGarbage(true);
 
@@ -282,7 +396,7 @@ function(n, flag, structA, structM, IsRig, args...)
     return CountFinder(allA, allM, mapA, mapM, shift, reps, IsRig);
   else
     Info(InfoSemirings, 1, "Enumerating...");
-    return Finder(allA, allM, mapA, mapM, shift, reps, IsRig);
+    return Finder(allA, allM, mapA, mapM, shift, reps, IsRig, uniqueAutAs);
   fi;
 end);
 
@@ -368,17 +482,31 @@ end);
 for key in RecNames(SEMIRINGS_STRUCTURE_REC) do
   InstallGlobalFunction(ValueGlobal(Concatenation("Nr", key)),
       (function(capturedKey)
-         return function(n)
-           return CallFuncList(SETUPFINDER,
-             Concatenation([n, true], SEMIRINGS_STRUCTURE_REC.(capturedKey)));
+         return function(n, args...)
+           if Length(args) = 0 then
+            return CallFuncList(SETUPFINDER,
+              Concatenation([n, true], SEMIRINGS_STRUCTURE_REC.(capturedKey),
+                            [false]));
+           else
+            return CallFuncList(SETUPFINDER,
+              Concatenation([n, true], SEMIRINGS_STRUCTURE_REC.(capturedKey),
+                            args));
+           fi;
          end;
        end)(key));
 
   InstallGlobalFunction(ValueGlobal(Concatenation("All", key)),
       (function(capturedKey)
-         return function(n)
-           return CallFuncList(SETUPFINDER,
-             Concatenation([n, false], SEMIRINGS_STRUCTURE_REC.(capturedKey)));
+         return function(n, args...)
+           if Length(args) = 0 then
+            return CallFuncList(SETUPFINDER,
+              Concatenation([n, false], SEMIRINGS_STRUCTURE_REC.(capturedKey),
+                            [false]));
+           else
+            return CallFuncList(SETUPFINDER,
+              Concatenation([n, false], SEMIRINGS_STRUCTURE_REC.(capturedKey),
+                            args));
+           fi;
          end;
        end)(key));
 od;
