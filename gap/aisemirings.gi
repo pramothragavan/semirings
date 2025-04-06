@@ -85,50 +85,9 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
   return count;
 end);
 
-# BindGlobal("AntiIsomorphismFilter",
-# function(all)
-#   local result, processed, i, j, A1, M1, aut1, A2, M2, p, tmp, isAntiIso;
-
-#   result    := [];
-#   processed := [];
-#   tmp       := List([1 .. Size(all[1][2])], x -> [1 .. Size(all[1][2])]);
-
-#   for i in [1 .. Length(all)] do
-#     if not i in processed then
-#       Add(result, all[i]);
-#       A1   := all[i][1];
-#       M1   := all[i][2];
-#       aut1 := all[i][3];
-
-#       for j in [i + 1 .. Length(all)] do
-#         if not j in processed then
-#           A2   := all[j][1];
-#           M2   := all[j][2];
-
-#           if A1 = A2 then
-#             isAntiIso := false;
-#             for p in aut1 do
-#               PermuteMultiplicationTableNC(tmp, M1, p);
-#               if tmp = TransposedMat(M2) then
-#                 isAntiIso := true;
-#                 break;
-#               fi;
-#             od;
-
-#             if isAntiIso then
-#               AddSet(processed, j);
-#             fi;
-#           fi;
-#         fi;
-#       od;
-#     fi;
-#   od;
-#   return result;
-# end);
-
 # Function to find ai-semirings
 BindGlobal("Finder",
-function(allA, allM, mapA, mapM, shift, cosetReps, IsRig, uniqueAutAs)
+function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
   local A, list, M, reps, sigma, j, i, totals, R1, R2,
   tmp, temp_table, keyA, keyM, completed, total;
   FLOAT.DIG         := 2;
@@ -183,16 +142,16 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig, uniqueAutAs)
         if IsLeftRightDistributive(A, temp_table) then
           if IsRig then
             if AdditiveIdentityIsMultiplicativeZero(A, temp_table, R1, R2) then
-              AddSet(tmp, [List(temp_table, ShallowCopy), uniqueAutAs[keyA]]);
+              AddSet(tmp, List(temp_table, ShallowCopy));
             fi;
           else
-            AddSet(tmp, [List(temp_table, ShallowCopy), uniqueAutAs[keyA]]);
+            AddSet(tmp, List(temp_table, ShallowCopy));
           fi;
         fi;
       od;
     od;
     i    := i + 1;
-    UniteSet(list, List(tmp, x -> Concatenation([A], x)));
+    UniteSet(list, List(tmp, x -> [A, x]));
   od;
   Info(InfoSemirings, 1, "At 100%, found ", Length(list));
   return list;
@@ -253,43 +212,6 @@ function(all, U2E)
   return [uniqueAuts, map];
 end);
 
-BindGlobal("UniqueAutomorphismGroupsU2E",
-function(all)
-  local uniqueAuts, map, aut, pos, i;
-  uniqueAuts := [];
-  map        := List([1 .. Length(all)], ReturnFail);
-  for i in [1 .. Length(all)] do
-    if IsDualSemigroupRep(all[i]) then
-      if IsBound(all[i]!.DualSemigroup!.map) then
-        map[i] := all[i]!.DualSemigroup!.map;
-        continue;
-      else
-        aut := Image(IsomorphismPermGroup(
-                    AutomorphismGroup(all[i]!.DualSemigroup)));
-      fi;
-      Unbind(all[i]!.DualSemigroup!.AutomorphismGroup);
-    elif IsSelfDualSemigroup(all[i]) then
-      aut := Image(IsomorphismPermGroup(AutomorphismGroup(all[i])));
-      aut := Group(Concatenation(
-                  GeneratorsOfGroup(aut), [FindAntiIsomorphism(all[i])]));
-      Unbind(all[i]!.AutomorphismGroup);
-    else
-      aut  := Image(IsomorphismPermGroup(AutomorphismGroup(all[i])));
-      Unbind(all[i]!.AutomorphismGroup);
-    fi;
-    pos  := Position(uniqueAuts, aut);
-    if pos = fail then
-      Add(uniqueAuts, aut);
-      map[i]      := Length(uniqueAuts);
-      all[i]!.map := Length(uniqueAuts);
-    else
-      map[i]      := pos;
-      all[i]!.map := pos;
-    fi;
-  od;
-  return [uniqueAuts, map];
-end);
-
 BindGlobal("SETUPFINDER",
 function(n, flag, structA, structM, IsRig, U2E, args...)
   local allA, allM, NSD, anti, SD, autM, out, mapA, mapM,
@@ -304,16 +226,18 @@ function(n, flag, structA, structM, IsRig, U2E, args...)
                                      structM));
   shift := Length(NSD);
 
-  Info(InfoSemirings, 1, "Finding corresponding dual semigroups...");
-  if Length(args) > 0 and not U2E then
-    anti := List(NSD, DualSemigroup);
-    for sg in anti do
-      sg!.MultiplicationTable :=
-            TransposedMat(sg!.DualSemigroup!.MultiplicationTable);
-    od;
-  else
-    anti := List([1 .. Length(NSD)],
-                 i -> TransposedMat(NSD[i]!.MultiplicationTable));
+  if not U2E then
+    Info(InfoSemirings, 1, "Finding corresponding dual semigroups...");
+    if Length(args) > 0 then
+      anti := List(NSD, DualSemigroup);
+      for sg in anti do
+        sg!.MultiplicationTable :=
+              TransposedMat(sg!.DualSemigroup!.MultiplicationTable);
+      od;
+    else
+      anti := List([1 .. Length(NSD)],
+                  i -> TransposedMat(NSD[i]!.MultiplicationTable));
+    fi;
   fi;
 
   Info(InfoSemirings, 1, "Adding in self-dual semigroups...");
@@ -387,7 +311,7 @@ function(n, flag, structA, structM, IsRig, U2E, args...)
   fi;
 
   Unbind(uniqueAutMs);
-  # Unbind(uniqueAutAs);
+  Unbind(uniqueAutAs);
   Unbind(out);
   CollectGarbage(true);
 
@@ -396,7 +320,7 @@ function(n, flag, structA, structM, IsRig, U2E, args...)
     return CountFinder(allA, allM, mapA, mapM, shift, reps, IsRig);
   else
     Info(InfoSemirings, 1, "Enumerating...");
-    return Finder(allA, allM, mapA, mapM, shift, reps, IsRig, uniqueAutAs);
+    return Finder(allA, allM, mapA, mapM, shift, reps, IsRig);
   fi;
 end);
 
@@ -467,11 +391,17 @@ rec(
                          false]));
 
 BindGlobal("WRITE_STRUCTURE",
-function(f, n)
+function(f, n, args...)
   local file, out;
   file := IO_CompressedFile(Concatenation(GAPInfo.PackagesLoaded.aisemirings[1],
                         "parallel/structure.txt"), "w");
-  out := String(Concatenation([n, true], SEMIRINGS_STRUCTURE_REC.(f)));
+  if Length(args) = 0 then
+    out := String(Concatenation([n, true], SEMIRINGS_STRUCTURE_REC.(f),
+                                [false]));
+  else
+    out := String(Concatenation([n, true], SEMIRINGS_STRUCTURE_REC.(f),
+                                 args));
+  fi;
   out := ReplacedString(out, "<Property \"", "");
   out := ReplacedString(out, "\">", "");
   IO_Write(file, out);

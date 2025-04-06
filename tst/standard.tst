@@ -1,4 +1,4 @@
-gap> START_TEST("AiSemiring tests");
+gap> START_TEST("Semirings tests: standard");
 gap> LoadPackage("aisemirings", false);;
 gap> l := InfoLevel(InfoSemirings);;
 gap> SetInfoLevel(InfoSemirings, 0);
@@ -125,4 +125,4 @@ true
 gap> NrSemiringsWithOne(5);
 1819
 gap> SetInfoLevel(InfoSemirings, l);
-gap> STOP_TEST("AiSemiring tests", 0);
+gap> STOP_TEST("Semirings tests: standard", 0);

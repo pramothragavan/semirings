@@ -1,11 +1,12 @@
 DISTRIBUTE := function(args...)
   local allA, allM, NSD, SD, autM, out, mapM, totals, n, structA,
   structM, uniqueAutMs, i, autA, uniqueAutAs, reps, j, path, f, shift,
-  colTotals;
+  colTotals, U2E;
 
   n       := args[1];
   structA := args[3];
   structM := args[4];
+  U2E     := args[6];
 
   allA := CallFuncList(AllSmallSemigroups, Concatenation([n], structA));
   Info(InfoSemirings, 1, "Found ", Length(allA), " candidates for A!");
@@ -29,16 +30,18 @@ DISTRIBUTE := function(args...)
   CollectGarbage(true);
 
   Info(InfoSemirings, 1, "Finding automorphism groups...");
-  out         := UniqueAutomorphismGroups(allM);
+  out         := UniqueAutomorphismGroups(allM, U2E);
   uniqueAutMs := out[1];
   mapM        := out[2];
   i           := 0;
-  mapM        := Concatenation(mapM,
-                              List([Length(allM) - shift + 1 .. Length(allM)],
-                                   x -> mapM[x]));
+  if not U2E then
+     mapM := Concatenation(mapM,
+                           List([Length(allM) - shift + 1 .. Length(allM)],
+                                x -> mapM[x]));
+  fi;
   allM        := List(allM, x -> x!.MultiplicationTable);
 
-  out         := UniqueAutomorphismGroups(allA);
+  out         := UniqueAutomorphismGroups(allA, false);
   uniqueAutAs := out[1];
   allA        := List(allA, x -> x!.MultiplicationTable);
 
