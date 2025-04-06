@@ -23,8 +23,13 @@ DISTRIBUTE := function(args...)
                                     structM));
 
   allM := Concatenation(SD, NSD);
-  Info(InfoSemirings, 1, "Found ", Length(SD) + Length(NSD) * 2,
-       " candidates for M!");
+  if U2E then
+     Info(InfoSemirings, 1, "Found ", Length(allM),
+          " candidates for M!");
+  else
+     Info(InfoSemirings, 1, "Found ", Length(SD) + Length(NSD) * 2,
+          " candidates for M!");
+  fi;
   Unbind(NSD);
   Unbind(SD);
   CollectGarbage(true);

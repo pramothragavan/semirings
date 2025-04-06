@@ -1,1 +1,1 @@
-[8, true, [IsBand, true, IsCommutative, true, IsMonoidAsSemigroup, true], [IsMonoidAsSemigroup, true, IsSemigroupWithZero, true], true]
+[ 8, true, [ IsBand, true, IsCommutative, true, IsMonoidAsSemigroup, true ], [ IsMonoidAsSemigroup, true, IsSemigroupWithZero, true ], true, false ]
