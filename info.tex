@@ -1,6 +1,15 @@
 \documentclass{article}
 \usepackage{booktabs} % For professional tables
-\usepackage{amsmath, amssymb, amsthm} % Recommended for math symbols
+\usepackage{amsmath, amssymb, amsthm, hyperref} % Recommended for math symbols
+\usepackage{multicol}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
 \setlength{\parskip}{5pt}  
 \setlength{\parindent}{0pt}
 \theoremstyle{definition}
@@ -10,6 +19,9 @@
 \newtheorem{remark}{Remark}
 
 \begin{document}
+\begin{center}
+    \textbf{Preliminaries}
+\end{center}
 \begin{definition}
     A \emph{semiring} is a set \(S\) equipped with two binary operations \((+, \cdot)\) such that:
     \begin{itemize}
@@ -36,7 +48,7 @@
 \begin{proof}
     We will denote the product \(i\cdot j\) in \(M\) by \(M(i,j)\).
 
-    For the forward direction, suppose \((A, M^\sigma) \cong (A, M^\tau)\). Equivalently, there exists a bijection \(\phi: (A, M^\sigma) \to (A, M^\tau)\) such that for all \(i, j \in S\),:
+    For the forward direction, suppose \((A, M^\sigma) \cong (A, M^\tau)\). Equivalently, there exists a bijection \(\phi: (A, M^\sigma) \to (A, M^\tau)\) such that for all \(i, j \in S\):
     \begin{gather}
          \phi \in \operatorname{Aut}(A)\\
          \phi(M^\sigma(i,j)) = M^\tau(\phi(i),\phi(j))
@@ -98,6 +110,27 @@ Note that the above theorem can be easily adapted to yield the following result 
     Suppose \(M\) is a self-dual semigroup and \(\tau\) is an anti-automorphism on \(M\). Then, 
     \[\operatorname{Aut}^*(M) = \langle\operatorname{Generators}(\operatorname{Aut}(M)) \cup \{\tau\}\rangle.\]
 \end{remark}
+\vspace{3em}
+\begin{center}
+    \textbf{Results}
+\end{center}
+The following results were obtained using the \texttt{semirings} package in GAP, which (for small \(n\)) provides functions for counting and enumerating the following objects\footnote{In the list of objects, the prefix `ai' refers to additive idempotence, `rng' refers to a ring without multiplicative identity, `rig' refers to a ring without negatives, `rg' refers to a ring without negatives or multiplicative identity}:
+\begin{multicols}{2}
+\begin{itemize}
+    \item Semirings
+    \item Semirings with one
+    \item Ai-semirings
+    \item Ai-semirings with one
+    \item Rigs
+    \item Ai-rigs
+    \item Rgs
+    \item Ai-rgs
+    \item Rngs
+    \item Rings
+\end{itemize}
+\end{multicols}
+
+For instance, one could count the number of semirings with \(n\) elements up to isomorphism using \texttt{NrSemirings(n)} or up to equivalence using \texttt{NrSemirings(n, true)}. \texttt{AllSemirings} could be used to enumerate these objects. Functions for the other objects mentioned above are constructed similarly. Using the helper function \texttt{SETUPFINDER}, the package could also easily be used to count/enumerate any object which is a semiring with additional constraints, as long as the sets of valid additive and multiplicative reducts are expressible as \href{https://gap-packages.github.io/smallsemi/doc/chap4_mj.html#X82F9C36C86006857}{families of semigroups}. With a little more effort, it would be possible to count semirings for arbitrary sets of valid additive and multiplicative reducts.
 \begin{table}[ht]
     \centering
     \begin{tabular}{l|r|r}
