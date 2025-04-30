@@ -29,7 +29,7 @@ Obj FuncIsLeftRightDistributive(Obj self, Obj A, Obj M)
     return True;
 }
 
-Obj FuncPermuteMultiplicationTableNC(Obj self, Obj temp, Obj M, Obj p)
+Obj FuncSEMIRINGSPermuteMultiplicationTable(Obj self, Obj temp, Obj M, Obj p)
 {
     int n = LEN_LIST(M);
 
@@ -102,7 +102,7 @@ Obj FuncAdditiveIdentityIsMultiplicativeZero(
 // Table of functions to export
 static StructGVarFunc GVarFuncs[] = {
     GVAR_FUNC(IsLeftRightDistributive, 2, "A, M"),
-    GVAR_FUNC(PermuteMultiplicationTableNC, 3, "temp, M, p"),
+    GVAR_FUNC(SEMIRINGSPermuteMultiplicationTable, 3, "temp, M, p"),
     GVAR_FUNC(
         AdditiveIdentityIsMultiplicativeZero, 4, "A, M, idList, constLists"),
     { 0 } /* Finish with an empty entry */

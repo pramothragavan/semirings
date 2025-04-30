@@ -2,6 +2,7 @@
 \usepackage{booktabs} % For professional tables
 \usepackage{amsmath, amssymb, amsthm, hyperref} % Recommended for math symbols
 \usepackage{multicol}
+\usepackage{tablefootnote}
 \hypersetup{
     colorlinks=true,
     linkcolor=blue,
@@ -23,6 +24,7 @@
     \textbf{Preliminaries}
 \end{center}
 \begin{definition}
+    \label{def:semiring}
     A \emph{semiring} is a set \(S\) equipped with two binary operations \((+, \cdot)\) such that:
     \begin{itemize}
         \item The \emph{additive reduct} \((S, +)\), which we denote by \(A\), is a commutative semigroup.
@@ -40,6 +42,7 @@
 \end{definition}
 
 \begin{theorem}
+    \label{thm:isomorphism-condition}
     Let \(A\) be a commutative semigroup and \(M\) be a semigroup, such that \(A\) and \(M\) are both defined on the same underlying set \(S\). For any permutation \(\sigma \in \operatorname{Sym}(S)\), let \(M^\sigma\) denote the semigroup obtained by permuting \(M\) via \(\sigma\). Suppose that for two permutations \(\sigma, \tau\in\operatorname{Sym}(S)\), the pairs \((A,M^\sigma)\) and \((A,M^\tau)\) both form semirings. Then, the following statements are equivalent:
     \begin{enumerate}
         \item \((A, M^\sigma)\) and \((A, M^\tau)\) are isomorphic.
@@ -94,6 +97,7 @@
 
 Note that the above theorem can be easily adapted to yield the following result for equivalence of semirings.
 \begin{cor}
+    \label{cor:equiv-condition}
     Let \(A\) be a commutative semigroup and \(M\) be a semigroup, such that \(A\) and \(M\) are both defined on the same underlying set \(S\). For any permutation \(\sigma \in \operatorname{Sym}(S)\), let \(M^\sigma\) denote the semigroup obtained by permuting \(M\) via \(\sigma\). Suppose that for two permutations \(\sigma, \tau\in\operatorname{Sym}(S)\), the pairs \((A,M^\sigma)\) and \((A,M^\tau)\) both form semirings. Then, the following statements are equivalent:
     \begin{enumerate}
         \item \((A, M^\sigma)\) and \((A, M^\tau)\) are equivalent, i.e. isomorphic or anti-isomorphic.
@@ -114,7 +118,43 @@ Note that the above theorem can be easily adapted to yield the following result 
 \begin{center}
     \textbf{Results}
 \end{center}
-The following results were obtained using the \texttt{aisemirings} package in GAP, which (for small \(n\)) provides functions for counting and enumerating the following objects\footnote{In the list of objects, the prefix `ai' refers to additive idempotence, `rng' refers to a ring without multiplicative identity, `rig' refers to a ring without negatives, `rg' refers to a ring without negatives or multiplicative identity}:
+The following results were obtained using the \texttt{aisemirings} package in GAP, which (for small \(n\)) provides functions for counting and enumerating various semiring-related objects. First, we introduce a few definitions for the less known structures.
+
+Note that we take the convention that a ring has a multiplicative identity, although a semiring might not.
+
+\begin{definition}
+    The prefix `ai' refers to \emph{additive idempotence}. For instance, an ai-semiring \(S\) is a semiring such that the additive reduct is idempotent, i.e. it satisfies \(a + a = a\) for all \(a\in S\).
+\end{definition}
+\begin{definition}
+    A \emph{rng} is a ring without the requirement for multiplicative identity. Maintaining the language from Definition~\ref{def:semiring}, this may be thought of as the pair \((A, M)\) where \(A\) is an abelian group and \(M\) is a semigroup.
+\end{definition}
+
+\begin{definition}
+    \label{def:rig}
+    A \emph{rig} \(S\) is a ring without the requirement for negatives (additive inverses) such that
+    \begin{equation}
+        \label{eq:rig-axiom}
+        0\cdot a=0\qquad\forall a\in S,
+    \end{equation}
+    where \(0\) denotes the additive identity in \(S\).
+    
+    Note that although generally in a ring, Property~\eqref{eq:rig-axiom} follows directly from the axioms, this might not hold if we do not have negatives, and so is instead specified explicitly as an axiom.
+
+    As above, this may be thought of as the pair \((A, M)\) where \(A\) is a commutative monoid and \(M\) is a monoid. In fact, many authors use the term `rig' to refer to what we have defined as a semiring.
+
+\end{definition}
+\begin{definition}
+    A \emph{rg} \(S\) is a ring without the requirement for negatives or multiplicative identity, such that    
+    \begin{equation*}
+        0\cdot a=0\qquad\forall a\in S,
+    \end{equation*}
+    where \(0\) denotes the additive identity in \(S\).
+    
+    The reasoning for this additional axiom is as in Definition~\ref{def:rig}. As above, this may be thought of as the pair \((A, M)\) where \(A\) is a commutative monoid and \(M\) is a semigroup. The term `rg' is very non-standard in the literature.
+\end{definition}
+
+The semiring-like structures that can be counted using the \texttt{aisemirings} package are:
+
 \begin{multicols}{2}
 \begin{itemize}
     \item Semirings
@@ -131,6 +171,12 @@ The following results were obtained using the \texttt{aisemirings} package in GA
 \end{multicols}
 
 For instance, one could count the number of semirings with \(n\) elements up to isomorphism using \texttt{NrSemirings(n)} or up to equivalence using \texttt{NrSemirings(n, true)}. \texttt{AllSemirings} could be used to enumerate these objects. Functions for the other objects mentioned above are constructed similarly. Using the helper function \texttt{SETUPFINDER}, the package could also easily be used to count/enumerate any object which is a semiring with additional constraints, as long as the sets of valid additive and multiplicative reducts are expressible as \href{https://gap-packages.github.io/smallsemi/doc/chap4_mj.html#X82F9C36C86006857}{families of semigroups}. With a little more effort, it would be possible to count semirings for arbitrary sets of valid additive and multiplicative reducts.
+
+The algorithm used to count these objects up to isomorphism is fairly rudimentary and is based on Theorem~\ref{thm:isomorphism-condition}. As the condition given by this theorem is precise, we can make use of the \texttt{smallsemi} package in GAP to loop over possible semirings \((A, M)\) in a minimal way, such that no two semirings yielded by this process can be isomorphic.
+
+Similarly, we can count semirings up to equivalence by using the condition given in Corollary~\ref{cor:equiv-condition}, again in a minimal way.
+
+Below are some tables of results for the aforementioned structures. As far as we know, no results are published the number of any of these structures up to equivalence. For results up to isomorphism, those that have not been previously published (as far as we know) are marked `$^\dagger$'. Results that we are in the process of computing are marked `?'. As a sanity check, various results that are already published are available at Peter Jipsen's \href{https://math.chapman.edu/~jipsen/structures/doku.php?id=start}{Mathematical Structures Library}, though he makes use of different naming conventions\footnote{Note that Jipsen's \href{https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings_with_identity\#finite_members}{page for ``semirings with one''}, seems to be mistitled and actually provides results for ai-semirings with one (which can be counted using the \texttt{ai-semirings} package!). This is not a difference in naming convention, but seems to just be a mistake. As far as we know, all results in Table~\ref{tab:unital-semirings} are unpublished.}.
 \begin{table}[ht]
     \centering
     \begin{tabular}{l|r|r}
@@ -141,11 +187,11 @@ For instance, one could count the number of semirings with \(n\) elements up to 
       2 & 10        & 9         \\
       3 & 132       & 106       \\
       4 & 2,341     & 1,713     \\
-      5 & 57,427    & 38,247    \\
-      6 & 7,571,579 & 4,102,358 \\
+      5 & 57,427$^\dagger$    & 38,247    \\
+      6 & 7,571,579$^\dagger$  & 4,102,358 \\
     \end{tabular}
     \caption{Numbers of semirings with $n$ elements up to isomorphism and up
-    to isomorphism or anti-isomorphism.}
+    to isomorphism or anti-isomorphism. See \href{https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings\#finite_members}{Jipsen's library} for \(n\leq4\) up to isomorphism.}
     \label{tab:semirings}
 \end{table}
 
@@ -159,12 +205,12 @@ For instance, one could count the number of semirings with \(n\) elements up to 
     2 & 6         & 5       \\
     3 & 61        & 45      \\
     4 & 866       & 581     \\
-    5 & 15,751    & 9,750   \\
-    6 & 354,409   & 205,744 \\
-    7 & 9,908,909 & ?       \\
+    5 & 15,751$^\dagger$    & 9,750   \\
+    6 & 354,409$^\dagger$   & 205,744 \\
+    7 & 9,908,909$^\dagger$ & ?       \\
   \end{tabular}
   \caption{Numbers of ai-semirings with $n$ elements up to isomorphism and up
-  to isomorphism or anti-isomorphism.}
+  to isomorphism or anti-isomorphism. See \href{https://math.chapman.edu/~jipsen/structures/doku.php?id=idempotent_semirings\#finite_members}{Jipsen's library} for \(n\leq4\) up to isomorphism.}
   \label{tab:ai-semirings}
 \end{table}
 
@@ -180,10 +226,10 @@ For instance, one could count the number of semirings with \(n\) elements up to 
       4 & 40        & 38     \\
       5 & 295       & 262    \\
       6 & 3,246     & 2,681  \\
-      7 & 59,314    & 43,331 \\
+      7 & 59,314$^\dagger$    & 43,331 \\
     \end{tabular}
     \caption{Numbers of rigs with $n$ elements up to isomorphism and up
-    to isomorphism or anti-isomorphism.}
+    to isomorphism or anti-isomorphism. See \href{https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings_with_identity_and_zero\#finite_members}{Jipsen's library} for \(n\leq6\) up to isomorphism.}
     \label{tab:rigs}
 \end{table}
 
@@ -200,14 +246,14 @@ For instance, one could count the number of semirings with \(n\) elements up to 
       5 & 149       & 125    \\
       6 & 1,488     & 1,150  \\
       7 & 18,554    & 13,171 \\
-      8 & 295,292   & ?      \\
+      8 & 295,292$^\dagger$   & ?      \\
     \end{tabular}
     \caption{Numbers of ai-rigs with $n$ elements up to isomorphism and up
-    to isomorphism or anti-isomorphism.}
+    to isomorphism or anti-isomorphism. See \href{https://math.chapman.edu/~jipsen/structures/doku.php?id=idempotent_semirings_with_identity_and_zero\#finite_members}{Jipsen's library} for \(n\leq7\) up to isomorphism.}
     \label{tab:ai-rigs}
 \end{table}
 
-\begin{table}[ht]
+\begin{table}[h]
     \centering
     \begin{tabular}{l|r|r}
       \toprule
@@ -221,9 +267,10 @@ For instance, one could count the number of semirings with \(n\) elements up to 
       6 & 41,104    & 30,112 \\
       7 & ?         & ?      \\
     \end{tabular}
-    \caption{Numbers of unital semirings with $n$ elements up to isomorphism and up
-    to isomorphism or anti-isomorphism.}
+    \caption{Numbers of semirings with one (unital semirings) with $n$ elements up to isomorphism and up to isomorphism or anti-isomorphism.}
     \label{tab:unital-semirings}
 \end{table}
+
+These tables are merely a sample of the results that can be obtained using the \texttt{aisemirings} package.
 
 \end{document}

@@ -71,7 +71,7 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
       completed := completed + Length(reps);
 
       for sigma in reps do
-        PermuteMultiplicationTableNC(tmp, M, sigma);
+        SEMIRINGSPermuteMultiplicationTable(tmp, M, sigma);
         if IsRig and tmp[idA] <> constLists[idA] then
             continue;
         fi;
@@ -143,7 +143,7 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
       completed := completed + Length(reps);
 
       for sigma in reps do
-        PermuteMultiplicationTableNC(temp_table, M, sigma);
+        SEMIRINGSPermuteMultiplicationTable(temp_table, M, sigma);
         if IsRig and temp_table[idA] <> constLists[idA] then
             continue;
         fi;
@@ -170,7 +170,7 @@ function(M)
   tmp := List(M, ShallowCopy);
 
   for perm in SymmetricGroup(n) do
-    PermuteMultiplicationTableNC(tmp, M, perm);
+    SEMIRINGSPermuteMultiplicationTable(tmp, M, perm);
     if M = TransposedMat(tmp) then
       return perm;
     fi;
