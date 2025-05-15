@@ -94,7 +94,7 @@ DISTRIBUTE := function(args...)
 end;
 
 f := InputTextFile(Concatenation(GAPInfo.PackagesLoaded.aisemirings[1],
-                   "parallel/structure.txt"));
+                   "parallel/temp_struct.txt"));
 structure := EvalString(ReadLine(f));
 CloseStream(f);
 CallFuncList(DISTRIBUTE, structure);
