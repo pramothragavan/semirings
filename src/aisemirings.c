@@ -10,7 +10,7 @@ Obj FuncIsLeftRightDistributive(Obj self, Obj A, Obj M)
     Int n = LEN_PLIST(A);
     for (Int x = 1; x <= n; x++) {
         for (Int y = 1; y <= n; y++) {
-            for (Int z = y; z <= n; z++) {
+            for (Int z = y + 1; z <= n; z++) {
                 if (ELM_MAT(M, INTOBJ_INT(x),
                             ELM_MAT(A, INTOBJ_INT(y), INTOBJ_INT(z))) !=
                     ELM_MAT(A, ELM_MAT(M, INTOBJ_INT(x), INTOBJ_INT(y)),

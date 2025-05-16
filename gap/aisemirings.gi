@@ -331,9 +331,9 @@ BindGlobal("SEMIRINGS_STRUCTURE_REC",
 rec(
 # up to n = 4 available at
 # https://math.chapman.edu/~jipsen/structures/doku.php?id=idempotent_semirings
-  AiSemirings        := [[IsBand, true, IsCommutative, true],
-                         [],
-                         false],
+  AiSemirings        := [[IsBand, true, IsCommutative, true], # additive reduct
+                         [],                                  # multiplicative reduct
+                         false],                              # need to check 0*a = 0?
 
 # A037291
   Rings              := [[IsGroupAsSemigroup, true, IsCommutative, true],
