@@ -1,3 +1,6 @@
+LoadPackage("semigroups");
+LoadPackage("smallsemi");
+LoadPackage("aisemirings");
 DISTRIBUTE := function(args...)
   local allA, allM, NSD, SD, autM, out, mapM, totals, n, structA,
   structM, uniqueAutMs, i, autA, uniqueAutAs, reps, j, path, f, shift,
