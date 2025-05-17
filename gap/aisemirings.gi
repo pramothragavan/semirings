@@ -16,6 +16,42 @@ function(A, idList)
   return i;
 end);
 
+BindGlobal("PermuteMultiplicationTables",
+function(tables, sigma)
+  local i, out;
+  out := List([1 .. Length(tables)], ReturnFail);
+  for i in [1 .. Length(tables)] do
+    out[i] := OnMultiplicationTable(tables[i], sigma);
+  od;
+  return out;
+end);
+
+BindGlobal("TrivialAutProportion",
+function(n, f)
+  local all, count, sr, G, autA, autM, A, M;
+  all   := CallFuncList(f, [n]);
+  G     := SymmetricGroup(n);
+  count := 0;
+  for sr in all do
+    A    := sr[1];
+    M    := sr[2];
+    autA := Stabilizer(G, A, OnMultiplicationTable);
+    if Size(autA) = 1 then
+      count := count + 1;
+      continue;
+    fi;
+    autM := Stabilizer(G, M, OnMultiplicationTable);
+    if Size(autM) = 1 then
+      count := count + 1;
+      continue;
+    fi;
+    if Size(Intersection(autA, autM)) = 1 then
+      count := count + 1;
+    fi;
+  od;
+  return Float(count / Length(all));
+end);
+
 BindGlobal("CountFinder",
 function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
   local A, M, reps, sigma, j, i, count, tmp, keyM, keyA, completed,
