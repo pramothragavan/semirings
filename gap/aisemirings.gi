@@ -29,6 +29,9 @@ end);
 BindGlobal("TrivialAutProportion",
 function(n, f)
   local all, count, sr, G, autA, autM, A, M;
+  if NameFunction(f){[1 .. 3]} <> "All" then
+    ErrorNoReturn("Function must be of form All*");
+  fi;
   all   := CallFuncList(f, [n]);
   G     := SymmetricGroup(n);
   count := 0;
@@ -430,19 +433,28 @@ rec(
                          false]));
 
 BindGlobal("WRITE_STRUCTURE",
-function(f, n, args...)
+function(f, n, type, args...)
   local file, out;
+  if type <> "w" and type <> "a" then
+    ErrorNoReturn("Invalid type for file, must be 'w' or 'a'");
+  fi;
   file := IO_CompressedFile(Concatenation(GAPInfo.PackagesLoaded.aisemirings[1],
-                        "parallel/structure.txt"), "w");
+                        "parallel/structure.txt"), type);
   if Length(args) = 0 then
     out := String(Concatenation([n, true], SEMIRINGS_STRUCTURE_REC.(f),
                                 [false]));
-  else
+  elif Length(args) = 1 then
+    if not args[1] in [true, false] then
+      ErrorNoReturn("Invalid optional arguments, must be boolean (to indicate isomorphism [false] or equivalence [true])");
+    fi;
     out := String(Concatenation([n, true], SEMIRINGS_STRUCTURE_REC.(f),
                                  args));
+  else
+    ErrorNoReturn("Invalid number of arguments!");
   fi;
   out := ReplacedString(out, "<Property \"", "");
   out := ReplacedString(out, "\">", "");
+  out := Concatenation(out, "\n");
   IO_Write(file, out);
   Info(InfoSemirings, 1, "Successfully wrote to file.");
   IO_Close(file);
