@@ -67,7 +67,7 @@ PackageDoc := rec(
   HTMLStart := "doc/chap0_mj.html",
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
-  LongTitle := "Enumerate/count semirings",
+  LongTitle := "Enumerate semirings",
 ),
 
 Dependencies := rec(

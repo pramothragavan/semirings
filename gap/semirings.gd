@@ -1,9 +1,9 @@
 #
-# aisemirings: Enumerate/count (ai-)semirings
+# semirings: Enumerate semirings
 #
 #! @Chapter Introduction
 #!
-#! aisemirings is a package which does some
+#! semirings is a package which does some
 #! interesting and cool things
 #!
 #! @Chapter Functionality

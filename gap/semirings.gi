@@ -1,10 +1,8 @@
 #
-# aisemirings: Enumerate/count (ai-)semirings
+# semirings: Enumerate/count semirings
 #
 # Implementations
 #
-
-# Function to count ai-semirings
 
 BindGlobal("AdditiveIdentityNC",
 function(A, idList)
@@ -399,7 +397,7 @@ function(f, n, type, args...)
   if type <> "w" and type <> "a" then
     ErrorNoReturn("Invalid type for file, must be 'w' or 'a'");
   fi;
-  file := IO_CompressedFile(Concatenation(GAPInfo.PackagesLoaded.aisemirings[1],
+  file := IO_CompressedFile(Concatenation(GAPInfo.PackagesLoaded.semirings[1],
                         "parallel/structure.txt"), type);
   if Length(args) = 0 then
     out := String(Concatenation([n, true], SEMIRINGS_STRUCTURE_REC.(f),
