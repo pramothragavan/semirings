@@ -1,5 +1,5 @@
 /*
- * aisemirings: Enumerate/count (ai-)semirings
+ * semirings: Enumerate/count semirings
  */
 
 #include <gap_all.h>    // GAP headers
@@ -100,7 +100,7 @@ Obj FuncAdditiveIdentityIsMultiplicativeZero(
 }
 
 // Table of functions to export
-static StructGVarFunc GVarFuncs[] = {
+static StructGVarFunc GVarFuncs[] = { 
     GVAR_FUNC(IsLeftRightDistributive, 2, "A, M"),
     GVAR_FUNC(SEMIRINGSPermuteMultiplicationTable, 3, "temp, M, p"),
     GVAR_FUNC(
@@ -140,7 +140,7 @@ static Int InitLibrary(StructInitInfo * module)
 */
 static StructInitInfo module = {
     .type = MODULE_DYNAMIC,
-    .name = "aisemirings",
+    .name = "semirings",
     .initKernel = InitKernel,
     .initLibrary = InitLibrary,
 };
