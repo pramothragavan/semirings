@@ -26,8 +26,8 @@ function(tables, sigma)
   return out;
 end);
 
-BindGlobal("TrivialAutProportion",
-function(n, f)
+BindGlobal("RigidTotal",
+function(f, n)
   local all, count, sr, G, autA, autM, A, M;
   if NameFunction(f){[1 .. 3]} <> "All" then
     ErrorNoReturn("Function must be of form All*");
@@ -52,7 +52,7 @@ function(n, f)
       count := count + 1;
     fi;
   od;
-  return Float(count / Length(all));
+  return [count, Length(all)];
 end);
 
 BindGlobal("CountFinder",

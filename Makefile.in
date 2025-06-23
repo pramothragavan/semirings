@@ -1,8 +1,8 @@
 #
-# Makefile rules for the aisemirings package
+# Makefile rules for the semirings package
 #
-KEXT_NAME = aisemirings
-KEXT_SOURCES = src/aisemirings.c
+KEXT_NAME = semirings
+KEXT_SOURCES = src/semirings.c
 
 # include shared GAP package build system
 GAPPATH = @GAPPATH@
