@@ -15,10 +15,10 @@ run_forjoe() {
     cat > "${gap_script}" << EOF
 LoadPackage("semigroups");
 LoadPackage("smallsemi");
-LoadPackage("aisemirings");
+LoadPackage("semirings");
 
 flag := false;
-file := InputTextFile(Concatenation(GAPInfo.PackagesLoaded.aisemirings[1],
+file := InputTextFile(Concatenation(GAPInfo.PackagesLoaded.semirings[1],
                                     "parallel/cores.txt"));
 cores := EvalString(ReadLine(file));
 CloseStream(file);

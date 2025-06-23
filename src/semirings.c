@@ -1,9 +1,8 @@
 /*
- * aisemirings: Enumerate/count (ai-)semirings
+ * semirings: Enumerate/count semirings
  */
 
 #include <gap_all.h>    // GAP headers
-#include <assert.h>    // for assert
 
 Obj FuncIsLeftRightDistributive(Obj self, Obj A, Obj M)
 {
@@ -82,29 +81,10 @@ Obj FuncSEMIRINGSPermuteMultiplicationTable(Obj self, Obj temp, Obj M, Obj p)
     return 0L;
 }
 
-Obj FuncAdditiveIdentityIsMultiplicativeZero(
-    Obj self, Obj A, Obj M, Obj idList, Obj constLists)
-{
-    Int zero = 1;
-
-    while (!(EQ(ELM_PLIST(A, zero), idList))) {
-        zero++;
-    }
-
-    if (EQ(ELM_PLIST(M, zero), ELM_PLIST(constLists, zero))) {
-        return True;
-    }
-    else {
-        return False;
-    }
-}
-
 // Table of functions to export
-static StructGVarFunc GVarFuncs[] = {
+static StructGVarFunc GVarFuncs[] = { 
     GVAR_FUNC(IsLeftRightDistributive, 2, "A, M"),
     GVAR_FUNC(SEMIRINGSPermuteMultiplicationTable, 3, "temp, M, p"),
-    GVAR_FUNC(
-        AdditiveIdentityIsMultiplicativeZero, 4, "A, M, idList, constLists"),
     { 0 } /* Finish with an empty entry */
 };
 
@@ -140,7 +120,7 @@ static Int InitLibrary(StructInitInfo * module)
 */
 static StructInitInfo module = {
     .type = MODULE_DYNAMIC,
-    .name = "aisemirings",
+    .name = "semirings",
     .initKernel = InitKernel,
     .initLibrary = InitLibrary,
 };

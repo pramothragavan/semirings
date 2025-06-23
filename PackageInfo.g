@@ -1,5 +1,5 @@
 #
-# aisemirings: Enumerate/count (ai-)semirings
+# semirings: Enumerate semirings
 #
 # This file contains package meta data. For additional information on
 # the meaning and correct usage of these fields, please consult the
@@ -8,8 +8,8 @@
 #
 SetPackageInfo( rec(
 
-PackageName := "aisemirings",
-Subtitle := "Enumerate/count (ai-)semirings",
+PackageName := "semirings",
+Subtitle := "Enumerate semirings",
 Version := "0.1",
 Date := "12/03/2025", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
@@ -62,12 +62,12 @@ ArchiveFormats := ".tar.gz",
 AbstractHTML   :=  "",
 
 PackageDoc := rec(
-  BookName  := "aisemirings",
+  BookName  := "semirings",
   ArchiveURLSubset := ["doc"],
   HTMLStart := "doc/chap0_mj.html",
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
-  LongTitle := "Enumerate/count (ai-)semirings",
+  LongTitle := "Enumerate/count semirings",
 ),
 
 Dependencies := rec(
@@ -78,9 +78,9 @@ Dependencies := rec(
 ),
 
 AvailabilityTest := function()
-  if not IsKernelExtensionAvailable("aisemirings") then
+  if not IsKernelExtensionAvailable("semirings") then
     LogPackageLoadingMessage(PACKAGE_WARNING,
-                             "failed to load kernel module of package aisemirings");
+                             "failed to load kernel module of package semirings");
     return false;
   fi;
   return true;

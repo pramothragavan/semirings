@@ -1,6 +1,6 @@
 #@local AntiIsomorphismFilter, l
 gap> START_TEST("Semirings tests: equivalence");
-gap> LoadPackage("aisemirings", false);;
+gap> LoadPackage("semirings", false);;
 gap> l := InfoLevel(InfoSemirings);;
 gap> SetInfoLevel(InfoSemirings, 0);;
 gap> AntiIsomorphismFilter := function(all)

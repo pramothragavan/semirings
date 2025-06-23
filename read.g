@@ -3,4 +3,4 @@
 #
 # Reading the implementation part of the package.
 #
-ReadPackage( "aisemirings", "gap/aisemirings.gi");
+ReadPackage( "semirings", "gap/semirings.gi");
