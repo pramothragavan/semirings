@@ -1,5 +1,5 @@
 #
-# aisemirings: Enumerate/count (ai-)semirings
+# semirings: Enumerate semirings
 #
 # Reading the implementation part of the package.
 #

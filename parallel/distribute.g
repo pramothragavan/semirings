@@ -85,7 +85,7 @@ DISTRIBUTE := function(args...)
   Unbind(out);
   CollectGarbage(true);
 
-  path   := Concatenation(GAPInfo.PackagesLoaded.aisemirings[1], "parallel/");
+  path   := Concatenation(GAPInfo.PackagesLoaded.semirings[1], "parallel/");
   f      := IO_CompressedFile(Concatenation(path, "totals.txt"), "w");
   IO_Write(f, colTotals);
   IO_Close(f);
@@ -96,7 +96,7 @@ DISTRIBUTE := function(args...)
   Exec(Concatenation("rm ", path, "totals.txt ", path, "mapM.txt"));
 end;
 
-f := InputTextFile(Concatenation(GAPInfo.PackagesLoaded.aisemirings[1],
+f := InputTextFile(Concatenation(GAPInfo.PackagesLoaded.semirings[1],
                    "parallel/temp_struct.txt"));
 structure := EvalString(ReadLine(f));
 CloseStream(f);
