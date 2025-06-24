@@ -86,7 +86,7 @@ end);
 
 # Function to find semirings
 BindGlobal("Finder",
-function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
+function(allA, allM, mapA, mapM, shift, cosetReps, isRig)
   local A, list, M, reps, sigma, j, i, totals, idList, constLists,
   tmp, temp_table, keyA, keyM, completed, total, idA;
   FLOAT.DIG         := 2;
@@ -96,7 +96,7 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
   list         := [];
   temp_table   := List([1 .. Size(allA[1])], x -> [1 .. Size(allA[1])]);
   totals       := List(cosetReps, row -> List(row, Length));
-  if IsRig then
+  if isRig then
     idList     := [1 .. Size(allA[1])];
     constLists := List([1 .. Size(allA[1])],
                         i -> List([1 .. Size(allA[1])], x -> i));
@@ -124,7 +124,7 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
     Info(InfoSemirings, 1, "At ", String(Float((completed) * 100 / (total))),
          "%, found ", Length(list), " so far");
 
-    if IsRig then
+    if isRig then
       idA := AdditiveIdentityNC(A, idList);
     fi;
 
@@ -142,7 +142,7 @@ function(allA, allM, mapA, mapM, shift, cosetReps, IsRig)
 
       for sigma in reps do
         SEMIRINGSPermuteMultiplicationTable(temp_table, M, sigma);
-        if IsRig and temp_table[idA] <> constLists[idA] then
+        if isRig and temp_table[idA] <> constLists[idA] then
             continue;
         fi;
         if IsLeftRightDistributive(A, temp_table) then
@@ -214,9 +214,9 @@ function(all, U2E)
 end);
 
 BindGlobal("SETUPFINDER",
-function(n, flag, structA, structM, IsRig, U2E, args...)
+function(n, flag, structA, structM, U2E, args...)
   local allA, allM, NSD, anti, SD, autM, out, mapA, mapM,
-  uniqueAutMs, shift, i, autA, uniqueAutAs, reps, j, sg;
+  uniqueAutMs, shift, i, autA, uniqueAutAs, reps, j, sg, isRig;
 
   allA := CallFuncList(AllSmallSemigroups, Concatenation([n], structA));
   Info(InfoSemirings, 1, "Found ", Length(allA), " candidates for A!");
@@ -316,12 +316,19 @@ function(n, flag, structA, structM, IsRig, U2E, args...)
   Unbind(out);
   CollectGarbage(true);
 
+  if PositionSublist(structA, [IsGroupAsSemigroup, true]) = fail and
+      PositionSublist(structM, [IsSemigroupWithZero, true]) <> fail then
+     isRig := true;
+  else
+     isRig := false;
+  fi;
+
   if flag then
     Info(InfoSemirings, 1, "Counting...");
-    return CountFinder(allA, allM, mapA, mapM, shift, reps, IsRig);
+    return CountFinder(allA, allM, mapA, mapM, shift, reps, isRig);
   else
     Info(InfoSemirings, 1, "Enumerating...");
-    return Finder(allA, allM, mapA, mapM, shift, reps, IsRig);
+    return Finder(allA, allM, mapA, mapM, shift, reps, isRig);
   fi;
 end);
 
@@ -330,66 +337,56 @@ rec(
 # up to n = 4 available at
 # https://math.chapman.edu/~jipsen/structures/doku.php?id=idempotent_semirings
   AiSemirings        := [[IsBand, true, IsCommutative, true], # additive reduct
-                         [],                                  # multiplicative reduct
-                         false],                              # need to check 0*a = 0?
+                         []],                                 # multiplicative reduct
 
 # A037291
-  Rings              := [[IsGroupAsSemigroup, true, IsCommutative, true],
-                         [IsMonoidAsSemigroup, true],
-                         false],
+  RingsWithOne       := [[IsGroupAsSemigroup, true, IsCommutative, true],
+                         [IsMonoidAsSemigroup, true]],
 
 # A027623
-  Rngs               := [[IsGroupAsSemigroup, true, IsCommutative, true],
-                         [],
-                         false],
+  Rings              := [[IsGroupAsSemigroup, true, IsCommutative, true],
+                         []],
 
 # up to n = 4 available here:
 # https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings
   Semirings          := [[IsCommutative, true],
-                         [],
-                         false],
+                         []],
 
 # rings without requirement for negatives
 # often referred to as a semiring in literature
 # up to n = 6 available here:
 # https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings_with_identity_and_zero
-  Rigs               := [[IsCommutative, true, IsMonoidAsSemigroup, true],
-                         [IsMonoidAsSemigroup, true,
-                          IsSemigroupWithZero, true],
-                         true],
+  SemiringsWithOneAndZero := [[IsCommutative, true, IsMonoidAsSemigroup, true],
+                              [IsMonoidAsSemigroup, true,
+                                IsSemigroupWithZero, true]],
 
 # up to n = 7 available here:
 # https://math.chapman.edu/~jipsen/structures/doku.php?id=idempotent_semirings_with_identity_and_zero
-  AiRigs             := [[IsBand, true, IsCommutative, true,
-                          IsMonoidAsSemigroup, true],
-                          [IsMonoidAsSemigroup, true,
-                           IsSemigroupWithZero, true],
-                          true],
+  AiSemiringsWithOneAndZero := [[IsBand, true, IsCommutative, true,
+                                  IsMonoidAsSemigroup, true],
+                                [IsMonoidAsSemigroup, true,
+                                  IsSemigroupWithZero, true]],
 
 # rings without requirement for negatives or multiplicative identity
 # up to n = 4 available here:
 # https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings_with_zero
-  Rgs                := [[IsCommutative, true, IsMonoidAsSemigroup, true],
-                         [IsSemigroupWithZero, true],
-                         true],
+  SemiringsWithZero   := [[IsCommutative, true, IsMonoidAsSemigroup, true],
+                          [IsSemigroupWithZero, true]],
 
 # up to n = 5 available here:
 # https://math.chapman.edu/~jipsen/structures/doku.php?id=idempotent_semirings_with_zero
-  AiRgs              := [[IsBand, true, IsCommutative, true,
-                          IsMonoidAsSemigroup, true],
-                         [IsSemigroupWithZero, true],
-                         true],
+  AiSemiringsWithZero := [[IsBand, true, IsCommutative, true,
+                            IsMonoidAsSemigroup, true],
+                          [IsSemigroupWithZero, true]],
 
 # up to n = 5 available here:
 # (page seems to be incorrectly named)
 # https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings_with_identity
   AiSemiringsWithOne := [[IsBand, true, IsCommutative, true],
-                         [IsMonoidAsSemigroup, true],
-                         false],
+                         [IsMonoidAsSemigroup, true]],
 
   SemiringsWithOne   := [[IsCommutative, true],
-                         [IsMonoidAsSemigroup, true],
-                         false]));
+                         [IsMonoidAsSemigroup, true]]));
 
 BindGlobal("WRITE_STRUCTURE",
 function(f, n, type, args...)

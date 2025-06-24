@@ -20,23 +20,23 @@ gap> last = Length(AllAiSemirings(4));
 true
 gap> NrAiSemirings(5);
 15751
-gap> NrAiRigs(1);
+gap> NrAiSemiringsWithOneAndZero(1);
 1
-gap> last = Length(AllAiRigs(1));
+gap> last = Length(AllAiSemiringsWithOneAndZero(1));
 true
-gap> NrAiRigs(2);
+gap> NrAiSemiringsWithOneAndZero(2);
 1
-gap> last = Length(AllAiRigs(2));
+gap> last = Length(AllAiSemiringsWithOneAndZero(2));
 true
-gap> NrAiRigs(3);
+gap> NrAiSemiringsWithOneAndZero(3);
 3
-gap> last = Length(AllAiRigs(3));
+gap> last = Length(AllAiSemiringsWithOneAndZero(3));
 true
-gap> NrAiRigs(4);
+gap> NrAiSemiringsWithOneAndZero(4);
 20
-gap> last = Length(AllAiRigs(4));
+gap> last = Length(AllAiSemiringsWithOneAndZero(4));
 true
-gap> NrAiRigs(5);
+gap> NrAiSemiringsWithOneAndZero(5);
 149
 gap> SetInfoLevel(InfoSemirings, l);
 gap> STOP_TEST("Semirings tests: ai", 0);

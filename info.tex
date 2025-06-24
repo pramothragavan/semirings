@@ -120,37 +120,14 @@ Note that the above theorem can be easily adapted to yield the following result 
 \end{center}
 The following results were obtained using the \texttt{semirings} package in GAP, which (for small \(n\)) provides functions for counting and enumerating various semiring-related objects. First, we introduce a few definitions for the less known structures.
 
-Note that we take the convention that a ring has a multiplicative identity, although a semiring might not.
+We take the convention that a ring may not have a multiplicative identity, but must have an additive identity. Note that in a structure that does not have additive inverses but does have a zero element, we typically require the additional axiom
+\begin{equation}
+    \label{eq:rig-axiom}
+    0\cdot a=a\cdot0=0\qquad\forall a\in S,
+\end{equation}
 
 \begin{definition}
     The prefix `ai' refers to \emph{additive idempotence}. For instance, an ai-semiring \(S\) is a semiring such that the additive reduct is idempotent, i.e. it satisfies \(a + a = a\) for all \(a\in S\).
-\end{definition}
-\begin{definition}
-    A \emph{rng} is a ring without the requirement for multiplicative identity. Maintaining the language from Definition~\ref{def:semiring}, this may be thought of as the pair \((A, M)\) where \(A\) is an abelian group and \(M\) is a semigroup.
-\end{definition}
-
-\begin{definition}
-    \label{def:rig}
-    A \emph{rig} \(S\) is a ring without the requirement for negatives (additive inverses) such that
-    \begin{equation}
-        \label{eq:rig-axiom}
-        0\cdot a=0\qquad\forall a\in S,
-    \end{equation}
-    where \(0\) denotes the additive identity in \(S\).
-    
-    Note that although generally in a ring, Property~\eqref{eq:rig-axiom} follows directly from the axioms, this might not hold if we do not have negatives, and so is instead specified explicitly as an axiom.
-
-    As above, this may be thought of as the pair \((A, M)\) where \(A\) is a commutative monoid and \(M\) is a monoid. In fact, many authors use the term `rig' to refer to what we have defined as a semiring.
-
-\end{definition}
-\begin{definition}
-    A \emph{rg} \(S\) is a ring without the requirement for negatives or multiplicative identity, such that    
-    \begin{equation*}
-        0\cdot a=0\qquad\forall a\in S,
-    \end{equation*}
-    where \(0\) denotes the additive identity in \(S\).
-    
-    The reasoning for this additional axiom is as in Definition~\ref{def:rig}. As above, this may be thought of as the pair \((A, M)\) where \(A\) is a commutative monoid and \(M\) is a semigroup. The term `rg' is very non-standard in the literature.
 \end{definition}
 
 The semiring-like structures that can be counted using the \texttt{semirings} package are:
@@ -161,12 +138,12 @@ The semiring-like structures that can be counted using the \texttt{semirings} pa
     \item Semirings with one
     \item Ai-semirings
     \item Ai-semirings with one
-    \item Rigs
-    \item Ai-rigs
-    \item Rgs
-    \item Ai-rgs
-    \item Rngs
+    \item Semirings with one and zero
+    \item Ai-semirings with one and zero
+    \item Semirings with zero
+    \item Ai-semirings with zero
     \item Rings
+    \item Rings with one
 \end{itemize}
 \end{multicols}
 
@@ -176,7 +153,7 @@ The algorithm used to count these objects up to isomorphism is fairly rudimentar
 
 Similarly, we can count semirings up to equivalence by using the condition given in Corollary~\ref{cor:equiv-condition}, again in a minimal way.
 
-Below are some tables of results for the aforementioned structures. As far as we know, no results are published the number of any of these structures up to equivalence. For results up to isomorphism, those that have not been previously published (as far as we know) are marked `$^\dagger$'. Results that we are in the process of computing are marked `?'. As a sanity check, various results that are already published are available at Peter Jipsen's \href{https://math.chapman.edu/~jipsen/structures/doku.php?id=start}{Mathematical Structures Library}, though he makes use of different naming conventions\footnote{Note that Jipsen's \href{https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings_with_identity\#finite_members}{page for ``semirings with one''}, seems to be mistitled and actually provides results for ai-semirings with one (which can be counted using the \texttt{ai-semirings} package!). This is not a difference in naming convention, but seems to just be a mistake. As far as we know, all results in Table~\ref{tab:unital-semirings} are unpublished.}.
+Below are some tables of results for the aforementioned structures. As far as we know, no results are published the number of any of these structures up to equivalence. For results up to isomorphism, those that have not been previously published (as far as we know) are marked `$^\dagger$'. Results that we are in the process of computing are marked `?'. As a sanity check, various results that are already published are available at Peter Jipsen's \href{https://math.chapman.edu/~jipsen/structures/doku.php?id=start}{Mathematical Structures Library}, though he makes use of different naming conventions\footnote{Note that Jipsen's \href{https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings_with_identity\#finite_members}{page for ``semirings with one''}, seems to be mistitled and actually provides results for ai-semirings with one (which can be counted using the \texttt{semirings} package!). This is not a difference in naming convention, but seems to just be a mistake. As far as we know, all results in Table~\ref{tab:unital-semirings} are unpublished.}.
 \begin{table}[ht]
     \centering
     \begin{tabular}{l|r|r}
@@ -228,7 +205,7 @@ Below are some tables of results for the aforementioned structures. As far as we
       6 & 3,246     & 2,681  \\
       7 & 59,314$^\dagger$    & 43,331 \\
     \end{tabular}
-    \caption{Numbers of rigs with $n$ elements up to isomorphism and up
+    \caption{Numbers of semirings with one and zero with $n$ elements up to isomorphism and up
     to isomorphism or anti-isomorphism. See \href{https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings_with_identity_and_zero\#finite_members}{Jipsen's library} for \(n\leq6\) up to isomorphism.}
     \label{tab:rigs}
 \end{table}
@@ -246,9 +223,9 @@ Below are some tables of results for the aforementioned structures. As far as we
       5 & 149       & 125    \\
       6 & 1,488     & 1,150  \\
       7 & 18,554    & 13,171 \\
-      8 & 295,292$^\dagger$   & 116,274      \\
+      8 & 295,292$^\dagger$   & 116,274  \\
     \end{tabular}
-    \caption{Numbers of ai-rigs with $n$ elements up to isomorphism and up
+    \caption{Numbers of ai-semirings with one and zero with $n$ elements up to isomorphism and up
     to isomorphism or anti-isomorphism. See \href{https://math.chapman.edu/~jipsen/structures/doku.php?id=idempotent_semirings_with_identity_and_zero\#finite_members}{Jipsen's library} for \(n\leq7\) up to isomorphism.}
     \label{tab:ai-rigs}
 \end{table}

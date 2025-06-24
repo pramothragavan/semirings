@@ -54,25 +54,25 @@ gap> NrSemirings(3, true) = Length(AntiIsomorphismFilter(AllSemirings(3)));
 true
 gap> NrSemirings(4, true) = Length(AntiIsomorphismFilter(AllSemirings(4)));
 true
+gap> NrRingsWithOne(2, true) = Length(AntiIsomorphismFilter(AllRingsWithOne(2)));
+true
+gap> NrRingsWithOne(3, true) = Length(AntiIsomorphismFilter(AllRingsWithOne(3)));
+true
+gap> NrAiSemiringsWithOneAndZero(2, true) = Length(AntiIsomorphismFilter(AllAiSemiringsWithOneAndZero(2)));
+true
+gap> NrAiSemiringsWithOneAndZero(3, true) = Length(AntiIsomorphismFilter(AllAiSemiringsWithOneAndZero(3)));
+true
+gap> NrAiSemiringsWithOneAndZero(4, true) = Length(AntiIsomorphismFilter(AllAiSemiringsWithOneAndZero(4)));
+true
+gap> NrAiSemiringsWithOneAndZero(5, true) = Length(AntiIsomorphismFilter(AllAiSemiringsWithOneAndZero(5)));
+true
+gap> NrRings(1, true) = Length(AntiIsomorphismFilter(AllRings(1)));
+true
 gap> NrRings(2, true) = Length(AntiIsomorphismFilter(AllRings(2)));
 true
 gap> NrRings(3, true) = Length(AntiIsomorphismFilter(AllRings(3)));
 true
-gap> NrAiRigs(2, true) = Length(AntiIsomorphismFilter(AllAiRigs(2)));
-true
-gap> NrAiRigs(3, true) = Length(AntiIsomorphismFilter(AllAiRigs(3)));
-true
-gap> NrAiRigs(4, true) = Length(AntiIsomorphismFilter(AllAiRigs(4)));
-true
-gap> NrAiRigs(5, true) = Length(AntiIsomorphismFilter(AllAiRigs(5)));
-true
-gap> NrRngs(1, true) = Length(AntiIsomorphismFilter(AllRngs(1)));
-true
-gap> NrRngs(2, true) = Length(AntiIsomorphismFilter(AllRngs(2)));
-true
-gap> NrRngs(3, true) = Length(AntiIsomorphismFilter(AllRngs(3)));
-true
-gap> NrRngs(4, true) = Length(AntiIsomorphismFilter(AllRngs(4)));
+gap> NrRings(4, true) = Length(AntiIsomorphismFilter(AllRings(4)));
 true
 gap> NrSemiringsWithOne(2, true) = Length(AntiIsomorphismFilter(AllSemiringsWithOne(2)));
 true
@@ -82,13 +82,13 @@ gap> NrSemiringsWithOne(4, true) = Length(AntiIsomorphismFilter(AllSemiringsWith
 true
 gap> NrSemiringsWithOne(5, true) = Length(AntiIsomorphismFilter(AllSemiringsWithOne(5)));
 true
-gap> NrRigs(2, true) = Length(AntiIsomorphismFilter(AllRigs(2)));
+gap> NrSemiringsWithOneAndZero(2, true) = Length(AntiIsomorphismFilter(AllSemiringsWithOneAndZero(2)));
 true
-gap> NrRigs(3, true) = Length(AntiIsomorphismFilter(AllRigs(3)));
+gap> NrSemiringsWithOneAndZero(3, true) = Length(AntiIsomorphismFilter(AllSemiringsWithOneAndZero(3)));
 true
-gap> NrRigs(4, true) = Length(AntiIsomorphismFilter(AllRigs(4)));
+gap> NrSemiringsWithOneAndZero(4, true) = Length(AntiIsomorphismFilter(AllSemiringsWithOneAndZero(4)));
 true
-gap> NrRigs(5, true) = Length(AntiIsomorphismFilter(AllRigs(5)));
+gap> NrSemiringsWithOneAndZero(5, true) = Length(AntiIsomorphismFilter(AllSemiringsWithOneAndZero(5)));
 true
 gap> SetInfoLevel(InfoSemirings, l);
 gap> STOP_TEST("Semirings tests: equivalence", 0);
