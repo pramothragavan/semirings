@@ -9,7 +9,7 @@ DISTRIBUTE := function(args...)
   n       := args[1];
   structA := args[3];
   structM := args[4];
-  U2E     := args[6];
+  U2E     := args[5];
 
   allA := CallFuncList(AllSmallSemigroups, Concatenation([n], structA));
   Info(InfoSemirings, 1, "Found ", Length(allA), " candidates for A!");

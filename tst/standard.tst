@@ -2,41 +2,41 @@ gap> START_TEST("Semirings tests: standard");
 gap> LoadPackage("semirings", false);;
 gap> l := InfoLevel(InfoSemirings);;
 gap> SetInfoLevel(InfoSemirings, 0);
+gap> NrRingsWithOne(1);
+1
+gap> last = Length(AllRings(1));
+true
+gap> NrRingsWithOne(2);
+1
+gap> last = Length(AllRingsWithOne(2));
+true
+gap> NrRingsWithOne(3);
+1
+gap> last = Length(AllRingsWithOne(3));
+true
+gap> NrRingsWithOne(4);
+4
+gap> last = Length(AllRingsWithOne(4));
+true
+gap> NrRingsWithOne(5);
+1
 gap> NrRings(1);
 1
 gap> last = Length(AllRings(1));
 true
 gap> NrRings(2);
-1
+2
 gap> last = Length(AllRings(2));
 true
 gap> NrRings(3);
-1
+2
 gap> last = Length(AllRings(3));
 true
 gap> NrRings(4);
-4
+11
 gap> last = Length(AllRings(4));
 true
 gap> NrRings(5);
-1
-gap> NrRngs(1);
-1
-gap> last = Length(AllRngs(1));
-true
-gap> NrRngs(2);
-2
-gap> last = Length(AllRngs(2));
-true
-gap> NrRngs(3);
-2
-gap> last = Length(AllRngs(3));
-true
-gap> NrRngs(4);
-11
-gap> last = Length(AllRngs(4));
-true
-gap> NrRngs(5);
 2
 gap> NrSemirings(1);
 1
@@ -52,23 +52,23 @@ gap> last = Length(AllSemirings(3));
 true
 gap> NrSemirings(4);
 2341
-gap> NrRigs(1);
+gap> NrSemiringsWithOneAndZero(1);
 1
-gap> last = Length(AllRigs(1));
+gap> last = Length(AllSemiringsWithOneAndZero(1));
 true
-gap> NrRigs(2);
+gap> NrSemiringsWithOneAndZero(2);
 2
-gap> last = Length(AllRigs(2));
+gap> last = Length(AllSemiringsWithOneAndZero(2));
 true
-gap> NrRigs(3);
+gap> NrSemiringsWithOneAndZero(3);
 6
-gap> last = Length(AllRigs(3));
+gap> last = Length(AllSemiringsWithOneAndZero(3));
 true
-gap> NrRigs(4);
+gap> NrSemiringsWithOneAndZero(4);
 40
-gap> last = Length(AllRigs(4));
+gap> last = Length(AllSemiringsWithOneAndZero(4));
 true
-gap> NrRigs(5);
+gap> NrSemiringsWithOneAndZero(5);
 295
 gap> NrSemiringsWithOne(1);
 1
