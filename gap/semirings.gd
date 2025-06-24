@@ -3,8 +3,10 @@
 #
 #! @Chapter Introduction
 #!
-#! semirings is a package which does some
-#! interesting and cool things
+#!The semirings package provides tools for enumerating semirings and related algebraic structures of small orders. 
+#!The package allows users to count and generate semirings up to isomorphism or equivalence using a rudimentary algorithm
+#!and the library of small semigroups provided by smallsemi. It supports a variety of structures and offers extensibility to custom constraints.
+#!This package fills a gap in the literature by providing the first known counts (in many cases) of semirings and their variants up to equivalence.
 #!
 #! @Chapter Functionality
 #!
