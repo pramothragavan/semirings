@@ -1,8 +1,6 @@
 #
 # Semirings: Enumerate semirings
 #
-DeclareInfoClass("InfoSemirings");
-SetInfoLevel(InfoSemirings, 1);
 #! @Chapter Introduction
 #!
 #! The <B>Semirings</B> package provides tools for enumerating semirings and
@@ -131,7 +129,7 @@ SetInfoLevel(InfoSemirings, 1);
 #! @Returns a list of pairs of Cayley tables
 #! @Description These functions return a list of pairs of Cayley tables of
 #! order <A>n</A>. The optional argument <A>U2E</A> is a boolean that
-#! determines whether the structures are returned up to isomorphism
+#! determines whether the structures are considered up to isomorphism
 #! (false, default) or equivalence (true).
 #! @Arguments n, [U2E]
 DeclareGlobalFunction("AllSemirings");
@@ -183,26 +181,40 @@ DeclareGlobalFunction("NrRings");
 DeclareGlobalFunction("NrRingsWithOne");
 #! @EndGroup
 #!
-#! @BeginGroup AllSemiringsWithX
+#! @BeginGroup AllSemiringsWith
 #! @Arguments n, structA, structM, [U2E]
-#! @Description These functions allow you to enumerate/count the number of semirings
-#! of order <A>n</A> respectively, while specifying constraints on the
-#! additive and multiplicative reducts of the semiring.
+#! @Description These functions allow you to enumerate/count the number
+#! of semirings of order <A>n</A> respectively, while specifying
+#! constraints on the additive and multiplicative reducts of the semiring.
 #!
 #! <A>structA</A> and <A>structM</A> should be lists of even length, where
 #! * the odd entries <A>structA[2i - 1]</A> and <A>structM[2i - 1]</A> are functions
 #! * the even entries <A>structA[2i]</A> and <A>structM[2i]</A> should be values that can be returned by the functions <A>structA[2i - 1]</A> and <A>structM[2i - 1]</A> respectively.
 #! The optional argument <A>U2E</A> is a boolean that
-#! determines whether the structures are returned up to isomorphism
+#! determines whether the structures are considered up to isomorphism
 #! (false, default) or equivalence (true).
 #!
-#! It is not necessary to specify additive commutativity in <A>structA</A>. This is always assumed as
-#! it forms part of the definition of a semiring.
+#! It is not necessary to specify additive commutativity in <A>structA</A>.
+#! This is always assumed as it forms part of the definition of a semiring.
 #!
-#! For instance, <C>AllSemiringsWithX(n, [IsBand, true], [])</C> is equivalent to <C>AllAiSemirings(n)</C>.
+#! For instance, <C>AllSemiringsWithX(n, [IsBand, true], [])</C> is
+#! equivalent to <C>AllAiSemirings(n)</C>.
 DeclareGlobalFunction("AllSemiringsWithX");
 #! @Arguments n, structA, structM, [U2E]
 DeclareGlobalFunction("NrSemiringsWithX");
+#! @EndGroup
 #!
-#! @Section Parallel Approaches
+#! @Section Miscellaneous
+#! @Description is the info class
+#! (see <Ref BookName="ref" Sect="Info Functions"/>) of
+#! <B>Semirings</B>. The info level is initially set to 1 which
+#! triggers progress messages whenever any function in Section
+#! <Ref BookName="semirings"
+#!     Sect="Functions for counting and enumerating structures"/> is called.
+DeclareInfoClass("InfoSemirings");
+SetInfoLevel(InfoSemirings, 1);
+
+#! @Chapter Parallel Approaches
+#! Given the computationally intensive nature of the enumeration
+#! and counting of semirings, the package provides a means of pseudo-parallelisation.
 #! 

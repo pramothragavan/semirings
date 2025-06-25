@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-CORES=10
+SEMIRINGS_CORES="${SEMIRINGS_CORES:-$(getconf _NPROCESSORS_ONLN)}"
+export SEMIRINGS_CORES
+echo "Using $SEMIRINGS_CORES cores"
 
 for d in results logs runs pid; do
     dir="parallel/${d}"
@@ -57,7 +59,7 @@ while IFS= read -r structure || [[ -n $structure ]]; do
     gap -q "parallel/distribute.g"
 
     pids=()
-    for ((i=1; i<=CORES; i++)); do
+    for ((i=1; i<=SEMIRINGS_CORES; i++)); do
         run_forjoe "${i}"
         sleep 0.2
     done

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 def distribute_to_piles(mapM, totals, p):
     n = len(mapM)
     weights = [totals[m - 1] for m in mapM]  # 0-index
@@ -16,7 +17,7 @@ def distribute_to_piles(mapM, totals, p):
 
     return assignment
 
-import ast, json, pathlib
+import ast, json, pathlib, os
 path = str(pathlib.Path(__file__).parent.resolve()) 
 with open(path + '/mapM.txt', 'r') as file:
     mapM = ast.literal_eval(file.read().strip())
@@ -24,7 +25,14 @@ with open(path + '/mapM.txt', 'r') as file:
 with open(path + '/totals.txt', 'r') as file:
     totals = ast.literal_eval(file.read().strip())
 
-p = min(10, len(mapM))
+try:
+    p = int(os.getenv("SEMIRINGS_CORES", "0"))
+    if p <= 0:
+        raise ValueError
+except ValueError:
+    p = os.cpu_count() or 1
+
+p = min(p, len(mapM))
 assignment = distribute_to_piles(mapM, totals, p)
 
 piles_lists = [[] for _ in range(p)]

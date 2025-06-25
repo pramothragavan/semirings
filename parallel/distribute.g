@@ -92,7 +92,7 @@ DISTRIBUTE := function(args...)
   f := IO_CompressedFile(Concatenation(path, "mapM.txt"), "w");
   IO_Write(f, mapM);
   IO_Close(f);
-  Exec(Concatenation("python ", path, "distribute.py"));
+  Exec(Concatenation(path, "distribute.py"));
   Exec(Concatenation("rm ", path, "totals.txt ", path, "mapM.txt"));
 end;
 
