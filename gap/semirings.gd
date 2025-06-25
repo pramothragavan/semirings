@@ -1,6 +1,8 @@
 #
 # Semirings: Enumerate semirings
 #
+DeclareInfoClass("InfoSemirings");
+SetInfoLevel(InfoSemirings, 1);
 #! @Chapter Introduction
 #!
 #! The <B>Semirings</B> package provides tools for enumerating semirings and
@@ -11,6 +13,26 @@
 #! a variety of structures and offers extensibility to custom constraints.
 #! This package fills a gap in the literature by providing the first known
 #! counts (in many cases) of semirings and their variants up to equivalence.
+#!
+#! @Section Definitions and Preliminaries
+#! There are various definitions of semirings in the literature, and
+#! we make use of the following convention.
+#! A semiring is a set $S$ with two binary operations, addition and
+#! multiplication, such that:
+#! * The **additive reduct** \((S, +)\), which we denote by \(A\), is a commutative semigroup.
+#! * The **multiplicative reduct** \((S, \cdot)\), which we denote by \(M\), is a semigroup.
+#! * Multiplication distributes over addition, i.e. for all \(a, b, c \in S\),
+#! \[a \cdot (b + c) = (a \cdot b) + (a \cdot c) \quad \text{and} \quad (b + c) \cdot a = (b \cdot a) + (c \cdot a).
+#! \]
+#! It is sometimes useful to consider a semiring $S$ as the pair $(A, M)$. 
+#!
+#! We will also make use of the prefix 'ai' to mean 'additively idempotent'.
+#! For instance, an **ai-semiring** $S$ is a semiring with the additional property that
+#! \[a + a = a \quad \text{for all } a \in S.\]
+#!
+#! We make use of the convention that rings do not necessarily have a
+#! multiplicative identity. 
+#!
 #! In the remainder of this chapter, we discuss installation of the package.
 #! @Section Requirements
 #! This software is designed for use with <B>GAP</B> version 4.5 or later.
@@ -83,26 +105,104 @@
 #! @EndExample
 
 #! @Chapter Functionality
-#! @Description
-#!   Insert documentation for your function here
-DeclareGlobalFunction("AllAiSemirings");
-DeclareGlobalFunction("AllRingsWithOne");
-DeclareGlobalFunction("AllRings");
-DeclareGlobalFunction("AllSemirings");
-DeclareGlobalFunction("AllSemiringsWithOneAndZero");
-DeclareGlobalFunction("AllAiSemiringsWithOneAndZero");
-DeclareGlobalFunction("AllSemiringsWithZero");
-DeclareGlobalFunction("AllAiSemiringsWithZero");
-DeclareGlobalFunction("AllAiSemiringsWithOne");
-DeclareGlobalFunction("AllSemiringsWithOne");
+#! Semirings and various related algebraic structures of small order can be
+#! enumerated using the <B>Semirings</B> package. By small order, we mean at
+#! most 8, but in many cases even 8 is computationally unfeasible under the
+#! current implementation. Each structure type has an
+#! associated pair of functions: `All&lt;Structure&gt;` for enumeration and
+#! `Nr&lt;Structure&gt;` for counting. Here, `&lt;Structure&gt;` can be one of:
+#! `AiSemirings`, `RingsWithOne`, `Rings`, `Semirings`,
+#! `SemiringsWithOneAndZero`, `AiSemiringsWithOneAndZero`,
+#! `SemiringsWithZero`, `AiSemiringsWithZero`, `AiSemiringsWithOne`, or
+#! `SemiringsWithOne`.
+#!
+#! For a given `&lt;Structure&gt;`, the `All&lt;Structure&gt;` function
+#! returns a list of all structures of that type (up to isomorphism or
+#! equivalence), each represented as a pair of Cayley tables. For instance,
+#! `AllSemirings(n)` returns a list of pairs `[A, M]`, where `A` and `M`
+#! are $n\times n$ Cayley tables as described in
+#! <Ref BookName="Semirings" Sect="Definitions and Preliminaries"/>.
+#! The corresponding `Nr&lt;Structure&gt;` function returns the number of such
+#! structures without storing them, and so is both faster and more memory
+#! efficient.
 
-DeclareGlobalFunction("NrAiSemirings");
-DeclareGlobalFunction("NrRingsWithOne");
-DeclareGlobalFunction("NrRings");
+#! @Section Functions for counting and enumerating structures
+#! @BeginGroup AllStructures
+#! @Returns a list of pairs of Cayley tables
+#! @Description These functions return a list of pairs of Cayley tables of
+#! order <A>n</A>. The optional argument <A>U2E</A> is a boolean that
+#! determines whether the structures are returned up to isomorphism
+#! (false, default) or equivalence (true).
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("AllSemirings");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("AllSemiringsWithOne");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("AllSemiringsWithZero");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("AllSemiringsWithOneAndZero");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("AllAiSemirings");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("AllAiSemiringsWithZero");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("AllAiSemiringsWithOne");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("AllAiSemiringsWithOneAndZero");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("AllRings");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("AllRingsWithOne");
+#! @EndGroup
+#!
+#! @BeginGroup NrStructures
+#! @Arguments n, [U2E]
+#! @Returns the number of structures of order <A>n</A>
+#! @Description These functions return the number of structures of order
+#! <A>n</A>. The optional argument <A>U2E</A> is a boolean that
+#! determines whether the structures are counted up to isomorphism
+#! (false, default) or equivalence (true).
 DeclareGlobalFunction("NrSemirings");
-DeclareGlobalFunction("NrSemiringsWithOneAndZero");
-DeclareGlobalFunction("NrAiSemiringsWithOneAndZero");
-DeclareGlobalFunction("NrSemiringsWithZero");
-DeclareGlobalFunction("NrAiSemiringsWithZero");
-DeclareGlobalFunction("NrAiSemiringsWithOne");
+#! @Arguments n, [U2E]
 DeclareGlobalFunction("NrSemiringsWithOne");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("NrSemiringsWithZero");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("NrSemiringsWithOneAndZero");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("NrAiSemirings");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("NrAiSemiringsWithOne");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("NrAiSemiringsWithZero");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("NrAiSemiringsWithOneAndZero");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("NrRings");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("NrRingsWithOne");
+#! @EndGroup
+#!
+#! @BeginGroup AllSemiringsWithX
+#! @Arguments n, structA, structM, [U2E]
+#! @Description These functions allow you to enumerate/count the number of semirings
+#! of order <A>n</A> respectively, while specifying constraints on the
+#! additive and multiplicative reducts of the semiring.
+#!
+#! <A>structA</A> and <A>structM</A> should be lists of even length, where
+#! * the odd entries <A>structA[2i - 1]</A> and <A>structM[2i - 1]</A> are functions
+#! * the even entries <A>structA[2i]</A> and <A>structM[2i]</A> should be values that can be returned by the functions <A>structA[2i - 1]</A> and <A>structM[2i - 1]</A> respectively.
+#! The optional argument <A>U2E</A> is a boolean that
+#! determines whether the structures are returned up to isomorphism
+#! (false, default) or equivalence (true).
+#!
+#! It is not necessary to specify additive commutativity in <A>structA</A>. This is always assumed as
+#! it forms part of the definition of a semiring.
+#!
+#! For instance, <C>AllSemiringsWithX(n, [IsBand, true], [])</C> is equivalent to <C>AllAiSemirings(n)</C>.
+DeclareGlobalFunction("AllSemiringsWithX");
+#! @Arguments n, structA, structM, [U2E]
+DeclareGlobalFunction("NrSemiringsWithX");
+#!
+#! @Section Parallel Approaches
+#! 
