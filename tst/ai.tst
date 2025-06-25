@@ -1,7 +1,9 @@
 gap> START_TEST("Semirings tests: ai");
 gap> LoadPackage("semirings", false);;
-gap> l := InfoLevel(InfoSemirings);;
+gap> l1 := InfoLevel(InfoSemirings);;
 gap> SetInfoLevel(InfoSemirings, 0);
+gap> l2 := InfoLevel(InfoSmallsemi);;
+gap> SetInfoLevel(InfoSmallsemi, 0);
 gap> NrAiSemirings(1);
 1
 gap> last = Length(AllAiSemirings(1));
@@ -38,5 +40,6 @@ gap> last = Length(AllAiSemiringsWithOneAndZero(4));
 true
 gap> NrAiSemiringsWithOneAndZero(5);
 149
-gap> SetInfoLevel(InfoSemirings, l);
+gap> SetInfoLevel(InfoSemirings, l1);
+gap> SetInfoLevel(InfoSmallsemi, l2);
 gap> STOP_TEST("Semirings tests: ai", 0);

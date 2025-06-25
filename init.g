@@ -10,4 +10,5 @@ ReadPackage("semirings", "gap/semirings.gd");
 
 DeclareInfoClass("InfoSemirings");
 SetInfoLevel(InfoSemirings, 1);
-SetInfoLevel(InfoSmallsemi, 0);
+LoadPackage("semigroups");
+LoadPackage("smallsemi");

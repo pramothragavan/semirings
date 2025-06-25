@@ -9,5 +9,7 @@ fi;
 
 LoadPackage( "AutoDoc" );
 AutoDoc( rec( scaffold := true,
-              autodoc := true ) );
+              autodoc := true ,
+              extrefs  := [ "ref", "smallsemi" ])
+);
 QUIT;
