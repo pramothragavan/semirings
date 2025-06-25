@@ -1,7 +1,9 @@
 gap> START_TEST("Semirings tests: standard");
 gap> LoadPackage("semirings", false);;
-gap> l := InfoLevel(InfoSemirings);;
+gap> l1 := InfoLevel(InfoSemirings);;
 gap> SetInfoLevel(InfoSemirings, 0);
+gap> l2 := InfoLevel(InfoSmallsemi);;
+gap> SetInfoLevel(InfoSmallsemi, 0);
 gap> NrRingsWithOne(1);
 1
 gap> last = Length(AllRings(1));
@@ -88,5 +90,6 @@ gap> last = Length(AllSemiringsWithOne(4));
 true
 gap> NrSemiringsWithOne(5);
 1819
-gap> SetInfoLevel(InfoSemirings, l);
+gap> SetInfoLevel(InfoSemirings, l1);
+gap> SetInfoLevel(InfoSmallsemi, l2);
 gap> STOP_TEST("Semirings tests: standard", 0);

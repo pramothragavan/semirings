@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is an automatically generated file. -->
+<TitlePage>
+  <Title>
+    semirings
+  </Title>
+  <Subtitle>
+    Enumerate semirings
+  </Subtitle>
+  <Version>
+    0.1
+  </Version>
+  <Author>
+    James Mitchell<Alt Only="LaTeX"><Br/></Alt>
+<Address>
+Mathematical Institute<Br/>
+North Haugh<Br/>
+St Andrews<Br/>
+Fife<Br/>
+KY16 9SS<Br/>
+Scotland<Br/>
+</Address>
+<Email>jdm3@st-andrews.ac.uk</Email>
+<Homepage>https://jdbm.me</Homepage>
+
+  </Author>
+  <Author>
+    Pramoth Ragavan<Alt Only="LaTeX"><Br/></Alt>
+<Email>pr90@st-andrews.ac.uk</Email>
+<Homepage>https://pramothragavan.github.io/</Homepage>
+
+  </Author>
+  <Date>
+    12 March 2025
+  </Date>
+  </TitlePage>

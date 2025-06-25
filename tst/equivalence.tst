@@ -1,8 +1,10 @@
 #@local AntiIsomorphismFilter, l
 gap> START_TEST("Semirings tests: equivalence");
 gap> LoadPackage("semirings", false);;
-gap> l := InfoLevel(InfoSemirings);;
+gap> l1 := InfoLevel(InfoSemirings);;
 gap> SetInfoLevel(InfoSemirings, 0);;
+gap> l2 := InfoLevel(InfoSmallsemi);;
+gap> SetInfoLevel(InfoSmallsemi, 0);;
 gap> AntiIsomorphismFilter := function(all)
 >  local result, processed, i, j, A1, M1, aut1, A2, M2, p, tmp, isAntiIso, auts;
 >  result    := [];
@@ -90,5 +92,6 @@ gap> NrSemiringsWithOneAndZero(4, true) = Length(AntiIsomorphismFilter(AllSemiri
 true
 gap> NrSemiringsWithOneAndZero(5, true) = Length(AntiIsomorphismFilter(AllSemiringsWithOneAndZero(5)));
 true
-gap> SetInfoLevel(InfoSemirings, l);
+gap> SetInfoLevel(InfoSemirings, l1);
+gap> SetInfoLevel(InfoSmallsemi, l2);
 gap> STOP_TEST("Semirings tests: equivalence", 0);

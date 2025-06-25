@@ -401,7 +401,8 @@ function(f, n, type, args...)
                                 [false]));
   elif Length(args) = 1 then
     if not args[1] in [true, false] then
-      ErrorNoReturn("Invalid optional arguments, must be boolean (to indicate isomorphism [false] or equivalence [true])");
+      ErrorNoReturn("Invalid optional arguments, must be boolean",
+                    " (to indicate isomorphism [false] or equivalence [true])");
     fi;
     out := String(Concatenation([n, true], SEMIRINGS_STRUCTURE_REC.(f),
                                  args));
@@ -425,6 +426,11 @@ for key in RecNames(SEMIRINGS_STRUCTURE_REC) do
               Concatenation([n, true], SEMIRINGS_STRUCTURE_REC.(capturedKey),
                             [false]));
            elif Length(args) = 1 then
+            if not args[1] in [true, false] then
+              ErrorNoReturn("Invalid second argument, must be boolean",
+                            " (to indicate up to isomorphism [false] or",
+                            " equivalence [true])");
+            fi;
             return CallFuncList(SETUPFINDER,
               Concatenation([n, true], SEMIRINGS_STRUCTURE_REC.(capturedKey),
                             args));
@@ -442,6 +448,11 @@ for key in RecNames(SEMIRINGS_STRUCTURE_REC) do
               Concatenation([n, false], SEMIRINGS_STRUCTURE_REC.(capturedKey),
                             [false]));
            elif Length(args) = 1 then
+            if not args[1] in [true, false] then
+              ErrorNoReturn("Invalid second argument, must be boolean",
+                            " (to indicate up to isomorphism [false] or",
+                            " equivalence [true])");
+            fi;
             return CallFuncList(SETUPFINDER,
               Concatenation([n, false], SEMIRINGS_STRUCTURE_REC.(capturedKey),
                             args));
@@ -451,3 +462,46 @@ for key in RecNames(SEMIRINGS_STRUCTURE_REC) do
          end;
        end)(key));
 od;
+
+InstallGlobalFunction(NrSemiringsWithX,
+  function(n, structA, structM, args...)
+    if Length(args) = 0 then
+      return CallFuncList(SETUPFINDER,
+          [n, true, Concatenation([IsCommutative, true], structA),
+           structM, false]);
+    elif Length(args) = 1 then
+      if not args[1] in [true, false] then
+        ErrorNoReturn("Invalid second argument, must be boolean",
+                      " (to indicate up to isomorphism [false] or",
+                      " equivalence [true])");
+      fi;
+      return CallFuncList(SETUPFINDER,
+        Concatenation([n, true, Concatenation([IsCommutative, true], structA),
+                       structM], args));
+    else
+      ErrorNoReturn("Invalid number of arguments!");
+    fi;
+  end);
+
+InstallGlobalFunction(AllSemiringsWithX,
+  function(n, structA, structM, args...)
+    if Length(structA) mod 2 <> 0 or Length(structM) mod 2 <> 0 then
+      ErrorNoReturn("Invalid structure arguments, must be lists of even length");
+    fi;
+    if Length(args) = 0 then
+      return CallFuncList(SETUPFINDER,
+            [n, false, Concatenation([IsCommutative, true], structA),
+             structM, false]);
+    elif Length(args) = 1 then
+      if not args[1] in [true, false] then
+        ErrorNoReturn("Invalid second argument, must be boolean",
+                      " (to indicate up to isomorphism [false] or",
+                      " equivalence [true])");
+      fi;
+      return CallFuncList(SETUPFINDER,
+        Concatenation([n, false, Concatenation([IsCommutative, true], structA),
+                       structM], args));
+    else
+      ErrorNoReturn("Invalid number of arguments!");
+    fi;
+  end);
