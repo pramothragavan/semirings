@@ -1,5 +1,32 @@
 #!/usr/bin/env bash
 
+if [[ $# -eq 0 ]]; then
+    echo "✖  No Nr*(…) arguments supplied. Nothing to do." >&2
+    exit 1
+fi
+
+: > parallel/structure.txt
+orig_tokens=()
+
+for tok in "$@"; do
+    if [[ "$tok" =~ ^Nr([A-Za-z0-9_]+)\([[:space:]]*([0-9]+)[[:space:]]*(,[[:space:]]*(true|false))?[[:space:]]*\)$ ]]; then
+        category=${BASH_REMATCH[1]}
+        n=${BASH_REMATCH[2]}
+        flag=${BASH_REMATCH[4]:-false}
+
+        printf 'Concatenation([%s, true], SEMIRINGS_STRUCTURE_REC.("%s"), [%s])\n' \
+               "$n" "$category" "$flag" >> parallel/structure.txt
+        orig_tokens+=( "$tok" )
+    else
+        echo "Ignoring unrecognised token: $tok"
+    fi
+done
+
+[[ -s parallel/structure.txt ]] || {
+    echo "No valid Nr*(…) arguments parsed; aborting." >&2
+    exit 1
+}
+
 SEMIRINGS_CORES="${SEMIRINGS_CORES:-$(getconf _NPROCESSORS_ONLN)}"
 export SEMIRINGS_CORES
 echo "Using $SEMIRINGS_CORES cores"
@@ -53,6 +80,7 @@ EOF
     pids+=("${pid}")
 }
 
+idx=0
 while IFS= read -r structure || [[ -n $structure ]]; do
     printf '%s\n' "${structure}" > "parallel/temp_struct.txt"
 
@@ -73,8 +101,11 @@ while IFS= read -r structure || [[ -n $structure ]]; do
         [[ -s $f ]] && total=$(( total + $(<"$f") ))
     done
 
+    label=${orig_tokens[$idx]}
+    ((idx++))
+
     printf '%s\n' '----------------------------------------------------------------------'
-    printf '%s\n' "RESULT for structure ${structure}"
+    printf '%s\n' "RESULT for ${label}"
     printf '%s\n\n' "Total = ${total}"
 
     rm -f "parallel"/results/result_*.txt
@@ -84,5 +115,4 @@ for d in results logs runs pid; do
     rm -rf  "parallel/${d}"
 done
 
-rm -f "parallel/temp_struct.txt"
-rm -f "parallel/cores.txt"
+rm -f parallel/{structure.txt,temp_struct.txt,cores.txt}

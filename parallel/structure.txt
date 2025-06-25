@@ -1,2 +1,0 @@
-[ 4, true, [ IsBand, true, IsCommutative, true ], [  ], false ]
-[ 5, true, [ IsBand, true, IsCommutative, true ], [  ], false ]

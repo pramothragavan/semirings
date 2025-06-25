@@ -388,35 +388,6 @@ rec(
   SemiringsWithOne   := [[IsCommutative, true],
                          [IsMonoidAsSemigroup, true]]));
 
-BindGlobal("WRITE_STRUCTURE",
-function(f, n, type, args...)
-  local file, out;
-  if type <> "w" and type <> "a" then
-    ErrorNoReturn("Invalid type for file, must be 'w' or 'a'");
-  fi;
-  file := IO_CompressedFile(Concatenation(GAPInfo.PackagesLoaded.semirings[1],
-                        "parallel/structure.txt"), type);
-  if Length(args) = 0 then
-    out := String(Concatenation([n, true], SEMIRINGS_STRUCTURE_REC.(f),
-                                [false]));
-  elif Length(args) = 1 then
-    if not args[1] in [true, false] then
-      ErrorNoReturn("Invalid optional arguments, must be boolean",
-                    " (to indicate isomorphism [false] or equivalence [true])");
-    fi;
-    out := String(Concatenation([n, true], SEMIRINGS_STRUCTURE_REC.(f),
-                                 args));
-  else
-    ErrorNoReturn("Invalid number of arguments!");
-  fi;
-  out := ReplacedString(out, "<Property \"", "");
-  out := ReplacedString(out, "\">", "");
-  out := Concatenation(out, "\n");
-  IO_Write(file, out);
-  Info(InfoSemirings, 1, "Successfully wrote to file.");
-  IO_Close(file);
-end);
-
 for key in RecNames(SEMIRINGS_STRUCTURE_REC) do
   InstallGlobalFunction(ValueGlobal(Concatenation("Nr", key)),
       (function(capturedKey)

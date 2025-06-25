@@ -72,7 +72,8 @@ PackageDoc := rec(
 
 Dependencies := rec(
   GAP := ">= 4.13",
-  NeededOtherPackages := [ ],
+  NeededOtherPackages := [["semigroups", ">= 5.5"],
+                          ["smallsemi", ">= 0.7.2"]],
   SuggestedOtherPackages := [ ],
   ExternalConditions := [ ],
 ),
