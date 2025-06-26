@@ -217,6 +217,8 @@ DeclareGlobalFunction("NrSemiringsWithX");
 #! <Ref Sect="Section_funcs"/> is called.
 DeclareInfoClass("InfoSemirings");
 SetInfoLevel(InfoSemirings, 1);
+DeclareGlobalFunction("Semi6Encode");
+DeclareGlobalFunction("Semi6Decode");
 
 #! @Chapter Parallel Approaches
 #! Given the computationally intensive nature of the counting

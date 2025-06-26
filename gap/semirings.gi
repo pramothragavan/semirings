@@ -457,7 +457,8 @@ InstallGlobalFunction(NrSemiringsWithX,
 InstallGlobalFunction(AllSemiringsWithX,
   function(n, structA, structM, args...)
     if Length(structA) mod 2 <> 0 or Length(structM) mod 2 <> 0 then
-      ErrorNoReturn("Invalid structure arguments, must be lists of even length");
+      ErrorNoReturn("Invalid structure arguments",
+                    "must be lists of even length");
     fi;
     if Length(args) = 0 then
       return CallFuncList(SETUPFINDER,
@@ -475,4 +476,150 @@ InstallGlobalFunction(AllSemiringsWithX,
     else
       ErrorNoReturn("Invalid number of arguments!");
     fi;
-  end);
+end);
+
+InstallGlobalFunction(Semi6Encode,
+  function(S)
+    local n, b, blist, v, i, j, bitpos, chunk, str, k, A, M;
+    A := S[1];
+    M := S[2];
+    n := Length(A);
+
+    if n = 0 or n > 62 then
+      ErrorNoReturn("Cayley tables must be non-empty and at most 62");
+    fi;
+
+    if Length(A) <> Length(M) then
+      ErrorNoReturn("Cayley tables must be of same size");
+    fi;
+
+    for i in [1 .. n] do
+        if Length(A[i]) <> n or Length(M[i]) <> n then
+          ErrorNoReturn("Cayley tables must be square");
+        fi;
+        if not (IsInt(A[i][1]) and IsHomogeneousList(A[i])) or
+            not (IsInt(M[i][1]) and IsHomogeneousList(M[i])) then
+            ErrorNoReturn("Cayley tables must be lists of integers");
+        fi;
+    od;
+
+    if n > 1 then
+      b := Log2Int(n - 1) + 1;
+    else
+      b := 1;
+    fi;
+
+    # header: like graph6; one char for n (add 63)
+    str := [CharInt(n + 63)];
+
+    # initialise bitlist with overestimate
+    blist  := BlistList([1 .. 2 * n * n * b], []);
+    bitpos := 1;
+
+    # encode A
+    for i in [1 .. n] do
+      for j in [i .. n] do
+        v := A[i][j] - 1;  # shift to 0-based
+        for k in [1 .. b] do
+          if v mod 2 = 1 then
+            blist[bitpos + b - k] := true;
+          fi;
+          v := QuoInt(v, 2);  # integer divide by 2 (shift right)
+        od;
+        bitpos := bitpos + b;
+      od;
+    od;
+
+    # encode M
+    for i in [1 .. n] do
+      for j in [1 .. n] do
+        v := M[i][j] - 1;
+        for k in [1 .. b] do
+          if v mod 2 = 1 then
+            blist[bitpos + b - k] := true;
+          fi;
+          v := QuoInt(v, 2);
+        od;
+        bitpos := bitpos + b;
+      od;
+    od;
+
+    # pad to multiple of 6
+    while (bitpos - 1) mod 6 <> 0 do
+      blist[bitpos] := false;
+      bitpos        := bitpos + 1;
+    od;
+
+    # encode in 6-bit blocks
+    for i in [1, 7 .. bitpos - 6] do
+      chunk := 0;
+      for j in [0 .. 5] do
+        if blist[i + j] then
+          chunk := chunk + 2 ^ (5 - j);
+        fi;
+      od;
+      Add(str, CharInt(chunk + 63));
+    od;
+
+    return str;
+end);
+
+InstallGlobalFunction(Semi6Decode,
+function(s)
+  local chars, n, b, bits, i, j, k, pos, val, A, M;
+
+  chars := List(s, c -> IntChar(c) - 63);
+  n     := chars[1];
+  if n > 1 then
+    b := Log2Int(n - 1) + 1;
+  else
+    b := 1;
+  fi;
+
+  bits := BlistList([1 .. (Length(chars) - 1) * 6], []);
+  pos  := 1;
+  for i in [2 .. Length(chars)] do
+    val := chars[i];
+    for j in [0 .. 5] do
+      if val mod 2 = 1 then
+        bits[pos + 5 - j] := true;
+      fi;
+      val := QuoInt(val, 2);
+    od;
+    pos := pos + 6;
+  od;
+
+  A   := List([1 .. n], i -> List([1 .. n], j -> 0));
+  M   := List([1 .. n], i -> List([1 .. n], j -> 0));
+  pos := 1;
+
+  for i in [1 .. n] do
+    for j in [i .. n] do
+      val := 0;
+      for k in [1 .. b] do
+        if bits[pos] then
+            val := val + 2 ^ (b - k);
+        fi;
+        pos := pos + 1;
+      od;
+      val     := val + 1;
+      A[i][j] := val;
+      A[j][i] := val;
+    od;
+  od;
+
+  for i in [1 .. n] do
+    for j in [1 .. n] do
+      val := 0;
+      for k in [1 .. b] do
+        if bits[pos] then
+          val := val + 2 ^ (b - k);
+        fi;
+        pos := pos + 1;
+      od;
+      M[i][j] := val + 1;
+    od;
+  od;
+
+  return [A, M];
+end);
