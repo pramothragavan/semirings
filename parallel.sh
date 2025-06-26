@@ -5,6 +5,10 @@ if [[ $# -eq 0 ]]; then
     exit 1
 fi
 
+SCRIPT_PATH="$(realpath "${BASH_SOURCE[0]}")"
+SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
+cd "$SCRIPT_DIR" || exit 1
+
 : > parallel/structure.txt
 orig_tokens=()
 
@@ -75,8 +79,6 @@ EOF
 
     gap -q "${gap_script}" > "parallel/logs/${i}.log" 2>&1 &
     local pid=$!
-    printf 'Process %02d, PID %d (log %s)\n' \
-           "${i}" "${pid}" "parallel/logs/${i}.log"
     pids+=("${pid}")
 }
 
@@ -92,6 +94,8 @@ while IFS= read -r structure || [[ -n $structure ]]; do
         sleep 0.2
     done
 
+    printf '%s\n' "Running processes concurrently, logs available @ semirings/parallel/logs"
+
     for pid in "${pids[@]}"; do
         wait "${pid}"
     done
@@ -106,7 +110,8 @@ while IFS= read -r structure || [[ -n $structure ]]; do
 
     printf '%s\n' '----------------------------------------------------------------------'
     printf '%s\n' "RESULT for ${label}"
-    printf '%s\n\n' "Total = ${total}"
+    printf '%s\n' "Total = ${total}"
+    printf '%s\n' '----------------------------------------------------------------------'
 
     rm -f "parallel"/results/result_*.txt
 done < "parallel/structure.txt"

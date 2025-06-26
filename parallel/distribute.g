@@ -1,6 +1,10 @@
 LoadPackage("semigroups");
 LoadPackage("smallsemi");
 LoadPackage("semirings");
+l1 := InfoLevel(InfoSemirings);
+SetInfoLevel(InfoSemirings, 0);
+l2 := InfoLevel(InfoSmallsemi);
+SetInfoLevel(InfoSmallsemi, 0);
 DISTRIBUTE := function(args...)
   local allA, allM, NSD, SD, autM, out, mapM, totals, n, structA,
   structM, uniqueAutMs, i, autA, uniqueAutAs, reps, j, path, f, shift,
@@ -100,5 +104,8 @@ f := InputTextFile(Concatenation(GAPInfo.PackagesLoaded.semirings[1],
                    "parallel/temp_struct.txt"));
 structure := EvalString(ReadLine(f));
 CloseStream(f);
+Print("Establishing how to distribute the workload...\n");
 CallFuncList(DISTRIBUTE, structure);
+SetInfoLevel(InfoSemirings, l1);
+SetInfoLevel(InfoSmallsemi, l2);
 quit;

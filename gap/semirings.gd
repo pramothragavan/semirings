@@ -13,6 +13,7 @@
 #! counts (in many cases) of semirings and their variants up to equivalence.
 #!
 #! @Section Definitions and Preliminaries
+#! @SectionLabel defs
 #! There are various definitions of semirings in the literature, and
 #! we make use of the following convention.
 #! A semiring is a set $S$ with two binary operations, addition and
@@ -53,7 +54,7 @@
 #!      Text="Reference: Installing a GAP Package"/> for further details.
 #! * Ensure that Semigroups version 4.5 or later is available.
 #! * Ensure that Smallsemi version 0.7.2 or later is available.
-#! * Download an archive of the package from []
+#! * Download an archive of the package from <URL>https://pramothragavan.github.io/assets/semirings.tar.gz</URL>.
 #! * Move the archive inside a <F>pkg</F> directory. This can be either the
 #! main <F>pkg</F> directory in your <B>GAP</B> installation or your personal
 #! <F>pkg</F> directory.
@@ -118,13 +119,14 @@
 #! returns a list of all structures of that type (up to isomorphism or
 #! equivalence), each represented as a pair of Cayley tables. For instance,
 #! `AllSemirings(n)` returns a list of pairs `[A, M]`, where `A` and `M`
-#! are $n\times n$ Cayley tables as described in
-#! <Ref BookName="Semirings" Sect="Definitions and Preliminaries"/>.
+#! are $n\times n$ Cayley tables as described in Section
+#! <Ref Sect="Section_defs"/>.
 #! The corresponding `Nr&lt;Structure&gt;` function returns the number of such
 #! structures without storing them, and so is both faster and more memory
 #! efficient.
 
 #! @Section Functions for counting and enumerating structures
+#! @SectionLabel funcs
 #! @BeginGroup AllStructures
 #! @Returns a list of pairs of Cayley tables
 #! @Description These functions return a list of pairs of Cayley tables of
@@ -155,11 +157,14 @@ DeclareGlobalFunction("AllRingsWithOne");
 #!
 #! @BeginGroup NrStructures
 #! @Arguments n, [U2E]
-#! @Returns the number of structures of order <A>n</A>
+#! @Returns an integer
 #! @Description These functions return the number of structures of order
 #! <A>n</A>. The optional argument <A>U2E</A> is a boolean that
 #! determines whether the structures are counted up to isomorphism
 #! (false, default) or equivalence (true).
+#!
+#! For each <C>&lt;Structure&gt;</C>, it is the case that
+#! <C>Length(All&lt;Structure&gt;(n, U2E)) = Nr&lt;Structure&gt;(n, U2E)</C>.
 DeclareGlobalFunction("NrSemirings");
 #! @Arguments n, [U2E]
 DeclareGlobalFunction("NrSemiringsWithOne");
@@ -209,12 +214,88 @@ DeclareGlobalFunction("NrSemiringsWithX");
 #! (see <Ref BookName="ref" Sect="Info Functions"/>) of
 #! <B>Semirings</B>. The info level is initially set to 1 which
 #! triggers progress messages whenever any function in Section
-#! <Ref BookName="semirings"
-#!     Sect="Functions for counting and enumerating structures"/> is called.
+#! <Ref Sect="Section_funcs"/> is called.
 DeclareInfoClass("InfoSemirings");
 SetInfoLevel(InfoSemirings, 1);
 
 #! @Chapter Parallel Approaches
-#! Given the computationally intensive nature of the enumeration
-#! and counting of semirings, the package provides a means of pseudo-parallelisation.
-#! 
+#! Given the computationally intensive nature of the counting
+#! of semirings, the package provides a means of
+#! parallelisation for counting functions (i.e. those of the
+#! form <C>Nr&lt;Structure&gt;</C>, see <Ref
+#!     Func="NrSemirings"/>).
+#!
+#! This works using a bash script and a Python script. The bash script handles
+#! the orchestration of the process, while the Python script is responsible for
+#! even distribution of workload across cores. Naturally, the user must have
+#! a Python3 interpreter installed on their system for this to work.
+#!
+#! Currently, there is no support for parallelisation of the
+#! enumeration functions (i.e. those of the form <C>All&lt;Structure&gt;</C>,
+#! see <Ref Func="AllSemirings"/>).
+
+#! @Section Setup
+#! To use the parallelisation, you must first ensure that both
+#! <F>semirings/parallel.sh</F> and <F>semirings/parallel/distribute.py</F>
+#! are executable. This can be done by running
+#! the following commands in the terminal, inside the <F>pkg/semirings</F>
+#! directory:
+#! @BeginCode Executable
+#! chmod +x parallel.sh
+#! chmod +x parallel/distribute.py
+#! @EndCode
+#! @InsertCode Executable
+#!
+#! @Section Usage
+#! In any examples in the remainder of the chapter, we assume the user is in
+#! the <F>pkg/semirings</F> directory when running commands. This is not
+#! strictly necessary, but the user should take care to use the correct
+#! filepath when running the <F>parallel.sh</F> script.
+#!
+#! An example of how to use the parallelisation is as follows:
+#! @BeginCode Usage
+#! SEMIRINGS_CORES=7 ./parallel.sh 'NrAiSemirings(4)'
+#! @EndCode
+#! @InsertCode Usage
+#! This will run the command <C>NrAiSemirings(4)</C>
+#! in parallel across 7 cores, distributing the workload evenly.
+#! The output will be printed to the terminal and while the process is
+#! running, temporary log files will be created in the <F>parallel/logs</F>
+#! directory, where the user can check on the progress of an individual core.
+#! These files, along with any other files created by the script, will be
+#! deleted upon successful completion of the script. 
+#!
+#! A typical output for the above command might look like the following:
+#! @BeginCode Output
+#! Using 7 cores
+#! Establishing how to distribute the workload...
+#! Distributing 188 items across 7 cores...
+#! Running processes concurrently, logs available @ semirings/parallel/logs
+#! ----------------------------------------------------------------------
+#! RESULT for NrAiSemirings(4)
+#! Total = 866
+#! ----------------------------------------------------------------------
+#! @EndCode
+#! @InsertCode Output
+#! If <C>SEMIRINGS_CORES</C> is not specified, the script will
+#! default to using all available cores. Alternatively, if the user
+#! intends on regularly using <C>n</C> cores for some <C>n</C>, they can set the
+#! <C>SEMIRINGS_CORES</C> environment variable by running the following command
+#! in the terminal:
+#! @BeginCode UsageCores
+#! export SEMIRINGS_CORES=n
+#! @EndCode
+#! @InsertCode UsageCores
+#! This will set the number of cores to be used by the script to <C>n</C> for
+#! the current terminal session. The user can add this line to their
+#! shell configuration file (e.g., <C>.bashrc</C> or <C>.zshrc</C>) to make
+#! this change persist across terminal sessions.
+#!
+#! It is also possible to run multiple commands in parallel by
+#! specifying them as a list in the command line. For example:
+#! @BeginCode UsageMultiple
+#! SEMIRINGS_CORES=2 ./parallel.sh 'NrAiSemirings(4)' 'NrAiSemirings(5, true)'
+#! @EndCode
+#! @InsertCode UsageMultiple
+#! This will first run <C>NrAiSemirings(4)</C> across 2 cores, and then upon
+#! completion, it will run <C>NrAiSemirings(5, true)</C> across 2 cores.

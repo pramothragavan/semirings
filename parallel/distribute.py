@@ -6,7 +6,7 @@ def distribute_to_piles(mapM, totals, p):
     piles = [(0, []) for _ in range(p)]
     assignment = [None] * n
 
-    print(f"Distributing {len(items)} items across {p} piles")
+    print(f"Distributing {len(items)} items across {p} cores...")
     for i, (weight, idx) in enumerate(items):
         if i > 0 and i % 100000 == 0:
             print(f"{i} completed")
@@ -41,12 +41,3 @@ for idx, pile in enumerate(assignment):
 
 with open(path + '/cores.txt', 'w') as file: 
     json.dump(piles_lists, file)
-
-print("Data successfully written to cores.txt")
-
-weights = [totals[m - 1] for m in mapM]
-pile_sums = [0] * p
-for i, pile in enumerate(assignment):
-    pile_sums[pile] += weights[i]
-
-print("Total weights on each pile:", pile_sums)
