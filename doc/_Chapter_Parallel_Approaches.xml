@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is an automatically generated file. -->
+<Chapter Label="Chapter_Parallel_Approaches">
+<Heading>Parallel Approaches</Heading>
+
+ Given the computationally intensive nature of the counting
+ of semirings, the package provides a means of
+ parallelisation for counting functions (i.e. those of the
+ form <C>Nr&lt;Structure&gt;</C>, see <Ref
+     Func="NrSemirings"/>).
+<P/>
+ This works using a bash script and a Python script. The bash script handles
+ the orchestration of the process, while the Python script is responsible for
+ even distribution of workload across cores. Naturally, the user must have
+ a Python3 interpreter installed on their system for this to work.
+<P/>
+ Currently, there is no support for parallelisation of the
+ enumeration functions (i.e. those of the form <C>All&lt;Structure&gt;</C>,
+ see <Ref Func="AllSemirings"/>).
+<Section Label="Chapter_Parallel_Approaches_Section_Setup">
+<Heading>Setup</Heading>
+
+ To use the parallelisation, you must first ensure that both
+ <F>semirings/parallel.sh</F> and <F>semirings/parallel/distribute.py</F>
+ are executable. This can be done by running
+ the following commands in the terminal, inside the <F>pkg/semirings</F>
+ directory:
+<#Include Label="Executable">
+
+<P/>
+</Section>
+
+
+<Section Label="Chapter_Parallel_Approaches_Section_Usage">
+<Heading>Usage</Heading>
+
+ In any examples in the remainder of the chapter, we assume the user is in
+ the <F>pkg/semirings</F> directory when running commands. This is not
+ strictly necessary, but the user should take care to use the correct
+ filepath when running the <F>parallel.sh</F> script.
+<P/>
+ An example of how to use the parallelisation is as follows:
+<#Include Label="Usage">
+
+ This will run the command <C>NrAiSemirings(4)</C>
+ in parallel across 7 cores, distributing the workload evenly.
+ The output will be printed to the terminal and while the process is
+ running, temporary log files will be created in the <F>parallel/logs</F>
+ directory, where the user can check on the progress of an individual core.
+ These files, along with any other files created by the script, will be
+ deleted upon successful completion of the script. 
+<P/>
+ A typical output for the above command might look like the following:
+<#Include Label="Output">
+
+ If <C>SEMIRINGS_CORES</C> is not specified, the script will
+ default to using all available cores. Alternatively, if the user
+ intends on regularly using <C>n</C> cores for some <C>n</C>, they can set the
+ <C>SEMIRINGS_CORES</C> environment variable by running the following command
+ in the terminal:
+<#Include Label="UsageCores">
+
+ This will set the number of cores to be used by the script to <C>n</C> for
+ the current terminal session. The user can add this line to their
+ shell configuration file (e.g., <C>.bashrc</C> or <C>.zshrc</C>) to make
+ this change persist across terminal sessions.
+<P/>
+ It is also possible to run multiple commands in parallel by
+ specifying them as a list in the command line. For example:
+<#Include Label="UsageMultiple">
+
+ This will first run <C>NrAiSemirings(4)</C> across 2 cores, and then upon
+ completion, it will run <C>NrAiSemirings(5, true)</C> across 2 cores.
+</Section>
+
+
+</Chapter>
+

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is an automatically generated file. -->
+<Chapter Label="Chapter_Functionality">
+<Heading>Functionality</Heading>
+
+ Semirings and various related algebraic structures of small order can be
+ enumerated using the <B>Semirings</B> package. By small order, we mean at
+ most 8, but in many cases even 8 is computationally unfeasible under the
+ current implementation. Each structure type has an
+ associated pair of functions: <Code>All&lt;Structure&gt;</Code> for enumeration and
+ <Code>Nr&lt;Structure&gt;</Code> for counting. Here, <Code>&lt;Structure&gt;</Code> can be one of:
+ <Code>AiSemirings</Code>, <Code>RingsWithOne</Code>, <Code>Rings</Code>, <Code>Semirings</Code>,
+ <Code>SemiringsWithOneAndZero</Code>, <Code>AiSemiringsWithOneAndZero</Code>,
+ <Code>SemiringsWithZero</Code>, <Code>AiSemiringsWithZero</Code>, <Code>AiSemiringsWithOne</Code>, or
+ <Code>SemiringsWithOne</Code>.
+<P/>
+ For a given <Code>&lt;Structure&gt;</Code>, the <Code>All&lt;Structure&gt;</Code> function
+ returns a list of all structures of that type (up to isomorphism or
+ equivalence), each represented as a pair of Cayley tables. For instance,
+ <Code>AllSemirings(n)</Code> returns a list of pairs <Code>[A, M]</Code>, where <Code>A</Code> and <Code>M</Code>
+ are <Math>n\times n</Math> Cayley tables as described in Section
+ <Ref Sect="Section_defs"/>.
+ The corresponding <Code>Nr&lt;Structure&gt;</Code> function returns the number of such
+ structures without storing them, and so is both faster and more memory
+ efficient.
+<Section Label="Section_funcs">
+<Heading>Functions for counting and enumerating structures</Heading>
+
+<ManSection Label="AllStructures">
+  <Func Arg="n, [U2E]" Name="AllSemirings" />
+  <Func Arg="n, [U2E]" Name="AllSemiringsWithOne" />
+  <Func Arg="n, [U2E]" Name="AllSemiringsWithZero" />
+  <Func Arg="n, [U2E]" Name="AllSemiringsWithOneAndZero" />
+  <Func Arg="n, [U2E]" Name="AllAiSemirings" />
+  <Func Arg="n, [U2E]" Name="AllAiSemiringsWithZero" />
+  <Func Arg="n, [U2E]" Name="AllAiSemiringsWithOne" />
+  <Func Arg="n, [U2E]" Name="AllAiSemiringsWithOneAndZero" />
+  <Func Arg="n, [U2E]" Name="AllRings" />
+  <Func Arg="n, [U2E]" Name="AllRingsWithOne" />
+ <Returns>a list of pairs of Cayley tables
+</Returns>
+ <Description>
+These functions return a list of pairs of Cayley tables of
+ order <A>n</A>. The optional argument <A>U2E</A> is a boolean that
+ determines whether the structures are considered up to isomorphism
+ (false, default) or equivalence (true).
+<P/>
+ </Description>
+</ManSection>
+
+
+<P/>
+<ManSection Label="NrStructures">
+  <Func Arg="n, [U2E]" Name="NrSemirings" />
+  <Func Arg="n, [U2E]" Name="NrSemiringsWithOne" />
+  <Func Arg="n, [U2E]" Name="NrSemiringsWithZero" />
+  <Func Arg="n, [U2E]" Name="NrSemiringsWithOneAndZero" />
+  <Func Arg="n, [U2E]" Name="NrAiSemirings" />
+  <Func Arg="n, [U2E]" Name="NrAiSemiringsWithOne" />
+  <Func Arg="n, [U2E]" Name="NrAiSemiringsWithZero" />
+  <Func Arg="n, [U2E]" Name="NrAiSemiringsWithOneAndZero" />
+  <Func Arg="n, [U2E]" Name="NrRings" />
+  <Func Arg="n, [U2E]" Name="NrRingsWithOne" />
+ <Returns>an integer
+</Returns>
+ <Description>
+These functions return the number of structures of order
+ <A>n</A>. The optional argument <A>U2E</A> is a boolean that
+ determines whether the structures are counted up to isomorphism
+ (false, default) or equivalence (true).
+<P/>
+ For each <C>&lt;Structure&gt;</C>, it is the case that
+ <C>Length(All&lt;Structure&gt;(n, U2E)) = Nr&lt;Structure&gt;(n, U2E)</C>.
+<P/>
+ </Description>
+</ManSection>
+
+
+<P/>
+<ManSection Label="AllSemiringsWith">
+  <Func Arg="n, structA, structM, [U2E]" Name="AllSemiringsWithX" />
+  <Func Arg="n, structA, structM, [U2E]" Name="NrSemiringsWithX" />
+ <Description>
+These functions allow you to enumerate/count the number
+ of semirings of order <A>n</A> respectively, while specifying
+ constraints on the additive and multiplicative reducts of the semiring.
+<P/>
+ <A>structA</A> and <A>structM</A> should be lists of even length, where
+<List>
+<Item>
+the odd entries <A>structA[2i - 1]</A> and <A>structM[2i - 1]</A> are functions
+</Item>
+<Item>
+the even entries <A>structA[2i]</A> and <A>structM[2i]</A> should be values that can be returned by the functions <A>structA[2i - 1]</A> and <A>structM[2i - 1]</A> respectively.
+</Item>
+</List>
+ The optional argument <A>U2E</A> is a boolean that
+ determines whether the structures are considered up to isomorphism
+ (false, default) or equivalence (true).
+<P/>
+ It is not necessary to specify additive commutativity in <A>structA</A>.
+ This is always assumed as it forms part of the definition of a semiring.
+<P/>
+ For instance, <C>AllSemiringsWithX(n, [IsBand, true], [])</C> is
+ equivalent to <C>AllAiSemirings(n)</C>.
+<P/>
+ </Description>
+</ManSection>
+
+
+<P/>
+</Section>
+
+
+<Section Label="Chapter_Functionality_Section_Miscellaneous">
+<Heading>Miscellaneous</Heading>
+
+<ManSection>
+  <InfoClass Name="InfoSemirings" />
+ <Description>
+is the info class
+ (see <Ref BookName="ref" Sect="Info Functions"/>) of
+ <B>Semirings</B>. The info level is initially set to 1 which
+ triggers progress messages whenever any function in Section
+ <Ref Sect="Section_funcs"/> is called.
+ </Description>
+</ManSection>
+
+
+</Section>
+
+
+</Chapter>
+

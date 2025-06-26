@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is an automatically generated file. -->
+<Chapter Label="Chapter_Introduction">
+<Heading>Introduction</Heading>
+
+<P/>
+ The <B>Semirings</B> package provides tools for enumerating semirings and
+ related algebraic structures of small orders.
+ The package allows users to count and generate semirings up to isomorphism
+ or equivalence using a rudimentary algorithm
+ and the library of small semigroups provided by <B>Smallsemi</B>. It supports
+ a variety of structures and offers extensibility to custom constraints.
+ This package fills a gap in the literature by providing the first known
+ counts (in many cases) of semirings and their variants up to equivalence.
+<P/>
+<Section Label="Section_defs">
+<Heading>Definitions and Preliminaries</Heading>
+
+ There are various definitions of semirings in the literature, and
+ we make use of the following convention.
+ A semiring is a set <Math>S</Math> with two binary operations, addition and
+ multiplication, such that:
+<List>
+<Item>
+The <Emph>additive reduct</Emph> \((S, +)\), which we denote by \(A\), is a commutative semigroup.
+</Item>
+<Item>
+The <Emph>multiplicative reduct</Emph> \((S, \cdot)\), which we denote by \(M\), is a semigroup.
+</Item>
+<Item>
+Multiplication distributes over addition, i.e. for all \(a, b, c \in S\),
+</Item>
+</List>
+ \[a \cdot (b + c) = (a \cdot b) + (a \cdot c) \quad \text{and} \quad (b + c) \cdot a = (b \cdot a) + (c \cdot a).
+ \]
+ It is sometimes useful to consider a semiring <Math>S</Math> as the pair <Math>(A, M)</Math>. 
+<P/>
+ We will also make use of the prefix 'ai' to mean 'additively idempotent'.
+ For instance, an <Emph>ai-semiring</Emph> <Math>S</Math> is a semiring with the additional property that
+ \[a + a = a \quad \text{for all } a \in S.\]
+<P/>
+ We make use of the convention that rings do not necessarily have a
+ multiplicative identity. 
+<P/>
+ In the remainder of this chapter, we discuss installation of the package.
+</Section>
+
+
+<Section Label="Chapter_Introduction_Section_Requirements">
+<Heading>Requirements</Heading>
+
+ This software is designed for use with <B>GAP</B> version 4.5 or later.
+ It also requires the <B>Smallsemi</B> package (version 0.7.2) and the
+ <B>Semigroups</B> package (version 5.5.1 or higher) to function correctly.
+<P/>
+<Subsection Label="Chapter_Introduction_Section_Requirements_Subsection_RAM">
+<Heading>RAM</Heading>
+
+ Due to its dependence on <B>Smallsemi</B>, <B>Semirings</B> can use large
+ amounts of RAM. For more information on how <B>GAP</B> uses memory, see
+ <Ref BookName="ref" Sect="Command Line Options"
+      Text=" GAP command-line options"/>.
+ In the case that the user runs into memory issues, see
+ <Ref BookName="Smallsemi" Sect="Memory Issues"
+      Text="Smallsemi: Memory Issues"/>.
+</Subsection>
+
+
+</Section>
+
+
+<Section Label="Chapter_Introduction_Section_Installation">
+<Heading>Installation</Heading>
+
+<Subsection Label="Chapter_Introduction_Section_Installation_Subsection_Download_and_Extract_Semirings">
+<Heading>Download and Extract Semirings</Heading>
+
+ The installation follows standard <B>GAP</B> rules as outlined in
+ the following two steps; see
+ <Ref BookName="ref" Sect="Installing a GAP Package"
+      Text="Reference: Installing a GAP Package"/> for further details.
+<List>
+<Item>
+Ensure that Semigroups version 4.5 or later is available.
+</Item>
+<Item>
+Ensure that Smallsemi version 0.7.2 or later is available.
+</Item>
+<Item>
+Download an archive of the package from <URL>https://pramothragavan.github.io/assets/semirings.tar.gz</URL>.
+</Item>
+<Item>
+Move the archive inside a <F>pkg</F> directory. This can be either the
+</Item>
+</List>
+ main <F>pkg</F> directory in your <B>GAP</B> installation or your personal
+ <F>pkg</F> directory.
+<List>
+<Item>
+Unzip and untar the file, this should create a directory called
+</Item>
+</List>
+ <F>semirings</F> inside the <F>pkg</F> directory.
+<List>
+<Item>
+Inside the <F>pkg/semirings</F> directory, in your terminal type
+</Item>
+</List>
+<#Include Label="Compile">
+
+</Subsection>
+
+
+<Subsection Label="Chapter_Introduction_Section_Installation_Subsection_Loading">
+<Heading>Loading</Heading>
+
+ To use the package, start a <B>GAP</B> session and type
+ <Code>LoadPackage("semirings");</Code> at the <B>GAP</B> prompt. You should see
+ the following:
+<Example><![CDATA[
+gap> LoadPackage("semirings");
+-----------------------------------------------------------------------------
+Loading semirings 0.1 (Enumerate semirings)
+by James Mitchell (https://jdbm.me) and
+   Pramoth Ragavan (https://pramothragavan.github.io/).
+Homepage: https://pramothragavan.github.io/semirings/
+Report issues at https://github.com/pramothragavan/semirings/issues
+-----------------------------------------------------------------------------
+true
+]]></Example>
+
+
+ You might want to start <B>GAP</B> with a specified amount of memory; see 
+ <Ref BookName="Smallsemi" Sect="Memory Issues"
+      Text="Smallsemi: Memory Issues"/>.
+</Subsection>
+
+
+<Subsection Label="Chapter_Introduction_Section_Installation_Subsection_Testing">
+<Heading>Testing</Heading>
+
+ You should verify the success of the installation by running the test file.
+ This is done by the following command and should return a similar output:
+<Example><![CDATA[
+gap> ReadPackage("semirings", "tst/testall.g");
+Architecture: aarch64-apple-darwin23-default64-kv9
+
+testing: /semirings/tst/ai.tst
+    3730 ms (997 ms GC) and 383MB allocated for ai.tst
+testing: /semirings/tst/equivalence.tst
+   54127 ms (5006 ms GC) and 20.0GB allocated for equivalence.tst
+testing: /semirings/tst/standard.tst
+    6197 ms (2139 ms GC) and 441MB allocated for standard.tst
+-----------------------------------
+total     64054 ms (8142 ms GC) and 20.8GB allocated
+              0 failures in 3 files
+
+I  No errors detected while testing
+]]></Example>
+
+
+</Subsection>
+
+
+</Section>
+
+
+</Chapter>
+
