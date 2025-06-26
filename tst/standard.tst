@@ -1,3 +1,4 @@
+#@local l1, l2
 gap> START_TEST("Semirings tests: standard");
 gap> LoadPackage("semirings", false);;
 gap> l1 := InfoLevel(InfoSemirings);;
