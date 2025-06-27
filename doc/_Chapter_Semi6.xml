@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is an automatically generated file. -->
+<Chapter Label="Chapter_Semi6">
+<Heading>Semi6</Heading>
+
+ The <B>Semirings</B> package provides a means of encoding and decoding
+ into a format called <B>Semi6</B>, inspired by the <B>graph6</B> format.
+<Section Label="Chapter_Semi6_Section_Encoding">
+<Heading>Encoding</Heading>
+
+<ManSection>
+  <Func Arg="S" Name="Semi6String" />
+ <Returns>a string
+</Returns>
+ <Description>
+The function <C>Semi6String(S)</C> encodes a semiring
+ <C>S</C> into a string in the Semi6 format.
+ </Description>
+</ManSection>
+
+
+<ManSection>
+  <Func Arg="f, srs, [mode]" Name="Semi6Encode" />
+ <Description>
+This function takes, a file or filename <A>f</A>, a list of
+ semirings <A>srs</A>, and an optional mode <A>mode</A>.
+ If <A>f</A> is a file, it writes the semirings in <C>srs</C> to the file in
+ Semi6 format. If <A>f</A> is a string, it writes the semirings to a file
+ with the name <A>f</A> in <B>Semi6</B> format.
+<P/>
+ <A>mode</A> can be either <C>"w"</C> or <C>"a"</C> (default), which
+ determines the mode in which the file is opened for writing.
+ </Description>
+</ManSection>
+
+
+</Section>
+
+
+<Section Label="Chapter_Semi6_Section_Decoding">
+<Heading>Decoding</Heading>
+
+<ManSection>
+  <Func Arg="str" Name="SemiringFromSemi6String" />
+ <Returns>a list
+</Returns>
+ <Description>
+<P/>
+ </Description>
+</ManSection>
+
+
+<ManSection>
+  <Func Arg="file, [nr]" Name="Semi6Decode" />
+ <Returns>a list
+</Returns>
+ <Description>
+<P/>
+ </Description>
+</ManSection>
+
+
+</Section>
+
+
+</Chapter>
+

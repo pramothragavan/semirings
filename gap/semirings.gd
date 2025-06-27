@@ -217,7 +217,33 @@ DeclareGlobalFunction("NrSemiringsWithX");
 #! <Ref Sect="Section_funcs"/> is called.
 DeclareInfoClass("InfoSemirings");
 SetInfoLevel(InfoSemirings, 1);
+
+#! @Chapter Semi6
+#! The <B>Semirings</B> package provides a means of encoding and decoding
+#! into a format called <B>Semi6</B>, inspired by the <B>graph6</B> format.
+#! @Section Encoding
+#! @Arguments S
+#! @Returns a string
+#! @Description The function <C>Semi6String(S)</C> encodes a semiring
+#! <C>S</C> into a string in the Semi6 format.
+DeclareGlobalFunction("Semi6String");
+#! @Arguments f, srs, [mode]
+#! @Description This function takes, a file or filename <A>f</A>, a list of
+#! semirings <A>srs</A>, and an optional mode <A>mode</A>.
+#! If <A>f</A> is a file, it writes the semirings in <C>srs</C> to the file in
+#! Semi6 format. If <A>f</A> is a string, it writes the semirings to a file
+#! with the name <A>f</A> in <B>Semi6</B> format.
+#!
+#! <A>mode</A> can be either <C>"w"</C> or <C>"a"</C> (default), which
+#! determines the mode in which the file is opened for writing.
 DeclareGlobalFunction("Semi6Encode");
+
+#! @Section Decoding
+#! @Arguments str
+#! @Returns a list
+DeclareGlobalFunction("SemiringFromSemi6String");
+#! @Arguments file, [nr]
+#! @Returns a list
 DeclareGlobalFunction("Semi6Decode");
 
 #! @Chapter Parallel Approaches

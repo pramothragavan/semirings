@@ -478,9 +478,13 @@ InstallGlobalFunction(AllSemiringsWithX,
     fi;
 end);
 
-InstallGlobalFunction(Semi6Encode,
+InstallGlobalFunction(Semi6String,
   function(S)
     local n, b, blist, v, i, j, bitpos, chunk, str, k, A, M;
+
+    if Length(S) <> 2 then
+      ErrorNoReturn("Argument <S> should be a list containing two Cayley tables");
+    fi;
     A := S[1];
     M := S[2];
     n := Length(A);
@@ -564,62 +568,189 @@ InstallGlobalFunction(Semi6Encode,
     return str;
 end);
 
-InstallGlobalFunction(Semi6Decode,
-function(s)
-  local chars, n, b, bits, i, j, k, pos, val, A, M;
+InstallGlobalFunction(SemiringFromSemi6String,
+  function(s)
+    local chars, n, b, bits, i, j, k, pos, val, A, M;
 
-  chars := List(s, c -> IntChar(c) - 63);
-  n     := chars[1];
-  if n > 1 then
-    b := Log2Int(n - 1) + 1;
+    chars := List(s, c -> IntChar(c) - 63);
+    n     := chars[1];
+    if n > 1 then
+      b := Log2Int(n - 1) + 1;
+    else
+      b := 1;
+    fi;
+
+    bits := BlistList([1 .. (Length(chars) - 1) * 6], []);
+    pos  := 1;
+    for i in [2 .. Length(chars)] do
+      val := chars[i];
+      for j in [0 .. 5] do
+        if val mod 2 = 1 then
+          bits[pos + 5 - j] := true;
+        fi;
+        val := QuoInt(val, 2);
+      od;
+      pos := pos + 6;
+    od;
+
+    A   := List([1 .. n], i -> List([1 .. n], j -> 0));
+    M   := List([1 .. n], i -> List([1 .. n], j -> 0));
+    pos := 1;
+
+    for i in [1 .. n] do
+      for j in [i .. n] do
+        val := 0;
+        for k in [1 .. b] do
+          if bits[pos] then
+              val := val + 2 ^ (b - k);
+          fi;
+          pos := pos + 1;
+        od;
+        val     := val + 1;
+        A[i][j] := val;
+        A[j][i] := val;
+      od;
+    od;
+
+    for i in [1 .. n] do
+      for j in [1 .. n] do
+        val := 0;
+        for k in [1 .. b] do
+          if bits[pos] then
+            val := val + 2 ^ (b - k);
+          fi;
+          pos := pos + 1;
+        od;
+        M[i][j] := val + 1;
+      od;
+    od;
+
+    return [A, M];
+  end);
+
+InstallGlobalFunction(Semi6Encode,
+  function(name, srs, args...)
+    local f, mode, sr;
+    if not (IsString(name) or IsFile(name)) then
+      ErrorNoReturn("the 1st argument <filename> must be a string or a file,");
+    fi;
+
+    if not IsList(srs) then
+      srs := [srs];
+    fi;
+
+    mode := "a";
+
+    if IsString(name) then
+      if Length(args) = 1 then
+        if not args[1] in ["w", "a"] then
+          ErrorNoReturn("the optional argument <mode> must be \"w\" or \"a\",");
+        fi;
+        mode := args[1];
+      elif Length(args) > 1 then
+        ErrorNoReturn("there should be at most 3 arguments,");
+      fi;
+      if IsString(name) and not IsExistingFile(name) then
+        mode := "w";
+      fi;
+      f := IO_CompressedFile(name, mode);
+    elif IsFile(name) then
+      if Length(args) > 0 then
+        ErrorNoReturn("the optional argument <mode> cannot be specified for",
+                      " an existing file object, please use the filename",
+                      " instead,");
+      fi;
+      f := name;
+      if f!.closed then
+        ErrorNoReturn("the 1st argument <filename> is closed,");
+      elif f!.wbufsize = false then
+        ErrorNoReturn("the mode of the 1st argument <filename> must be ",
+                      "\"w\" or \"a\",");
+      fi;
+    fi;
+
+    for sr in srs do
+      IO_WriteLine(f, Semi6String(sr));
+    od;
+
+    IO_Close(f);
+    return IO_OK;
+end);
+
+BindGlobal("Semi6DecoderWrapper",
+  function(file)
+    local line;
+    line := IO_ReadLine(file);
+    if line = "" then
+      return IO_Nothing;
+    fi;
+    return SemiringFromSemi6String(line);
+end);
+
+InstallGlobalFunction(Semi6Decode,
+function(arg...)
+  local nr, name, file, i, next, out;
+
+  # defaults
+  nr      := infinity;
+
+  if Length(arg) = 1 then
+    name := arg[1];
+  elif Length(arg) = 2 then
+    name    := arg[1];
+    nr      := arg[2];
   else
-    b := 1;
+    ErrorNoReturn("there must be 1 or 2 arguments,");
   fi;
 
-  bits := BlistList([1 .. (Length(chars) - 1) * 6], []);
-  pos  := 1;
-  for i in [2 .. Length(chars)] do
-    val := chars[i];
-    for j in [0 .. 5] do
-      if val mod 2 = 1 then
-        bits[pos + 5 - j] := true;
-      fi;
-      val := QuoInt(val, 2);
+  if not (IsString(name) or IsFile(name)) then
+    ErrorNoReturn("the 1st argument <filename> must be a string or IO ",
+                  "file object,");
+  elif not (IsPosInt(nr) or IsInfinity(nr)) then
+    ErrorNoReturn("the argument <nr> must be a positive integer or ",
+                  "infinity");
+  fi;
+
+  if IsString(name) then
+    file := IO_CompressedFile(name, "r");
+  else
+    file := name;
+    if file!.closed then
+      ErrorNoReturn("the 1st argument <filename> is a closed file,");
+    elif file!.rbufsize = false then
+      ErrorNoReturn("the mode of the 1st argument <filename> must be \"r\",");
+    fi;
+  fi;
+
+  if nr < infinity then
+    i    := 0;
+    next := fail;
+    while i < nr - 1 and next <> IO_Nothing do
+      i    := i + 1;
+      next := IO_ReadLine(file);
     od;
-    pos := pos + 6;
+    if next <> IO_Nothing then
+      out := Semi6DecoderWrapper(file);
+    else
+      out := IO_Nothing;
+    fi;
+    if IsString(arg[1]) then
+      IO_Close(file);
+    fi;
+    return out;
+  fi;
+
+  out  := [];
+  next := Semi6DecoderWrapper(file);
+
+  while next <> IO_Nothing do
+    Add(out, next);
+    next := Semi6DecoderWrapper(file);
   od;
 
-  A   := List([1 .. n], i -> List([1 .. n], j -> 0));
-  M   := List([1 .. n], i -> List([1 .. n], j -> 0));
-  pos := 1;
+  if IsString(arg[1]) then
+    IO_Close(file);
+  fi;
 
-  for i in [1 .. n] do
-    for j in [i .. n] do
-      val := 0;
-      for k in [1 .. b] do
-        if bits[pos] then
-            val := val + 2 ^ (b - k);
-        fi;
-        pos := pos + 1;
-      od;
-      val     := val + 1;
-      A[i][j] := val;
-      A[j][i] := val;
-    od;
-  od;
-
-  for i in [1 .. n] do
-    for j in [1 .. n] do
-      val := 0;
-      for k in [1 .. b] do
-        if bits[pos] then
-          val := val + 2 ^ (b - k);
-        fi;
-        pos := pos + 1;
-      od;
-      M[i][j] := val + 1;
-    od;
-  od;
-
-  return [A, M];
+  return out;
 end);
