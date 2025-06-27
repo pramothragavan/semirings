@@ -6,6 +6,23 @@
 
  The <B>Semirings</B> package provides a means of encoding and decoding
  into a format called <B>Semi6</B>, inspired by the <B>graph6</B> format.
+<P/>
+ <B>Semi6</B> encodes a semiring <Math>S = (A,M)</Math> of order <Math>n</Math> (two <Math>n \times n</Math>
+ Cayley tables) as one short ASCII token.
+<P/>
+ The first byte is <Math>n + 63</Math>, exactly as in <B>graph6</B>.
+ The payload is a bit-stream: first the upper triangle (diagonal included)
+ of the symmetric table <Math>A</Math>, then the full table <Math>M</Math>. Each entry is stored
+ in <Math>b = \lceil{\log_2 n\rceil}</Math> bits, most-significant bit first.
+ Zero-bits are used for padding until the length is a multiple of 6.
+ The stream is then divided into 6-bit blocks, each block has 63 added,
+ and the resulting bytes (ASCII 63–126) are concatenated.
+ Thus a semiring becomes one short, printable token that is identical
+ in spirit
+ to <B>graph6</B>, but with a variable‐width per-entry field instead of
+ the single edge-bit used for graphs. That is to say, the <Math>b=1</Math> case
+ effectively reduces to the <B>graph6</B> format (with an additional
+ square table).
 <Section Label="Chapter_Semi6_Section_Encoding">
 <Heading>Encoding</Heading>
 

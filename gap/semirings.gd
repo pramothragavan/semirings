@@ -221,6 +221,23 @@ SetInfoLevel(InfoSemirings, 1);
 #! @Chapter Semi6
 #! The <B>Semirings</B> package provides a means of encoding and decoding
 #! into a format called <B>Semi6</B>, inspired by the <B>graph6</B> format.
+#!
+#! <B>Semi6</B> encodes a semiring $S = (A,M)$ of order $n$ (two $n \times n$
+#! Cayley tables) as one short ASCII token.
+#!
+#! The first byte is $n + 63$, exactly as in <B>graph6</B>.
+#! The payload is a bit-stream: first the upper triangle (diagonal included)
+#! of the symmetric table $A$, then the full table $M$. Each entry is stored
+#! in $b = \lceil{\log_2 n\rceil}$ bits, most-significant bit first.
+#! Zero-bits are used for padding until the length is a multiple of 6.
+#! The stream is then divided into 6-bit blocks, each block has 63 added,
+#! and the resulting bytes (ASCII 63–126) are concatenated.
+#! Thus a semiring becomes one short, printable token that is identical
+#! in spirit
+#! to <B>graph6</B>, but with a variable‐width per-entry field instead of
+#! the single edge-bit used for graphs. That is to say, the $b=1$ case
+#! effectively reduces to the <B>graph6</B> format (with an additional
+#! square table).
 #! @Section Encoding
 #! @Arguments S
 #! @Returns a string
