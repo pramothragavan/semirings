@@ -9,7 +9,7 @@ gap> CheckSemi6 := function(srs)
 >  local failures, sr;
 >  failures := 0;
 >  for sr in srs do
->    if Semi6Decode(Semi6Encode(sr)) <> sr then
+>    if SemiringFromSemi6String(Semi6String(sr)) <> sr then
 >      failures := failures + 1;
 >    fi;
 >  od;

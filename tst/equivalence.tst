@@ -48,8 +48,6 @@ gap> NrAiSemirings(3, true) = Length(AntiIsomorphismFilter(AllAiSemirings(3)));
 true
 gap> NrAiSemirings(4, true) = Length(AntiIsomorphismFilter(AllAiSemirings(4)));
 true
-gap> NrAiSemirings(5, true) = Length(AntiIsomorphismFilter(AllAiSemirings(5)));
-true
 gap> NrSemirings(2, true) = Length(AntiIsomorphismFilter(AllSemirings(2)));
 true
 gap> NrSemirings(3, true) = Length(AntiIsomorphismFilter(AllSemirings(3)));

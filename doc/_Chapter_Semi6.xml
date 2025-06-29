@@ -8,7 +8,7 @@
  into a format called <B>Semi6</B>, inspired by the <B>graph6</B> format.
 <P/>
  <B>Semi6</B> encodes a semiring <Math>S = (A,M)</Math> of order <Math>n</Math> (two <Math>n \times n</Math>
- Cayley tables) as one short ASCII token.
+ Cayley tables) as one short ASCII string.
 <P/>
  The first byte is <Math>n + 63</Math>, exactly as in <B>graph6</B>.
  The payload is a bit-stream: first the upper triangle (diagonal included)
@@ -17,12 +17,13 @@
  Zero-bits are used for padding until the length is a multiple of 6.
  The stream is then divided into 6-bit blocks, each block has 63 added,
  and the resulting bytes (ASCII 63–126) are concatenated.
- Thus a semiring becomes one short, printable token that is identical
- in spirit
- to <B>graph6</B>, but with a variable‐width per-entry field instead of
- the single edge-bit used for graphs. That is to say, the <Math>b=1</Math> case
- effectively reduces to the <B>graph6</B> format (with an additional
- square table).
+ Thus a semiring becomes one short, string that is identical
+ in spirit to <B>graph6</B>, but with a variable‐width 
+ per-entry field instead of the single edge-bit used for graphs.
+ That is to say, the <Math>b=1</Math> case effectively reduces to the
+ <B>graph6</B> format (with an additional square table).
+<P/>
+ The order of the semiring must be between 1 and 63, inclusive.
 <Section Label="Chapter_Semi6_Section_Encoding">
 <Heading>Encoding</Heading>
 
@@ -31,8 +32,8 @@
  <Returns>a string
 </Returns>
  <Description>
-The function <C>Semi6String(S)</C> encodes a semiring
- <C>S</C> into a string in the Semi6 format.
+The function <C>Semi6String</C> encodes a semiring
+ <A>S</A> into a string in the Semi6 format.
  </Description>
 </ManSection>
 
@@ -40,14 +41,13 @@ The function <C>Semi6String(S)</C> encodes a semiring
 <ManSection>
   <Func Arg="f, srs, [mode]" Name="Semi6Encode" />
  <Description>
-This function takes, a file or filename <A>f</A>, a list of
- semirings <A>srs</A>, and an optional mode <A>mode</A>.
- If <A>f</A> is a file, it writes the semirings in <C>srs</C> to the file in
- Semi6 format. If <A>f</A> is a string, it writes the semirings to a file
- with the name <A>f</A> in <B>Semi6</B> format.
+If <A>srs</A> is a semiring or list of semirings
+ (as pairs of Cayley tables) and <A>f</A> is a string containing
+ the name of a file or an IO file object, <C>Semi6Encode</C> writes
+ the semirings to the file represented by <A>f</A> in the Semi6 format.
 <P/>
- <A>mode</A> can be either <C>"w"</C> or <C>"a"</C> (default), which
- determines the mode in which the file is opened for writing.
+ The optional argument <A>mode</A> can be either <C>"w"</C> or <C>"a"</C>
+ (default), which determines the mode in which the file is opened for writing.
  </Description>
 </ManSection>
 
@@ -60,20 +60,29 @@ This function takes, a file or filename <A>f</A>, a list of
 
 <ManSection>
   <Func Arg="str" Name="SemiringFromSemi6String" />
- <Returns>a list
+ <Returns>a list of Cayley tables
 </Returns>
  <Description>
-<P/>
+This function takes a string <A>str</A> in the Semi6 format
+ representing a semiring and returns that semiring as a pair of
+ Cayley tables.
  </Description>
 </ManSection>
 
 
 <ManSection>
-  <Func Arg="file, [nr]" Name="Semi6Decode" />
- <Returns>a list
+  <Func Arg="f, [n]" Name="Semi6Decode" />
+ <Returns>a list of Cayley tables, or a list of pairs of  Cayley tables
 </Returns>
  <Description>
+If <A>f</A> is a string containing the name of a file containing
+ encoded semirings or an IO file object, then <C>Semi6Decode</C>
+ returns the semirings
+ encoded in the file as a list of pairs of Cayley tables.
 <P/>
+ If the optional argument <A>n</A> is given, then <C>Semi6Decode</C>
+ returns the <A>n</A>th semiring encoded in the file as a pair of
+ Cayley tables.
  </Description>
 </ManSection>
 

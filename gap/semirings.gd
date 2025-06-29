@@ -223,7 +223,7 @@ SetInfoLevel(InfoSemirings, 1);
 #! into a format called <B>Semi6</B>, inspired by the <B>graph6</B> format.
 #!
 #! <B>Semi6</B> encodes a semiring $S = (A,M)$ of order $n$ (two $n \times n$
-#! Cayley tables) as one short ASCII token.
+#! Cayley tables) as one short ASCII string.
 #!
 #! The first byte is $n + 63$, exactly as in <B>graph6</B>.
 #! The payload is a bit-stream: first the upper triangle (diagonal included)
@@ -232,35 +232,47 @@ SetInfoLevel(InfoSemirings, 1);
 #! Zero-bits are used for padding until the length is a multiple of 6.
 #! The stream is then divided into 6-bit blocks, each block has 63 added,
 #! and the resulting bytes (ASCII 63–126) are concatenated.
-#! Thus a semiring becomes one short, printable token that is identical
-#! in spirit
-#! to <B>graph6</B>, but with a variable‐width per-entry field instead of
-#! the single edge-bit used for graphs. That is to say, the $b=1$ case
-#! effectively reduces to the <B>graph6</B> format (with an additional
-#! square table).
+#! Thus a semiring becomes one short, string that is identical
+#! in spirit to <B>graph6</B>, but with a variable‐width 
+#! per-entry field instead of the single edge-bit used for graphs.
+#! That is to say, the $b=1$ case effectively reduces to the
+#! <B>graph6</B> format (with an additional square table).
+#!
+#! The order of the semiring must be between 1 and 63, inclusive.
 #! @Section Encoding
 #! @Arguments S
 #! @Returns a string
-#! @Description The function <C>Semi6String(S)</C> encodes a semiring
-#! <C>S</C> into a string in the Semi6 format.
+#! @Description The function <C>Semi6String</C> encodes a semiring
+#! <A>S</A> into a string in the Semi6 format.
 DeclareGlobalFunction("Semi6String");
 #! @Arguments f, srs, [mode]
-#! @Description This function takes, a file or filename <A>f</A>, a list of
-#! semirings <A>srs</A>, and an optional mode <A>mode</A>.
-#! If <A>f</A> is a file, it writes the semirings in <C>srs</C> to the file in
-#! Semi6 format. If <A>f</A> is a string, it writes the semirings to a file
-#! with the name <A>f</A> in <B>Semi6</B> format.
+#! @Description If <A>srs</A> is a semiring or list of semirings
+#! (as pairs of Cayley tables) and <A>f</A> is a string containing
+#! the name of a file or an IO file object, <C>Semi6Encode</C> writes
+#! the semirings to the file represented by <A>f</A> in the Semi6 format.
 #!
-#! <A>mode</A> can be either <C>"w"</C> or <C>"a"</C> (default), which
-#! determines the mode in which the file is opened for writing.
+#! The optional argument <A>mode</A> can be either <C>"w"</C> or <C>"a"</C>
+#! (default), which determines the mode in which the file is opened for writing.
 DeclareGlobalFunction("Semi6Encode");
 
 #! @Section Decoding
 #! @Arguments str
-#! @Returns a list
+#! @Returns a list of Cayley tables
+#! @Description This function takes a string <A>str</A> in the Semi6 format
+#! representing a semiring and returns that semiring as a pair of
+#! Cayley tables.
 DeclareGlobalFunction("SemiringFromSemi6String");
-#! @Arguments file, [nr]
-#! @Returns a list
+#! @Arguments f, [n]
+#! @Returns a list of Cayley tables, or a list of pairs of
+#! Cayley tables
+#! @Description If <A>f</A> is a string containing the name of a file containing
+#! encoded semirings or an IO file object, then <C>Semi6Decode</C>
+#! returns the semirings
+#! encoded in the file as a list of pairs of Cayley tables.
+#!
+#! If the optional argument <A>n</A> is given, then <C>Semi6Decode</C>
+#! returns the <A>n</A>th semiring encoded in the file as a pair of
+#! Cayley tables.
 DeclareGlobalFunction("Semi6Decode");
 
 #! @Chapter Parallel Approaches
