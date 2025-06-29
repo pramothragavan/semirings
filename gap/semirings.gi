@@ -628,6 +628,43 @@ InstallGlobalFunction(SemiringFromSemi6String,
     return [A, M];
   end);
 
+BindGlobal("SEMIRINGS_IsSemiring",
+  function(S)
+    local A, M, As, Ms, oldBoE, oldSNE;
+
+    if Length(S) <> 2 then
+      return false;
+    fi;
+
+    A := S[1];
+    M := S[2];
+
+    oldBoE := BreakOnError;
+    BreakOnError := false;
+    SilentNonInteractiveErrors := true;
+    oldSNE := SilentNonInteractiveErrors;
+
+    As := CALL_WITH_CATCH(SemigroupByMultiplicationTable, [A]);
+    Ms := CALL_WITH_CATCH(SemigroupByMultiplicationTable, [M]);
+
+    BreakOnError               := oldBoE;
+    SilentNonInteractiveErrors := oldSNE;
+
+    if As[1] = false or Ms[1] = false then
+      return false;
+    fi;
+
+    if not IsCommutativeSemigroup(As[2]) then
+      return false;
+    fi;
+
+    if not IsLeftRightDistributive(A, M) then
+      return false;
+    fi;
+
+    return true;
+end);
+
 InstallGlobalFunction(Semi6Encode,
   function(name, srs, args...)
     local f, mode, sr;
@@ -635,7 +672,7 @@ InstallGlobalFunction(Semi6Encode,
       ErrorNoReturn("the 1st argument <filename> must be a string or a file,");
     fi;
 
-    if not IsList(srs) then
+    if SEMIRINGS_IsSemiring(srs) then
       srs := [srs];
     fi;
 
@@ -670,6 +707,11 @@ InstallGlobalFunction(Semi6Encode,
     fi;
 
     for sr in srs do
+      if not SEMIRINGS_IsSemiring(sr) then
+        IO_Close(f);
+        ErrorNoReturn("the argument <srs> must be a semiring or a list of",
+                      " semirings,");
+      fi;
       IO_WriteLine(f, Semi6String(sr));
     od;
 
