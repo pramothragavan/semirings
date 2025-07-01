@@ -6,6 +6,7 @@
 \usepackage{amsmath, amssymb, amsthm, hyperref}
 \usepackage{multicol}
 \usepackage{tablefootnote}
+\usepackage{xspace}
 \usepackage[shortlabels, inline]{enumitem}
 
 \usepackage{hyperref}
@@ -18,9 +19,6 @@
 }
 \usepackage[capitalise, nameinlink]{cleveref}
 
-\renewcommand{\labelenumi}{{\normalfont(\alph{enumi})}}
-\setenumerate{noitemsep, topsep=0pt}
-
 \theoremstyle{definition}
 \newtheorem{defn}{Definition}[section]
 \newtheorem{remark}{Remark}
@@ -30,6 +28,24 @@
 \newtheorem{theorem}[defn]{Theorem}
 
 \setlength{\unitlength}{0.5mm}
+\renewcommand{\labelenumi}{{\normalfont(\alph{enumi})}}
+\setenumerate{noitemsep, topsep=0pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[bibencoding=utf8, giveninits=true, sortcites]{biblatex}
+\addbibresource{info.bib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% User-defined macros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\GAP}{\textsc{GAP}~\cite{GAP4}\xspace}
+\newcommand{\Smallsemi}{\textsc{Smallsemi}~\cite{Smallsemi}\xspace}
+\newcommand{\Sym}{\operatorname{Sym}}
+\newcommand{\Aut}{\operatorname{Aut}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Preamble ends
@@ -48,138 +64,168 @@
 \begin{abstract}
   In this short note we count the finite semirings up to isomorphism
   and up to anti-isomorphism for some small values of $n$; for which we
-  utilise the existing library of small semigroups from \cite{}.
+  utilise the existing library of small semigroups in the \GAP
+  package \Smallsemi.
 \end{abstract}
 
 \section{Introduction}
 
-Enumeration of
-algebra and combinatorial structures is a classical topic;
-see~\cite{MilleniumProject, Smallsemi, graphs, digraphs, rings, etc}.
-In this short note we count the number of finite semirings up to isomorphism
-and up to isomorphism and anti-isomorphism for $n \leq 6$. We also count
-several special classes of semirings for (slightly) larger values of $n$.
+% TODO(PR) can you please add references to the relevant OEIS sequences for
+% the everything in the "among the algebraic structures" sentence?
+
+% TODO(JDM): fill in the other non-OEIS references
+
+Enumeration of algebra and combinatorial structures of finite order up to
+isomorphism is a classical topic. Among the algebraic structures considered are
+groups~\cite{BESCHE2002,}, rings~\cite{Blackburn2022, Fine1993, Kruse1970,
+A027623}, near-rings~\cite{SONATA, A305858},
+semigroups and monoids~\cite{}, inverse semigroups~\cite{}, loops~\cite{},
+quasi-groups~\cite{}, functional digraphs~\cite{} (or mono-unary algebras to
+some) and many more too numerous to mention. In this short note we count the
+number of finite semirings up to isomorphism and up to isomorphism and
+anti-isomorphism for $n \leq 6$. We also count several special classes of
+semirings for (slightly) larger values of $n$.
+
+This short note was initiated by an email from M. Volkov to the first author in
+February of 2025 asking if it was possible to verify with \GAP that the number
+of ai-semirings up to isomorphism with $4$ elements is $866$.
+% TODO(JDM) Possibly refer to the paper that Misha sent me at the time?
+After some initial missteps it was relatively straightforward to verify that
+this number is correct, by using the library of small semigroups in the \GAP
+package \Smallsemi. This short note arose out from these first steps. In
+contrast to groups or rings, where the numbers of non-isomorphic objects of
+order $n$ is known for relatively large values of $n$, the number of semigroups
+of order $11$ (up to isomorphism) is not known exactly. Given that $99.4\%$ of
+the semigroups of order $8$ are $3$-nilpotent, that the number of $3$-nilpotent
+semigroups of order $11$ is approximately $10 ^ {26}$~\cite{}, this number is
+likely close to the exact value; see also~\cite{}. Perhaps unsurprisingly, from
+the perspective of counting up to isomorphism, it seems that semirings have
+more in common with semigroups than with rings or groups. Roughly speaking,
+rings and groups are highly structured, providing strong constraints that
+enable their enumeration. On the other hand, semigroups, and seemingly
+semirings also, are less structured, more numerous, and consequently harder to
+enumerate.
 
 We begin with the definition of a semiring; this originates in
 \cite{} and was intended as a generalisation of the notion of a ring.
 
-\begin{defn}
+\begin{defn}[Semiring]
   \label{def:semiring}
   A \emph{semiring} is a set \(S\) equipped with two binary
-  operations \((+, \cdot)\) such that:
+  operations \(+\) and  \(\times\) such that:
   \begin{enumerate}
-    \item The \emph{additive reduct} \((S, +)\), which we denote by
-      \(A\), is a commutative semigroup.
-    \item The \emph{multiplicative reduct} \((S, \cdot)\), which we
-      denote by \(M\), is a semigroup.
-    \item Multiplication distributes over addition, i.e. for all \(a,
-      b, c \in S\),
-      \[
-        a \cdot (b + c) = (a \cdot b) + (a \cdot c) \quad \text{and}
-        \quad (b + c) \cdot a = (b \cdot a) + (c \cdot a).
-      \]
+    \item \((S, +)\) is a commutative semigroup ($(x + y) + z = x + (y + z)$
+      and $x + y = y + x$ for all $x, y, z\in S$);
+    \item \((S, \times)\) is a semigroup ($x\times (y \times z) = (x\times
+      y)\times z$ for all $x,y, z\in S$); and
+    \item multiplication $\times$ distributes over addition $+$
+      ($x \times (y + z) = (x \times y) + (x \times z)$ and
+      $(y + z) \times x = (y \times x) + (z \times x)$ for all $x, y, z \in S$).
   \end{enumerate}
-  Thus, we may identify the semiring \(S\) with the pair \((A, M)\).
 \end{defn}
 
-Note that since both \(A\) and \(M\) have the same underlying set
-\(S\), the symmetric group \(\operatorname{Sym}(S)\) acts naturally
-on both structures.
+In this short note we are concerned with counting semirings up to isomorphism,
+and so our next definition is that of an isomorphism.
 
-\begin{defn}[Semiring isomorphism]
-  We say that two semirings \(S = (A, M)\) and \(S' = (A', M')\) are
-  \emph{isomorphic} if there exists a bijection \(\phi: S \to S'\)
-  such that \(A \overset{\phi}\cong A'\) and \(M \overset{\phi}\cong
-  M'\), where \(\overset{\phi}\cong\) denotes a semigroup isomorphism
-  under \(\phi\).
+% TODO mappings written on the right and composed left to right.
+
+\begin{defn}[Semiring isomorphism]\label{defn-semiring-iso}
+  We say that two semirings \((S,+,\times)\) and \((S, \oplus, \otimes)\) are
+  \emph{isomorphic} if there exists a bijection \(\phi: S \to S\) which is
+  simultaneously a semigroup isomorphism from $(S, +)$ to $(S, \oplus)$ and
+  from $(S, \times)$ to $(S, \otimes)$. We refer to $\phi$ as a
+  \textit{(semiring) isomorphism}.
 \end{defn}
+
+If \((+,\times)=(\oplus, \otimes)\) in \cref{defn-semiring-iso}, then the
+semiring isomorphism $\phi$ is called an \textit{automorphism}. The group of
+all automorphisms of a semiring $S$ is denoted by $\Aut(S)$.
+% TODO need semigroup automorphisms not semiring
+Since a semiring is comprised of two semigroups, enumerating semirings is
+equivalent to enumerating those pairs consisting of an additive semigroup $(S,
++)$ and a multiplicative semigroup $(S, \times)$ such that $\times$ distributes
+over $+$. The next theorem indicates which $(S, \times)$ we should consider
+for each of the additive semigroups $(S, +)$.
+
+We denote the symmetric group on the set $S$ by $\Sym(S)$.
+If $\sigma\in \Sym(S)$ and
+$\cdot: S \times S \to S$ is a binary operation, then we define the binary
+operation $\cdot ^ \sigma: S\times S \to S$ by
+\begin{equation}\label{equation-action}
+  x \cdot ^ \sigma y = ((x)\sigma^{-1} \cdot (y)\sigma ^ {-1})\sigma.
+\end{equation}
+It is straightforward to verify that \eqref{equation-action} is a (right group)
+action of $\Sym(S)$ on the set of all binary operations on $S$. Clearly if
+$\cdot$ is associative, then so too is $\cdot ^ \sigma$ for every $\sigma \in
+\Sym(S)$. The group of automorphisms $\Aut(S,\cdot)$ of a
+semigroup $(S, \cdot)$ coincides with the stabiliser of the operation $\cdot$
+under the action of $\Sym(S)$ defined in \eqref{equation-action}.
+
+Recall that if $H$ and $K$ are subgroups of a group $G$, then the
+\textit{double cosets} $H\backslash G / K$ are the sets of the form
+$\{hgk\mid h\in H, k \in K\}$ for $g\in G$.
+The next theorem is key to our approach for counting semirings.
 
 \begin{theorem}
   \label{thm:isomorphism-condition}
-  Let \(A\) be a commutative semigroup and \(M\) be a semigroup, such
-  that \(A\) and \(M\) are both defined on the same underlying set
-  \(S\). For any permutation \(\sigma \in \operatorname{Sym}(S)\),
-  let \(M^\sigma\) denote the semigroup obtained by permuting \(M\)
-  via \(\sigma\). Suppose that for two permutations \(\sigma,
-  \tau\in\operatorname{Sym}(S)\), the pairs \((A,M^\sigma)\) and
-  \((A,M^\tau)\) both form semirings. Then, the following statements
-  are equivalent:
-  \begin{enumerate}
-    \item \((A, M^\sigma)\) and \((A, M^\tau)\) are isomorphic.
-    \item \(\sigma\) and \(\tau\) lie in the same double coset of
-      \(\operatorname{Aut}(A) \backslash \operatorname{Sym}(S) /
-      \operatorname{Aut}(M)\).
-  \end{enumerate}
-  \begin{proof}
-    We will denote the product \(i\cdot j\) in \(M\) by \(M(i,j)\).
-
-    For the forward direction, suppose \((A, M^\sigma) \cong (A,
-    M^\tau)\). Equivalently, there exists a bijection \(\phi: (A,
-    M^\sigma) \to (A, M^\tau)\) such that for all \(i, j \in S\):
-    \begin{gather}
-      \phi \in \operatorname{Aut}(A)\\
-      \phi(M^\sigma(i,j)) = M^\tau(\phi(i),\phi(j))
-    \end{gather}
-
-    From (2), we have
-    \begin{gather*}
-      \phi\sigma(M(\sigma^{-1}(i), \sigma^{-1}(j))) =
-      \tau(M(\tau^{-1}\phi(i), \tau^{-1}\phi(j))) \\
-      \tau^{-1}\phi\sigma(M(\sigma^{-1}(i), \sigma^{-1}(j))) =
-      M(\tau^{-1}\phi(i), \tau^{-1}\phi(j))
-    \end{gather*}
-    Now, let \(\gamma = \tau^{-1}\phi\sigma\), \(x =
-    \sigma^{-1}(i)\text{ and }y=\sigma^{-1}(j)\). Then,
-    \[
-      \gamma(M(x, y)) = M(\gamma(x), \gamma(y))
-    \]
-
-    implying that \(\gamma \in \operatorname{Aut}(M) \text{ and in
-    particular, } \gamma^{-1} \in \operatorname{Aut}(M)\).
-
-    Rearranging the definition of \(\gamma\), we obtain \(\tau =
-    \phi\sigma\gamma^{-1}\). Since \(\phi \in
-    \operatorname{Aut}(A)\), we conclude that \(\tau\) and \(\sigma\)
-    lie in the same double coset of \(\operatorname{Aut}(A)
-    \backslash \operatorname{Sym}(S) / \operatorname{Aut}(M)\).
-
-    \vspace{2em}
-    For the reverse direction, we begin by supposing that \(\sigma\)
-    and \(\tau\) are in the same double coset.
-
-    Choose \(\alpha\in\operatorname{Aut}(M)\text{ and }
-    \beta\in\operatorname{Aut}(A)\) such that
-    \[\tau=\beta\sigma\alpha\]
-
-    Note that for a function \(\phi\) to be an isomorphism from
-    \((A,M^\sigma)\to(A, M^\tau)\), it must satisfy properties (1)
-    and (2) detailed in the forward direction. In particular, if we
-    have property (1), then as an automorphism of \(A\), \(\phi\)
-    would automatically be bijective on the underlying set \(S\).
-
-    We claim that \(\beta\) satisfies these properties. The first
-    property follows trivially from the definition of \(\beta\). For
-    the second property,
-
-    \begin{align*}
-      \beta(M^\sigma(i,j))&=\beta\sigma(M(\sigma^{-1}(i),\sigma^{-1}(j)))\\
-      &=\tau\alpha^{-1}(M(\sigma^{-1}(i),\sigma^{-1}(j)))\\
-      &\overset{*}{=}\tau(M(\alpha^{-1}\sigma^{-1}(i),\alpha^{-1}\sigma^{-1}(j)))\\
-      &=\tau(M(\tau^{-1}\beta(i),\tau^{-1}\beta(j)))\\
-      &=M^\tau(\beta(i),\beta(j))
-    \end{align*}
-
-    where we have used \(\alpha\in\operatorname{Aut}(M)\text{ and
-    therefore }\alpha^{-1}\in\operatorname{Aut}(M)\) to justify the
-    equality labelled `*'.
-
-    Hence, we have shown that \(\beta\) satisfies (1) and (2) and is
-    therefore the necessary isomorphism.
-  \end{proof}
+  Let \((S, +)\) be a commutative semigroup, let \((S, \times)\) be a semigroup,
+  and let \(\sigma, \tau\in\Sym(S)\) be such that $(S, +, \times ^ \sigma)$ and
+  $(S, +, \times ^ \tau)$ are semirings.
+  Then \((S, +, \times ^ \sigma)\) and \((S, +, \times^\tau)\) are isomorphic
+  if and only if \(\sigma\) and \(\tau\) belong to the same double coset of
+  \(\Aut(S, \times) \backslash \Sym(S) / \Aut(S, +)\).
 \end{theorem}
 
-Note that the above theorem can be easily adapted to yield the
-following result for equivalence of semirings.
+\begin{proof}
+  ($\Rightarrow$) Suppose that $\phi$ is a semiring isomorphism from
+  $(S, +, \times ^ \sigma)$ to $(S, +, \times^\tau)$. Then
+  $\phi \in \Aut(S, +)$ and $(x \times ^ \sigma y)\phi = (x)\phi\times ^ \tau
+  (y)\phi$ for all $x, y\in S$. It follows that
+  \[
+    ((x)\sigma ^ {-1} \times (y)\sigma ^ {-1})\sigma \phi \tau ^ {-1} =
+    (x \times ^ \sigma y)\phi\tau ^ {-1}
+    = ((x)\phi \times ^ {\tau} (y)\phi)\tau ^ {-1}
+    = (x)\phi\tau ^ {-1} \times (y)\phi\tau ^ {-1}.
+  \]
+  If we set $\gamma = \sigma\phi\tau^{-1}$, $p =
+  (x)\sigma^{-1}$, and $q=(y)\sigma^{-1}$, then
+  $(p\times q)\gamma = (p)\gamma \times (q)\gamma$
+  and so $\gamma, \gamma ^ {-1} \in \Aut(S, \times)$.
+  Rearranging we obtain $\tau = \gamma^{-1}\sigma\phi$. Since $\phi \in
+  \Aut(S, +)$, we conclude that $\tau$ and $\sigma$ lie in the
+  same double coset of $\Aut(S, \times) \backslash \Sym(S) / \Aut(S, +)$.
+
+  ($\Leftarrow$) Suppose that $\sigma$ and $\tau$ are in the
+  same double coset of $\Aut(S, +) \backslash \Sym(S) / \Aut(S, \times)$.
+  Then there exists $\alpha\in\Aut(S, \times)$ and $\beta\in\Aut(S, +)$ such
+  that $\tau=\alpha\sigma\beta$.
+
+  We will show that $\beta$ is a semiring isomorphism from $(S, +, \times
+  ^{\sigma})$ to $(S, +, \times^{\tau})$. Since $\beta\in \Aut(S, +)$, it
+  suffices to show that $\beta$ is an isomorphism from $(S, \times
+  ^{\sigma})$ and $(S, \times^{\tau})$:
+  \begin{align*}
+    (x\times^\sigma y)\beta
+    &= (x\sigma ^{-1} \times y\sigma ^{-1})\sigma \beta
+    = (x\sigma ^{-1} \times y\sigma ^{-1})\alpha^{-1}\tau
+    = (x\sigma ^{-1}\alpha^{-1} \times y\sigma ^{-1}\alpha^{-1})\tau &&
+    \alpha^{-1} \in \Aut(S, \times)\\
+    &= (x\beta\tau^{-1} \times y\beta\tau^{-1})\tau
+    = (x\beta \times^{\tau} y\beta).\qedhere
+  \end{align*}
+\end{proof}
+
+If $(S, \times)$ and $(S, \otimes)$ are semigroups, then $(S, \times)$ is said
+to be \textit{anti-isomorphic} to $(S, \otimes)$ if there exists a bijection
+$\phi: S \to S$ such that $(x\times y)\phi = y\otimes x$ for all $x, y\in S$.
+The bijection $\phi$ is referred to as an \textit{anti-isomorphism}. Similarly,
+using the obvious analogue of \cref{defn-semiring-iso}, we can define
+anti-isomorphic semigroups. It is routine to adapt the proof of
+\cref{thm:isomorphism-condition} to prove the following.
+
+% TODO(PR): update to say the same thing as the theorem above, also maybe don't
+% use the term "equivalence" it's too non-specific.
+
 \begin{cor}
   \label{cor:equiv-condition}
   Let \(A\) be a commutative semigroup and \(M\) be a semigroup, such
@@ -201,35 +247,43 @@ following result for equivalence of semirings.
   automorphisms and anti-automorphisms of \(M\).
 \end{cor}
 
-\begin{remark}
-  \(\operatorname{Aut}(M)\) and \(\operatorname{Aut}^*(M)\) are equal
-  if \(M\) is non-self-dual.
-\end{remark}
+\section{Tables of results}
 
-\begin{remark}
-  Suppose \(M\) is a self-dual semigroup and \(\tau\) is an
-  anti-automorphism on \(M\). Then,
-  \[\operatorname{Aut}^*(M) =
-    \langle\operatorname{Generators}(\operatorname{Aut}(M)) \cup
-  \{\tau\}\rangle.\]
-\end{remark}
-\vspace{3em}
-\begin{center}
-  \textbf{Results}
-\end{center}
-The following results were obtained using the \texttt{aisemirings}
-package in GAP, which (for small \(n\)) provides functions for
-counting and enumerating various semiring-related objects. First, we
-introduce a few definitions for the less known structures.
+It follows from \cref{thm:isomorphism-condition} and
+\cref{cor:equiv-condition} that to enumerate the
+semirings on a set $S$ up to isomorphism (or up to isomorphism and
+anti-isomorphism) it suffices to consider every
+commutative semigroup $(S, +)$ and semigroup $(S, \times)$
+and to compute representatives of the double cosets \(\Aut(S, \times)
+\backslash \Sym(S) / \Aut(S, +)\). The semigroups up to isomorphism are
+available in \Smallsemi.  Since $S$ is small, it is relatively
+straightforward to can compute $\Aut(S, \times)$ and $\Aut(S, +)$.
+% TODO(PR) maybe say how we actually compute these groups, I forget.
+\GAP contains functionality for computing double coset
+representatives based on \cite{}. This is the approach implemented by the
+authors of the current paper in the \GAP package \texttt{semirings} to compute
+the numbers in this section.
+% TODO(PR) proper reference for semirings repo
 
-Note that we take the convention that a ring has a multiplicative
-identity, although a semiring might not.
+% TODO(PR): I don't think this is a good assumption to make, please remove it
+% from what follows!
+% Note that we take the convention that a ring has a multiplicative
+% identity, although a semiring might not.
 
-\begin{defn}
+% TODO(PR): revise from here onwards to remove the weird names (as we discussed
+% previously), and I think it will be enough to just list the tables with the
+% relevant definition in the caption, i.e. no definitions required in this
+% section.
+
+% TODO(PR): check which of the numbers in this section might be known already
+% (i.e. check the oeis) + add a proper reference to Jipsen
+
+\begin{defn}[ai-semiring]
   The prefix `ai' refers to \emph{additive idempotence}. For
   instance, an ai-semiring \(S\) is a semiring such that the additive
   reduct is idempotent, i.e. it satisfies \(a + a = a\) for all \(a\in S\).
 \end{defn}
+
 \begin{defn}
   A \emph{rng} is a ring without the requirement for multiplicative
   identity. Maintaining the language from
@@ -432,6 +486,11 @@ know, all results in Table~\ref{tab:unital-semirings} are unpublished.}.
 \end{table}
 
 These tables are merely a sample of the results that can be obtained
-using the \texttt{aisemirings} package.
+using the \texttt{semirings} package.
+
+%TODO(PR) add as many tables as possible that contain numbers that weren't
+%known before.
+
+\printbibliography
 
 \end{document}
