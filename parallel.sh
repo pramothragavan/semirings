@@ -12,19 +12,35 @@ cd "$SCRIPT_DIR" || exit 1
 : > parallel/structure.txt
 orig_tokens=()
 
+: > parallel/structure.txt
+orig_tokens=()
+
 for tok in "$@"; do
-    if [[ "$tok" =~ ^Nr([A-Za-z0-9_]+)\([[:space:]]*([0-9]+)[[:space:]]*(,[[:space:]]*(true|false))?[[:space:]]*\)$ ]]; then
+    if [[ "$tok" =~ ^NrSemiringsWithX[[:space:]]*\([[:space:]]*([0-9]+)[[:space:]]*,[[:space:]]*(\[[^][]*\])[[:space:]]*,[[:space:]]*(\[[^][]*\])[[:space:]]*(,[[:space:]]*(true|false))?[[:space:]]*\)$ ]]; then
+        n=${BASH_REMATCH[1]}
+        structA=${BASH_REMATCH[2]}
+        structM=${BASH_REMATCH[3]}
+        flag=${BASH_REMATCH[5]:-false}
+
+        printf '[%s,true,Concatenation([IsCommutative, true], %s),%s,%s]\n' \
+               "$n" "$structA" "$structM" "$flag" >> parallel/structure.txt
+        orig_tokens+=( "$tok" )
+        continue
+
+    elif [[ "$tok" =~ ^Nr([A-Za-z0-9_]+)\([[:space:]]*([0-9]+)[[:space:]]*(,[[:space:]]*(true|false))?[[:space:]]*\)$ ]]; then
         category=${BASH_REMATCH[1]}
         n=${BASH_REMATCH[2]}
         flag=${BASH_REMATCH[4]:-false}
 
         printf 'Concatenation([%s, true], SEMIRINGS_STRUCTURE_REC.("%s"), [%s])\n' \
                "$n" "$category" "$flag" >> parallel/structure.txt
-        orig_tokens+=( "$tok" )
     else
         echo "Ignoring unrecognised token: $tok"
     fi
+
+    orig_tokens+=( "$tok" )
 done
+
 
 [[ -s parallel/structure.txt ]] || {
     echo "No valid Nr*(…) arguments parsed; aborting." >&2
