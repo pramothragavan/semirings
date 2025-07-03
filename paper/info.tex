@@ -44,6 +44,7 @@
 
 \newcommand{\GAP}{\textsc{GAP}~\cite{GAP4}\xspace}
 \newcommand{\Smallsemi}{\textsc{Smallsemi}~\cite{Smallsemi}\xspace}
+\newcommand{\Semigroups}{\textsc{Semigroups}~\cite{Semigroups}\xspace}
 \newcommand{\Sym}{\operatorname{Sym}}
 \newcommand{\Aut}{\operatorname{Aut}}
 
@@ -51,7 +52,7 @@
 % Preamble ends
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{Enumerating finite semirings}
+\title{Counting finite semirings}
 \author{J. D. Mitchell and P. Ragavan}
 \date{\today}
 
@@ -72,38 +73,44 @@
 
 Enumeration of algebra and combinatorial structures of finite order up to
 isomorphism is a classical topic. Among the algebraic structures considered are
-groups~\cite{BESCHE2002,}, rings~\cite{Blackburn2022, Fine1993, Kruse1970,
-A027623}, near-rings~\cite{SONATA, A305858}, semigroups~\cite{A027851},
-monoids~\cite{A058129}, inverse semigroups~\cite{A001428},
-loops~\cite{A000315}, quasi-groups~\cite{A002860}, functional
-digraphs~\cite{A001373} (or mono-unary algebras to some) and many more too
-numerous to mention. In this short note we count the number of finite semirings
-up to isomorphism and up to isomorphism and anti-isomorphism for $n \leq 6$. We
-also count several special classes of semirings for (slightly) larger values of
-$n$.
+groups~\cite{BESCHE2002,A000001}, rings~\cite{Blackburn2022, Fine1993,
+Kruse1970, A027623}, near-rings~\cite{Chow2024, SONATA, A305858},
+semigroups and monoids~\cite{Distler2010, Distler2010, Distler2013,
+  Forsythe1955, Grillet1996, Grillet2014, Jrgensen1977, Motzkin1955,
+Plemmons1967, A027851, A058129, Satoh1994, A001426, A001423},
+inverse semigroups and monoids~\cite{Malandro2019, A001428, A234843,
+A234844, A234845}, and many more too numerous to mention\footnote{The disparity
+  in the number of references for semigroups and monoids and the other
+  algebraic structures is a consequence of the authors familiarity with the
+  literature for semigroups and monoids, and there are likely many other
+  references that could have been included were it not for us not knowing about
+them.}. In this short note we count the number of finite semirings up to
+isomorphism and up to isomorphism and anti-isomorphism for $n \leq 6$. We also
+count several special classes of semirings for (slightly) larger values of $n$.
 
 This short note was initiated by an email from M. Volkov to the first author in
 February of 2025 asking if it was possible to verify with \GAP that the number
-of ai-semirings up to isomorphism with $4$ elements is $866$.
-% TODO(JDM) Possibly refer to the paper that Misha sent me at the time?
-After some initial missteps it was relatively straightforward to verify that
-this number is correct, by using the library of small semigroups in the \GAP
-package \Smallsemi. This short note arose out from these first steps. In
-contrast to groups or rings, where the numbers of non-isomorphic objects of
-order $n$ is known for relatively large values of $n$, the number of semigroups
-of order $11$ (up to isomorphism) is not known exactly. Given that $99.4\%$ of
-the semigroups of order $8$ are $3$-nilpotent, that the number of $3$-nilpotent
-semigroups of order $11$ is approximately $10 ^ {26}$~\cite{}, this number is
-likely close to the exact value; see also~\cite{}. Perhaps unsurprisingly, from
-the perspective of counting up to isomorphism, it seems that semirings have
-more in common with semigroups than with rings or groups. Roughly speaking,
-rings and groups are highly structured, providing strong constraints that
-enable their enumeration. On the other hand, semigroups, and seemingly
-semirings also, are less structured, more numerous, and consequently harder to
-enumerate.
+of ai-semirings up to isomorphism with $4$ elements is $866$ in the
+paper~\cite{Ren2025}; see also~\cite{Zhao2020} where it is shown that there are
+61 ai-semirings of order $3$. After some initial missteps it was relatively
+straightforward to verify that this number is correct, by using the library
+of small semigroups in the \GAP package \Smallsemi. This short note arose
+out from these first steps. In contrast to groups or rings, where the
+numbers of non-isomorphic objects of order $n$ is known for relatively large
+values of $n$, the number of semigroups of order $11$ (up to isomorphism) is
+not known exactly. Given that $99.4\%$ of the semigroups of order $8$ are
+$3$-nilpotent, that the number of $3$-nilpotent semigroups of order $11$ is
+approximately $10 ^ {26}$~\cite{Distler2012ab}, this number is likely close
+to the exact value; see also~\cite{Kleitman1976}. Perhaps unsurprisingly,
+from the perspective of counting up to isomorphism, it seems that semirings
+have more in common with semigroups than with rings or groups. Roughly
+speaking, rings and groups are highly structured, providing strong
+constraints that enable their enumeration. On the other hand, semigroups,
+and seemingly semirings also, are less structured, more numerous, and
+consequently harder to enumerate.
 
-We begin with the definition of a semiring; this originates in
-\cite{} and was intended as a generalisation of the notion of a ring.
+We begin with the definition of a semiring; which is a natural generalisation
+of the notion of a ring.
 
 \begin{defn}[Semiring]
   \label{def:semiring}
@@ -119,6 +126,14 @@ We begin with the definition of a semiring; this originates in
       $(y + z) \times x = (y \times x) + (z \times x)$ for all $x, y, z \in S$).
   \end{enumerate}
 \end{defn}
+
+We note that some authors require that $(S, +)$ is a commutative monoid with
+additive identity denoted $0$ where $x\times 0 = 0 \times x = 0$ for all $x\in
+S$; see, for example, \cite{Lothaire2005, Sakarovitch2009}.
+We do not add this requirement, and refer to such objects as \textit{semirings
+with zero}. The numbers of semirings with zero are discussed
+in~\cite{stackexchange}; see also~\cite{baueralg}, which we will discuss further
+below.
 
 In this short note we are concerned with counting semirings up to isomorphism,
 and so our next definition is that of an isomorphism.
