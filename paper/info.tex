@@ -320,13 +320,13 @@ using \Semirings.
     & \multicolumn{1}{c|}{with $1$} & \multicolumn{1}{c}{with $0$ + $1$}
     \\
     \midrule
-    1 & 1             & &1&   1    & 1          & &1&    1  \\
-    2 & 10             & &4&   2   & 9          & &4&     2  \\
-    3 & 132            & &22&   6   & 106         & &21&   6    \\
-    4 & 2,341           & &169&  40    & 1,713        & &155& 38    \\
-    5 & 57,427        & &1,819&   295 & 38,247      & &1,561&  262  \\
-    6 & 7,571,579       & &41,104& 3,246  & 4,102,358    & &30,112& 2,681 \\
-    7 &             & &&59,314  &   & && 43,331 \\
+    1 & 1             & ? &1&   1    & 1          & ? &1&    1  \\
+    2 & 10             & ? &4&   2   & 9          & ? &4&     2  \\
+    3 & 132            & ? &22&   6   & 106         & ? &21&   6    \\
+    4 & 2,341           & ? &169&  40    & 1,713        & ? &155& 38    \\
+    5 & 57,427        & ? &1,819&   295 & 38,247      & ? &1,561&  262  \\
+    6 & 7,571,579       & ? &41,104& 3,246  & 4,102,358    & ? &30,112& 2,681 \\
+    7 &   -          &- &? &59,314  & -  & - &? & 43,331 \\
   \end{tabular}
   \caption{Numbers of semirings (\cref{def:semiring}) with $n$
     elements up to isomorphism and up
@@ -352,7 +352,7 @@ using \Semirings.
     4 &       1,067   &   169   &   141    &169\\
     5 &       18,188  &  1,990  &  1,276   &1,990\\
     6 &       543,458 &   32,212 &   17,621 &2,075\\
-    7 &      &                     &        &25,640\\
+    7 & ?     & ?                    & ?       &25,640\\
   \end{tabular}
   \caption{Numbers of commutative semirings (i.e. those satisfying
       $x\times y = y \times
@@ -387,9 +387,10 @@ using \Semirings.
     &574& 125    \\
     6 & 354,409       & 33,391 &9,195 &1,488   & 205,744    & 20,142
     &6,835& 1,150  \\
-    7 & 9,908,909     &        &      &18,554  & 5,470,437  &
-    && 13,171 \\
-    8 &               &        &      &295,292 &            &        && 116,274
+    7 & 9,908,909     &  ?      &  ?    &18,554  & 5,470,437  & ?
+    &? & 13,171 \\
+    8 &        -       & ?       &    ?  &295,292 & ?           & ?
+    &? & 116,274
   \end{tabular}
   \caption{Numbers of ai-semirings (i.e. those satisfying $x + x = x$ for all
     $x\in S$, where ``ai'' stands for ``additively idempotent'') with $n$
@@ -421,69 +422,6 @@ using \Semirings.
     x$ and $x + x = x$ for all $x,y\in S$) with $n$
   elements.}
   \label{tab:comm-ai-semirings}
-\end{table}
-
-\begin{table}[ht]
-  \centering
-  \begin{tabular}{l|r|r}
-    \multirow{2}{*}{$n$} & \multicolumn{1}{|c|}{\multirow{2}{*}{up to
-    isomorphism}} & \multicolumn{1}{c}{up to isomorphism} \\
-    & & \multicolumn{1}{l}{or anti-isomorphism}\\
-    \midrule
-    1 & 1         & 1      \\
-    2 & 2         & 2      \\
-    3 & 6         & 6      \\
-    4 & 40        & 38     \\
-    5 & 295       & 262    \\
-    6 & 3,246     & 2,681  \\
-    7 & 59,314    & 43,331
-  \end{tabular}
-  \caption{Numbers of semirings with one and zero with $n$ elements
-    up to isomorphism or anti-isomorphism. See
-  \cite{MSsemiringsWithOneAndZero} for \(n\leq6\) up to isomorphism.}
-  \label{tab:semirings-with-one-and-zero}
-\end{table}
-
-\begin{table}[ht]
-  \centering
-  \begin{tabular}{l|r|r}
-    \multirow{2}{*}{$n$} & \multicolumn{1}{|c|}{\multirow{2}{*}{up to
-    isomorphism}} & \multicolumn{1}{c}{up to isomorphism} \\
-    & & \multicolumn{1}{l}{or anti-isomorphism}\\
-    \midrule
-    1
-    2
-    3
-    4
-    5
-    6
-    7
-    8
-  \end{tabular}
-  \caption{Numbers of ai-semirings with one and zero with $n$
-    elements up
-    to isomorphism or anti-isomorphism. See
-  \cite{MSAiSemiringsWithOneAndZero} for \(n\leq7\) up to isomorphism.}
-  \label{tab:ai-semirings-with-one-and-zero}
-\end{table}
-
-\begin{table}[h]
-  \centering
-  \begin{tabular}{l|r|r}
-    \multirow{2}{*}{$n$} & \multicolumn{1}{|c|}{\multirow{2}{*}{up to
-    isomorphism}} & \multicolumn{1}{c}{up to isomorphism} \\
-    & & \multicolumn{1}{l}{or anti-isomorphism}\\
-    \midrule
-    1 & 1         & 1      \\
-    2 & 4         & 4      \\
-    3 & 22        & 21     \\
-    4 & 169       & 155    \\
-    5 & 1,819     & 1,561  \\
-    6 & 41,104    & 30,112 \\
-  \end{tabular}
-  \caption{Numbers of semirings with one (unital semirings) with $n$
-  elements up to isomorphism and up to isomorphism or anti-isomorphism.}
-  \label{tab:unital-semirings}
 \end{table}
 
 %TODO(PR) add as many tables as possible that contain numbers that weren't
