@@ -52,11 +52,8 @@
 \newcommand{\GAP}{\textsc{GAP}~\cite{GAP4}\xspace}
 \newcommand{\Smallsemi}{\textsc{Smallsemi}~\cite{Smallsemi}\xspace}
 \newcommand{\Semigroups}{\textsc{Semigroups}~\cite{Semigroups}\xspace}
-<<<<<<< HEAD
-=======
 \newcommand{\Semirings}{\textsc{Semirings}~\cite{Semirings}\xspace}
 \newcommand{\bliss}{\textsc{bliss}~\cite{bliss, junttila2007}\xspace}
->>>>>>> 4d0cf1396620bd46a3bff7547b7be0fab31ea333
 \newcommand{\Sym}{\operatorname{Sym}}
 \newcommand{\Aut}{\operatorname{Aut}}
 
@@ -250,16 +247,6 @@ anti-automorphisms forms a group under composition of functions; we denote this
 group by $\Aut^*(S, \times)$. Note that $\Aut(S, \times)$ is an index two
 subgroup of $\Aut^*(S, \times)$.
 
-<<<<<<< HEAD
-\begin{cor}
-  \label{cor:equiv-condition}
-  Let \((S, +)\) be a commutative semigroup, let \((S, \times)\) be a semigroup,
-  and let \(\sigma, \tau\in\Sym(S)\) be such that $(S, +, \times ^ \sigma)$ and
-  $(S, +, \times ^ \tau)$ are semirings.
-  Then \((S, +, \times ^ \sigma)\) and \((S, +, \times^\tau)\) are isomorphic or anti-isomorphic if and only if \(\sigma\) and \(\tau\) belong to the same double coset of \(\Aut^*(S, \times) \backslash \Sym(S) / \Aut(S, +)\).
-  where \(\Aut^*(S, \times)\) denotes the group of
-  automorphisms and anti-automorphisms of \((S, \times)\).
-=======
 Similarly, using the obvious analogue of \cref{defn-semiring-iso}, we can
 define anti-isomorphic semirings. It is routine to adapt the proof of
 \cref{thm:isomorphism-condition} to prove the following.
@@ -272,7 +259,6 @@ define anti-isomorphic semirings. It is routine to adapt the proof of
   \sigma)\) and \((S, +, \times^\tau)\) are isomorphic or anti-isomorphic if
   and only if \(\sigma\) and \(\tau\) belong to the same double coset of
   \(\Aut^*(S, \times) \backslash \Sym(S) / \Aut(S, +)\).
->>>>>>> 4d0cf1396620bd46a3bff7547b7be0fab31ea333
 \end{cor}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -306,28 +292,9 @@ Some of the numbers in the tables below can be found using
 approach described here, largely because the precomputed data for small
 semigroups available in \Smallsemi does a lot of heavy lifting.
 
-<<<<<<< HEAD
-Some structures that can be counted using the
-\texttt{semirings} package are semirings, semirings with one, ai-semirings, ai-semirings with one and zero, semirings with one and zero, ai-semirings with one and zero, semirings with zero, ai-semirings with zero, rings, and rings with one. By the prefix `ai-' we mean additively idempotent, i.e. $a + a = a$ for all $a\in S$.
-
-Below are some tables of results for the aforementioned structures.
-As far as we know, no results are published the number of any of
-these structures up to equivalence. For results up to isomorphism,
-those that have not been previously published (as far as we know) are
-marked `$^\dagger$'. As a sanity check, various results that are already
-published are available at Jipsen's Mathematical
-Structures Library \cite{MathStructures}, though he may make use of different naming
-conventions\footnote{Note that Jipsen's page
-  for \emph{semirings with one} \cite{MSsemiringsWithOne}, seems to be mistitled and actually
-  provides results for ai-semirings with one (which can be counted
-  using the \texttt{semirings} package). This is not a difference in
-  naming convention, but seems to just be a mistake. As far as we know,
-all results in Table~\ref{tab:unital-semirings} are unpublished.}.
-=======
 These tables are only a sample of the results that can be obtained
 using \Semirings.
 
->>>>>>> 4d0cf1396620bd46a3bff7547b7be0fab31ea333
 \begin{table}[ht]
   \centering
   \begin{tabular}{l|r|r}
@@ -342,42 +309,8 @@ using \Semirings.
     5 & 57,427\footnote{\cite{baueralg} says 57443!}     & 38,247    \\
     6 & 7,571,579  & 4,102,358
   \end{tabular}
-<<<<<<< HEAD
-  \caption{Numbers of semirings with $n$ elements up to isomorphism and up
+  \caption{Numbers of semirings (\cref{def:semiring}) with $n$ elements up to isomorphism and up
     to isomorphism or anti-isomorphism. See \cite{MSsemirings} for \(n\leq4\) up to isomorphism.}
-=======
-  \caption{Numbers of semirings (\cref{def:semiring}) with $n$ elements up to
-  isomorphism and up to isomorphism or anti-isomorphism.}\label{tab:semirings}
-\end{table}
-
-% TODO compute the numbers and populate the tables
-% TODO link to oeis sequence when they exist
-
-\begin{table}[ht]
-  \centering
-  \begin{tabular}{l|r|r|r|r|r|r|r|r}
-    $n$
-    & \multicolumn{4}{c|}{up to isomorphism}
-    & \multicolumn{4}{c}{up to isomorphism or anti-isomorphism} \\
-    \midrule
-    & \multicolumn{1}{c|}{ai} & \multicolumn{1}{c|}{ai with $0$}
-    & \multicolumn{1}{c|}{ai with $1$} & \multicolumn{1}{c|}{ai with $0$ + $1$}
-    & \multicolumn{1}{c|}{ai} & \multicolumn{1}{c}{ai with $0$}
-    & \multicolumn{1}{c|}{ai with $1$} & \multicolumn{1}{c|}{ai with $0$ + $1$}
-    \\
-    \midrule
-    1 &              &          &&&          &       \\
-    2 &              &          &&&          &       \\
-    3 &             &         &&&          &       \\
-    4 &            &        &&&         & \\
-    5 &         &      &&&        & \\
-    6 &        &    &&&      & \\
-    7 &      &  &&&     & \\
-    8 & & &&&    & \\
-  \end{tabular}
-  \caption{Numbers of semirings (\cref{def:semiring}) with $n$ elements up to
-  isomorphism and up to isomorphism or anti-isomorphism.}\label{tab:semirings}
->>>>>>> 4d0cf1396620bd46a3bff7547b7be0fab31ea333
   \label{tab:semirings}
 \end{table}
 
@@ -390,7 +323,7 @@ using \Semirings.
     \midrule
     & \multicolumn{1}{c|}{ai} & \multicolumn{1}{c|}{ai with $0$}
     & \multicolumn{1}{c|}{ai with $1$} & \multicolumn{1}{c|}{ai with $0$ + $1$}
-    & \multicolumn{1}{c|}{ai} & \multicolumn{1}{c}{ai with $0$}
+    & \multicolumn{1}{c|}{ai} & \multicolumn{1}{c|}{ai with $0$}
     & \multicolumn{1}{c|}{ai with $1$} & \multicolumn{1}{c|}{ai with $0$ + $1$}
     \\
     \midrule
@@ -403,10 +336,6 @@ using \Semirings.
     7 &      &  &&&     & \\
     8 & & &&&    & \\
   \end{tabular}
-<<<<<<< HEAD
-  \caption{Numbers of ai-semirings with $n$ elements up to isomorphism and up
-    to isomorphism or anti-isomorphism. See \cite{MSidempotentSemirings} for \(n\leq4\) up to isomorphism.}
-=======
   \caption{Numbers of commutative semirings ($x\times y = y \times
   x$ for all $x,y\in S$) with $n$ elements.}
   \label{tab:comm-semirings}
@@ -464,7 +393,6 @@ using \Semirings.
   \caption{Numbers of commutative ai-semirings ($x\times y = y \times
     x$ and $x + x = x$ for all $x,y\in S$) with $n$
   elements.}
->>>>>>> 4d0cf1396620bd46a3bff7547b7be0fab31ea333
   \label{tab:ai-semirings}
 \end{table}
 
@@ -484,13 +412,7 @@ using \Semirings.
     7 & 59,314    & 43,331
   \end{tabular}
   \caption{Numbers of semirings with one and zero with $n$ elements
-<<<<<<< HEAD
-    up to isomorphism and up
-    to isomorphism or anti-isomorphism. See \cite{MSsemiringsWithOneAndZero} for \(n\leq6\) up to isomorphism.}
-=======
-    up to isomorphism, and up
-  to isomorphism or anti-isomorphism.}
->>>>>>> 4d0cf1396620bd46a3bff7547b7be0fab31ea333
+    up to isomorphism or anti-isomorphism. See \cite{MSsemiringsWithOneAndZero} for \(n\leq6\) up to isomorphism.}
   \label{tab:semirings-with-one-and-zero}
 \end{table}
 
@@ -510,14 +432,9 @@ using \Semirings.
     7
     8
   \end{tabular}
-<<<<<<< HEAD
   \caption{Numbers of ai-semirings with one and zero with $n$
-    elements up to isomorphism and up
+    elements up
     to isomorphism or anti-isomorphism. See \cite{MSAiSemiringsWithOneAndZero} for \(n\leq7\) up to isomorphism.}
-=======
-  \caption{Numbers of ai-semirings with one and zero with $n$ elements up to
-  isomorphism and up to isomorphism or anti-isomorphism.}
->>>>>>> 4d0cf1396620bd46a3bff7547b7be0fab31ea333
   \label{tab:ai-semirings-with-one-and-zero}
 \end{table}
 
