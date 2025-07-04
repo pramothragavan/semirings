@@ -54,6 +54,7 @@
 \newcommand{\Semigroups}{\textsc{Semigroups}~\cite{Semigroups}\xspace}
 \newcommand{\Semirings}{\textsc{Semirings}~\cite{Semirings}\xspace}
 \newcommand{\bliss}{\textsc{bliss}~\cite{bliss, junttila2007}\xspace}
+\newcommand{\alg}{\textsc{alg}~\cite{baueralg}\xspace}
 \newcommand{\Sym}{\operatorname{Sym}}
 \newcommand{\Aut}{\operatorname{Aut}}
 
@@ -78,11 +79,11 @@
 
 \section{Introduction}
 
-Enumeration of algebra and combinatorial structures of finite order up to
+Enumeration of algebraic and combinatorial structures of finite order up to
 isomorphism is a classical topic. Among the algebraic structures considered are
 groups~\cite{BESCHE2002,A000001}, rings~\cite{Blackburn2022, Fine1993,
 Kruse1970, A027623}, near-rings~\cite{Chow2024, SONATA, A305858},
-semigroups and monoids~\cite{Distler2010, Distler2010, Distler2013,
+semigroups and monoids~\cite{Distler2010, Distler2010, Distler2012, Distler2013,
   Forsythe1955, Grillet1996, Grillet2014, Jrgensen1977, Motzkin1955,
 Plemmons1967, A027851, A058129, Satoh1994, A001426, A001423},
 inverse semigroups and monoids~\cite{Malandro2019, A001428, A234843,
@@ -96,25 +97,25 @@ isomorphism and up to isomorphism and anti-isomorphism for $n \leq 6$. We also
 count several special classes of semirings for (slightly) larger values of $n$.
 
 This short note was initiated by an email from M. Volkov to the first author in
-February of 2025 asking if it was possible to verify with \GAP that the number
-of ai-semirings up to isomorphism with $4$ elements is $866$ in the
-paper~\cite{Ren2025}; see also~\cite{Zhao2020} where it is shown that there are
-61 ai-semirings of order $3$. After some initial missteps it was relatively
-straightforward to verify that this number is correct, by using the library
-of small semigroups in the \GAP package \Smallsemi. This short note arose
-out from these first steps. In contrast to groups or rings, where the
-numbers of non-isomorphic objects of order $n$ is known for relatively large
-values of $n$, the number of semigroups of order $11$ (up to isomorphism) is
-not known exactly. Given that $99.4\%$ of the semigroups of order $8$ are
-$3$-nilpotent, that the number of $3$-nilpotent semigroups of order $11$ is
-approximately $10 ^ {26}$~\cite{Distler2012ab}, this number is likely close
-to the exact value; see also~\cite{Kleitman1976}. Perhaps unsurprisingly,
-from the perspective of counting up to isomorphism, it seems that semirings
-have more in common with semigroups than with rings or groups. Roughly
-speaking, rings and groups are highly structured, providing strong
-constraints that enable their enumeration. On the other hand, semigroups,
-and seemingly semirings also, are less structured, more numerous, and
-consequently harder to enumerate.
+February of 2025 asking if it was possible to verify the claim
+in~\cite{Ren2025} that the number of ai-semirings up to isomorphism with $4$
+elements is $866$.
+After some initial missteps it was relatively straightforward to verify that
+this number is correct, by using the library of small semigroups in the \GAP
+package \Smallsemi. This short note arose out from these first steps. In
+contrast to groups or rings, where the numbers of non-isomorphic objects of
+order $n$ is known for relatively large values of $n$, the number of semigroups
+of order $10$ (up to isomorphism) is apparently not known exactly (although the
+number up to isomorphism and anti-isomorphism is known~\cite{Distler2012}).
+Given that $99.4\%$ of the semigroups of order $8$ are $3$-nilpotent, that the
+number of $3$-nilpotent semigroups of order $10$ is approximately $10 ^
+{19}$~\cite{Distler2012ab}, this number is likely close to the exact value; see
+also~\cite{Kleitman1976}. Perhaps unsurprisingly, from the perspective of
+counting up to isomorphism, it seems that semirings have more in common with
+semigroups than with rings or groups. Very roughly speaking, rings
+and groups are highly structured, providing strong constraints that facilitate
+their enumeration. On the other hand, semigroups, and seemingly semirings also,
+are less structured, more numerous, and harder to enumerate.
 
 We begin with the definition of a semiring; which is a natural generalisation
 of the notion of a ring.
@@ -135,12 +136,13 @@ of the notion of a ring.
 \end{defn}
 
 We note that some authors require that $(S, +)$ is a commutative monoid with
-(additive) identity denoted $0$ where $x\times 0 = 0 \times x = 0$ for all $x\in
-S$; see, for example, \cite{Lothaire2005, Sakarovitch2009}.
-We do not add this requirement, and refer to such objects as \textit{semirings
-with zero}. The numbers of semirings with zero are discussed
-in~\cite{stackexchange} and in~\cite{jipsen}; see
-also~\cite{baueralg} which we will discuss a little further below.
+(additive) identity denoted $0$ where $x\times 0 = 0 \times x = 0$ for all
+$x\in S$; see, for example, \cite{Lothaire2005, Sakarovitch2009}. We do not add
+this requirement, and refer to such objects as \textit{semirings with zero}.
+The numbers of semirings with zero are discussed in~\cite{stackexchange} and
+in~\cite{jipsen}; see also~\alg which we will discuss a little
+further below. In~\cite{Zhao2020} it was shown that there are $61$ ai-semirings
+of order $3$.
 
 Recall that if $(S, \times)$ and $(T, \otimes)$ are semigroups, then $\phi:S
 \to T$ is a \textit{(semigroup) homomorphism} if $(x\times y)\phi =
@@ -244,8 +246,7 @@ operations $\times$ and $\otimes$ coincide, then $\phi$ is an
 is an automorphism, and the composition of an anti-automorphism and an
 automorphism is an anti-automorphism. As such the set of all automorphisms or
 anti-automorphisms forms a group under composition of functions; we denote this
-group by $\Aut^*(S, \times)$. Note that $\Aut(S, \times)$ is an index two
-subgroup of $\Aut^*(S, \times)$.
+group by $\Aut^*(S, \times)$.
 
 Similarly, using the obvious analogue of \cref{defn-semiring-iso}, we can
 define anti-isomorphic semirings. It is routine to adapt the proof of
@@ -273,24 +274,35 @@ of the double cosets \(\Aut(S, \times) \backslash \Sym(S) / \Aut(S, +)\) (or
 \(\Aut^*(S, \times) \backslash \Sym(S) / \Aut(S, +)\)). The semigroups up to
 isomorphism and anti-isomorphism are available in \Smallsemi.  Since $S$ is
 small, it is relatively straightforward to can compute $\Aut(S, \times)$ and
-$\Aut(S, +)$ (using the \Semigroups package for \GAP, which reduces
-  the problem to that of computing the automorphisms of a graph
-associated to $\Aut(S, \times)$ using \bliss). \GAP contains
-functionality for computing double coset
-representatives based. % TODO add "based on \cite{}."
+$\Aut(S, +)$ (using the \Semigroups package for \GAP, which reduces the problem
+  to that of computing the automorphism group, using \bliss, of a graph
+associated to $\Aut(S, \times)$). \GAP contains functionality for computing
+double coset representatives based.
+% TODO add "based on \cite{}."
 This is the approach implemented by the authors of the current paper in the
 \GAP package \Semirings to compute the numbers in this section.
 
-Below are some tables listing the numbers of semirings (\cref{def:semiring}),
-up to isomorphism, and up to isomorphism or anti-isomorphism, with various
-properties for some small values of $n\in \mathbb{N}$.
-As far as we know, many of the numbers in these tables were not previously
-known. In particular, we are not aware of any results in the literature about
-the number of semirings up to isomorphism and anti-isomorphism.
-Some of the numbers in the tables below can be found using
-\cite{baueralg}, although this approach is considerably slower than the
-approach described here, largely because the precomputed data for small
-semigroups available in \Smallsemi does a lot of heavy lifting.
+Below are some tables listing the numbers of semirings (\cref{def:semiring}) up
+to isomorphism, and up to isomorphism or anti-isomorphism, with various
+properties for some small values of $n\in \mathbb{N}$. As far as we know, many
+of the numbers in these tables were not previously known. In particular, we are
+not aware of any results in the literature about the number of semirings up to
+isomorphism and anti-isomorphism. Some of the numbers in the tables below can
+be found using \alg, although this approach is considerably slower
+than the approach described here, largely because the precomputed data for
+small semigroups available in \Smallsemi does a lot of the heavy lifting.
+
+As a sanity check, where possible, we have checked the numbers produced by
+\Semirings against those in the literature, and those we could produce using
+\alg. With one exception, these numbers agreed with each other.
+alg \alg computes that there are $57,443$ semirings
+(\cref{def:semiring}) of order $5$, whereas \Semirings computes $57,427$. Using
+\GAP and \Semirings we attempted to verify whether or not the output of
+\alg was correct. Unfortunately, it appears that $16$ of the pairs
+of multiplication tables output by \alg do not satisfy one or
+the other of the distributivity conditions from \cref{def:semiring}(iii).
+This precisely accounts for the difference between the number output by
+\Semirings and the number output by \alg.
 
 These tables are only a sample of the results that can be obtained
 using \Semirings.
@@ -306,7 +318,7 @@ using \Semirings.
     2 & 10                   & 9         \\
     3 & 132                  & 106       \\
     4 & 2,341                & 1,713     \\
-    5 & 57,427\footnote{\cite{baueralg} says 57443!}     & 38,247    \\
+    5 & 57,427     & 38,247    \\
     6 & 7,571,579  & 4,102,358
   \end{tabular}
   \caption{Numbers of semirings (\cref{def:semiring}) with $n$ elements up to isomorphism and up
