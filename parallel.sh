@@ -1,13 +1,21 @@
 #!/usr/bin/env bash
 
 if [[ $# -eq 0 ]]; then
-    echo "✖  No Nr*(…) arguments supplied. Nothing to do." >&2
+    echo "No Nr*(…) arguments supplied. Nothing to do." >&2
     exit 1
 fi
 
 SCRIPT_PATH="$(realpath "${BASH_SOURCE[0]}")"
 SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
 cd "$SCRIPT_DIR" || exit 1
+
+cleanup() {
+    rm -f parallel/{structure.txt,temp_struct.txt,cores.txt}
+    rm -rf parallel/{results,logs,runs,pid}
+}
+
+trap cleanup INT TERM
+trap cleanup EXIT
 
 : > parallel/structure.txt
 orig_tokens=()
@@ -125,15 +133,8 @@ while IFS= read -r structure || [[ -n $structure ]]; do
     ((idx++))
 
     printf '%s\n' '----------------------------------------------------------------------'
-    printf '%s\n' "RESULT for ${label}"
-    printf '%s\n' "Total = ${total}"
+    printf '%s\n' "${label} = ${total}"
     printf '%s\n' '----------------------------------------------------------------------'
 
     rm -f "parallel"/results/result_*.txt
 done < "parallel/structure.txt"
-
-for d in results logs runs pid; do
-    rm -rf  "parallel/${d}"
-done
-
-rm -f parallel/{structure.txt,temp_struct.txt,cores.txt}

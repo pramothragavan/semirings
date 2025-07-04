@@ -104,7 +104,7 @@ f := InputTextFile(Concatenation(GAPInfo.PackagesLoaded.semirings[1],
                    "parallel/temp_struct.txt"));
 structure := EvalString(ReadLine(f));
 CloseStream(f);
-Print("Establishing how to distribute the workload...\n");
+Print("Distributing across cores...\n");
 CallFuncList(DISTRIBUTE, structure);
 SetInfoLevel(InfoSemirings, l1);
 SetInfoLevel(InfoSmallsemi, l2);

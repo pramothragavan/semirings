@@ -386,7 +386,28 @@ rec(
                          [IsMonoidAsSemigroup, true]],
 
   SemiringsWithOne   := [[IsCommutative, true],
-                         [IsMonoidAsSemigroup, true]]));
+                         [IsMonoidAsSemigroup, true]],
+
+  CommutativeSemirings := [[IsCommutative, true],
+                           [IsCommutative, true]],
+
+  CommutativeSemiringsWithOne := [[IsCommutative, true],
+                                  [IsCommutative, true,
+                                   IsMonoidAsSemigroup, true]],
+
+  CommutativeSemiringsWithZero := [[IsCommutative, true,
+                                    IsMonoidAsSemigroup, true],
+                                   [IsCommutative, true,
+                                    IsSemigroupWithZero, true]],
+
+  CommutativeSemiringsWithOneAndZero := [[IsCommutative, true,
+                                          IsMonoidAsSemigroup, true],
+                                         [IsCommutative, true,
+                                          IsSemigroupWithZero, true,
+                                          IsMonoidAsSemigroup, true]],
+
+  Semifields := [[IsCommutative, true, IsMonoidAsSemigroup, true],
+                 [IsZeroGroup, true]]));
 
 for key in RecNames(SEMIRINGS_STRUCTURE_REC) do
   InstallGlobalFunction(ValueGlobal(Concatenation("Nr", key)),
@@ -406,7 +427,7 @@ for key in RecNames(SEMIRINGS_STRUCTURE_REC) do
               Concatenation([n, true], SEMIRINGS_STRUCTURE_REC.(capturedKey),
                             args));
            else
-            ErrorNoReturn("Invalid number of arguments!");
+            ErrorNoReturn("There should be at most 2 arguments");
            fi;
          end;
        end)(key));

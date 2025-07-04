@@ -6,7 +6,6 @@ def distribute_to_piles(mapM, totals, p):
     piles = [(0, []) for _ in range(p)]
     assignment = [None] * n
 
-    print(f"Distributing {len(items)} items across {p} cores...")
     for i, (weight, idx) in enumerate(items):
         if i > 0 and i % 100000 == 0:
             print(f"{i} completed")

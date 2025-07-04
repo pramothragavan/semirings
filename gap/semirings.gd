@@ -142,6 +142,14 @@ DeclareGlobalFunction("AllSemiringsWithZero");
 #! @Arguments n, [U2E]
 DeclareGlobalFunction("AllSemiringsWithOneAndZero");
 #! @Arguments n, [U2E]
+DeclareGlobalFunction("AllCommutativeSemirings");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("AllCommutativeSemiringsWithOne");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("AllCommutativeSemiringsWithZero");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("AllCommutativeSemiringsWithOneAndZero");
+#! @Arguments n, [U2E]
 DeclareGlobalFunction("AllAiSemirings");
 #! @Arguments n, [U2E]
 DeclareGlobalFunction("AllAiSemiringsWithZero");
@@ -153,6 +161,8 @@ DeclareGlobalFunction("AllAiSemiringsWithOneAndZero");
 DeclareGlobalFunction("AllRings");
 #! @Arguments n, [U2E]
 DeclareGlobalFunction("AllRingsWithOne");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("AllSemifields");
 #! @EndGroup
 #!
 #! @BeginGroup NrStructures
@@ -173,6 +183,14 @@ DeclareGlobalFunction("NrSemiringsWithZero");
 #! @Arguments n, [U2E]
 DeclareGlobalFunction("NrSemiringsWithOneAndZero");
 #! @Arguments n, [U2E]
+DeclareGlobalFunction("NrCommutativeSemirings");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("NrCommutativeSemiringsWithOne");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("NrCommutativeSemiringsWithZero");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("NrCommutativeSemiringsWithOneAndZero");
+#! @Arguments n, [U2E]
 DeclareGlobalFunction("NrAiSemirings");
 #! @Arguments n, [U2E]
 DeclareGlobalFunction("NrAiSemiringsWithOne");
@@ -184,6 +202,8 @@ DeclareGlobalFunction("NrAiSemiringsWithOneAndZero");
 DeclareGlobalFunction("NrRings");
 #! @Arguments n, [U2E]
 DeclareGlobalFunction("NrRingsWithOne");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("NrSemifields");
 #! @EndGroup
 #!
 #! @BeginGroup AllSemiringsWith

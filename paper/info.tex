@@ -44,6 +44,7 @@
 
 \newcommand{\GAP}{\textsc{GAP}~\cite{GAP4}\xspace}
 \newcommand{\Smallsemi}{\textsc{Smallsemi}~\cite{Smallsemi}\xspace}
+\newcommand{\Semigroups}{\textsc{Semigroups}~\cite{Semigroups}\xspace}
 \newcommand{\Sym}{\operatorname{Sym}}
 \newcommand{\Aut}{\operatorname{Aut}}
 
@@ -219,28 +220,14 @@ using the obvious analogue of \cref{defn-semiring-iso}, we can define
 anti-isomorphic semigroups. It is routine to adapt the proof of
 \cref{thm:isomorphism-condition} to prove the following.
 
-% TODO(PR): update to say the same thing as the theorem above, also maybe don't
-% use the term "equivalence" it's too non-specific.
-
 \begin{cor}
   \label{cor:equiv-condition}
-  Let \(A\) be a commutative semigroup and \(M\) be a semigroup, such
-  that \(A\) and \(M\) are both defined on the same underlying set
-  \(S\). For any permutation \(\sigma \in \operatorname{Sym}(S)\),
-  let \(M^\sigma\) denote the semigroup obtained by permuting \(M\)
-  via \(\sigma\). Suppose that for two permutations \(\sigma,
-  \tau\in\operatorname{Sym}(S)\), the pairs \((A,M^\sigma)\) and
-  \((A,M^\tau)\) both form semirings. Then, the following statements
-  are equivalent:
-  \begin{enumerate}
-    \item \((A, M^\sigma)\) and \((A, M^\tau)\) are equivalent, i.e.
-      isomorphic or anti-isomorphic.
-    \item \(\sigma\) and \(\tau\) lie in the same double coset of
-      \(\operatorname{Aut}(A) \backslash \operatorname{Sym}(S) /
-      \operatorname{Aut}^*(M)\).
-  \end{enumerate}
-  where \(\operatorname{Aut}^*(M)\) denotes the group of
-  automorphisms and anti-automorphisms of \(M\).
+  Let \((S, +)\) be a commutative semigroup, let \((S, \times)\) be a semigroup,
+  and let \(\sigma, \tau\in\Sym(S)\) be such that $(S, +, \times ^ \sigma)$ and
+  $(S, +, \times ^ \tau)$ are semirings.
+  Then \((S, +, \times ^ \sigma)\) and \((S, +, \times^\tau)\) are isomorphic or anti-isomorphic if and only if \(\sigma\) and \(\tau\) belong to the same double coset of \(\Aut^*(S, \times) \backslash \Sym(S) / \Aut(S, +)\).
+  where \(\Aut^*(S, \times)\) denotes the group of
+  automorphisms and anti-automorphisms of \((S, \times)\).
 \end{cor}
 
 \section{Tables of results}
@@ -270,65 +257,18 @@ does have a zero element, we typically require the additional axiom
   0\cdot a=a\cdot0=0\qquad\forall a\in S,
 \end{equation}
 
-\begin{defn}
-  The prefix `ai' refers to \emph{additive idempotence}. For
-  instance, an ai-semiring \(S\) is a semiring such that the additive
-  reduct $(S, +)$ is idempotent, i.e. it satisfies \(a + a = a\) for
-  all \(a\in S\).
-\end{defn}
-
-The semiring-like structures that can be counted using the
-\texttt{semirings} package are:
-
-\begin{multicols}{2}
-  \begin{itemize}
-    \item Semirings
-    \item Semirings with one
-    \item Ai-semirings
-    \item Ai-semirings with one
-    \item Semirings with one and zero
-    \item Ai-semirings with one and zero
-    \item Semirings with zero
-    \item Ai-semirings with zero
-    \item Rings
-    \item Rings with one
-  \end{itemize}
-\end{multicols}
-
-For instance, one could count the number of semirings with \(n\)
-elements up to isomorphism using \texttt{NrSemirings(n)} or up to
-equivalence using \texttt{NrSemirings(n, true)}.
-\texttt{AllSemirings} could be used to enumerate these objects.
-Functions for the other objects mentioned above are constructed
-similarly. Using the helper function \texttt{SETUPFINDER}, the
-package could also easily be used to count/enumerate any object which
-is a semiring with additional constraints, as long as the sets of
-valid additive and multiplicative reducts are expressible as
-\href{https://gap-packages.github.io/smallsemi/doc/chap4_mj.html#X82F9C36C86006857}{families
-of semigroups}.
-
-The algorithm used to count these objects up to isomorphism is fairly
-rudimentary and is based on Theorem~\ref{thm:isomorphism-condition}.
-As the condition given by this theorem is precise, we can make use of
-the \texttt{smallsemi} package in GAP to loop over possible semirings
-\((A, M)\) in a minimal way, such that no two semirings yielded by
-this process can be isomorphic.
-
-Similarly, we can count semirings up to equivalence by using the
-condition given in Corollary~\ref{cor:equiv-condition}, again in a minimal way.
+Some structures that can be counted using the
+\texttt{semirings} package are semirings, semirings with one, ai-semirings, ai-semirings with one and zero, semirings with one and zero, ai-semirings with one and zero, semirings with zero, ai-semirings with zero, rings, and rings with one. By the prefix `ai-' we mean additively idempotent, i.e. $a + a = a$ for all $a\in S$.
 
 Below are some tables of results for the aforementioned structures.
 As far as we know, no results are published the number of any of
 these structures up to equivalence. For results up to isomorphism,
 those that have not been previously published (as far as we know) are
-marked `$^\dagger$'. Results that we are in the process of computing
-are marked `?'. As a sanity check, various results that are already
-published are available at Peter Jipsen's
-\href{https://math.chapman.edu/~jipsen/structures/doku.php?id=start}{Mathematical
-Structures Library}, though he may make use of different naming
-conventions\footnote{Note that Jipsen's
-  \href{https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings_with_identity\#finite_members}{page
-  for ``semirings with one''}, seems to be mistitled and actually
+marked `$^\dagger$'. As a sanity check, various results that are already
+published are available at Jipsen's Mathematical
+Structures Library \cite{MathStructures}, though he may make use of different naming
+conventions\footnote{Note that Jipsen's page
+  for \emph{semirings with one} \cite{MSsemiringsWithOne}, seems to be mistitled and actually
   provides results for ai-semirings with one (which can be counted
   using the \texttt{semirings} package). This is not a difference in
   naming convention, but seems to just be a mistake. As far as we know,
@@ -347,9 +287,7 @@ all results in Table~\ref{tab:unital-semirings} are unpublished.}.
     6 & 7,571,579$^\dagger$  & 4,102,358 \\
   \end{tabular}
   \caption{Numbers of semirings with $n$ elements up to isomorphism and up
-    to isomorphism or anti-isomorphism. See
-    \href{https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings\#finite_members}{Jipsen's
-  library} for \(n\leq4\) up to isomorphism.}
+    to isomorphism or anti-isomorphism. See \cite{MSsemirings} for \(n\leq4\) up to isomorphism.}
   \label{tab:semirings}
 \end{table}
 
@@ -368,9 +306,7 @@ all results in Table~\ref{tab:unital-semirings} are unpublished.}.
     7 & 9,908,909$^\dagger$ & 5,470,437       \\
   \end{tabular}
   \caption{Numbers of ai-semirings with $n$ elements up to isomorphism and up
-    to isomorphism or anti-isomorphism. See
-    \href{https://math.chapman.edu/~jipsen/structures/doku.php?id=idempotent_semirings\#finite_members}{Jipsen's
-  library} for \(n\leq4\) up to isomorphism.}
+    to isomorphism or anti-isomorphism. See \cite{MSidempotentSemirings} for \(n\leq4\) up to isomorphism.}
   \label{tab:ai-semirings}
 \end{table}
 
@@ -390,9 +326,7 @@ all results in Table~\ref{tab:unital-semirings} are unpublished.}.
   \end{tabular}
   \caption{Numbers of semirings with one and zero with $n$ elements
     up to isomorphism and up
-    to isomorphism or anti-isomorphism. See
-    \href{https://math.chapman.edu/~jipsen/structures/doku.php?id=semirings_with_identity_and_zero\#finite_members}{Jipsen's
-  library} for \(n\leq6\) up to isomorphism.}
+    to isomorphism or anti-isomorphism. See \cite{MSsemiringsWithOneAndZero} for \(n\leq6\) up to isomorphism.}
   \label{tab:semirings-with-one-and-zero}
 \end{table}
 
@@ -413,9 +347,7 @@ all results in Table~\ref{tab:unital-semirings} are unpublished.}.
   \end{tabular}
   \caption{Numbers of ai-semirings with one and zero with $n$
     elements up to isomorphism and up
-    to isomorphism or anti-isomorphism. See
-    \href{https://math.chapman.edu/~jipsen/structures/doku.php?id=idempotent_semirings_with_identity_and_zero\#finite_members}{Jipsen's
-  library} for \(n\leq7\) up to isomorphism.}
+    to isomorphism or anti-isomorphism. See \cite{MSAiSemiringsWithOneAndZero} for \(n\leq7\) up to isomorphism.}
   \label{tab:ai-semirings-with-one-and-zero}
 \end{table}
 
@@ -431,7 +363,6 @@ all results in Table~\ref{tab:unital-semirings} are unpublished.}.
     4 & 169       & 155    \\
     5 & 1,819     & 1,561  \\
     6 & 41,104    & 30,112 \\
-    7 & ?         & ?      \\
   \end{tabular}
   \caption{Numbers of semirings with one (unital semirings) with $n$
   elements up to isomorphism and up to isomorphism or anti-isomorphism.}
