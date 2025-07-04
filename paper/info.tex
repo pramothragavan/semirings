@@ -32,11 +32,7 @@
 \renewcommand{\labelenumi}{{\normalfont(\alph{enumi})}}
 \setenumerate{noitemsep, topsep=0pt}
 
-% \DeclareUnicodeCharacter{202F}{There's a fucking unicode character
-% somewhere in
-%   this document which I can't locate, but which causes bibtex to
-% not work, this
-% seems to fix it and is ridiculous. Fuck you latex.}
+% \DeclareUnicodeCharacter{202F}{XXX}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Bibliography
@@ -63,7 +59,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \title{Counting finite semirings}
-\author{J. D. Mitchell and P. Ragavan}
+\author{J. Edwards, J. D. Mitchell, and P. Ragavan}
 \date{\today}
 
 \begin{document}
@@ -89,33 +85,35 @@ Plemmons1967, A027851, A058129, Satoh1994, A001426, A001423},
 inverse semigroups and monoids~\cite{Malandro2019, A001428, A234843,
 A234844, A234845}, and many more too numerous to mention\footnote{The disparity
   in the number of references for semigroups and monoids and the other
-  algebraic structures is a consequence of the authors familiarity with the
+  algebraic structures is a consequence of the author's familiarity with the
   literature for semigroups and monoids, and there are likely many other
   references that could have been included were it not for us not knowing about
 them.}. In this short note we count the number of finite semirings up to
 isomorphism and up to isomorphism and anti-isomorphism for $n \leq 6$. We also
 count several special classes of semirings for (slightly) larger values of $n$.
 
-This short note was initiated by an email from M. Volkov to the first author in
-February of 2025 asking if it was possible to verify the claim
+This short note was initiated by an email from M. Volkov to the second author
+in February of 2025 asking if it was possible to verify the claim
 in~\cite{Ren2025} that the number of ai-semirings up to isomorphism with $4$
-elements is $866$.
-After some initial missteps it was relatively straightforward to verify that
-this number is correct, by using the library of small semigroups in the \GAP
-package \Smallsemi. This short note arose out from these first steps. In
-contrast to groups or rings, where the numbers of non-isomorphic objects of
-order $n$ is known for relatively large values of $n$, the number of semigroups
-of order $10$ (up to isomorphism) is apparently not known exactly (although the
-number up to isomorphism and anti-isomorphism is known~\cite{Distler2012}).
-Given that $99.4\%$ of the semigroups of order $8$ are $3$-nilpotent, that the
-number of $3$-nilpotent semigroups of order $10$ is approximately $10 ^
-{19}$~\cite{Distler2012ab}, this number is likely close to the exact value; see
-also~\cite{Kleitman1976}. Perhaps unsurprisingly, from the perspective of
-counting up to isomorphism, it seems that semirings have more in common with
-semigroups than with rings or groups. Very roughly speaking, rings
-and groups are highly structured, providing strong constraints that facilitate
-their enumeration. On the other hand, semigroups, and seemingly semirings also,
-are less structured, more numerous, and harder to enumerate.
+elements is $866$. After some initial missteps it was relatively
+straightforward to verify that this number is correct, by using the library of
+small semigroups in the \GAP package \Smallsemi. This short note arose out from
+these first steps. In contrast to groups or rings, where the numbers of
+non-isomorphic objects of order $n$ is known for relatively large values of
+$n$, the number of semigroups of order $10$ (up to isomorphism) is apparently
+not known exactly (although the number up to isomorphism and anti-isomorphism
+is known~\cite{Distler2012}). The paper \cite{Kleitman1976} purports to show
+that almost all semigroups of order $n$ (as $n$ tends to infinity) up to
+isomorphism and anti-isomorphism are $3$-nilpotent (and indeed $99.4\%$ of the
+semigroups of order $8$ are $3$-nilpotent), and it is shown
+in~\cite{Distler2012ab} that the number of $3$-nilpotent semigroups of order
+$10$ is approximately $10 ^ {19}$, this number is likely close to the exact
+value. Perhaps unsurprisingly, from the perspective of counting up to
+isomorphism, it seems that semirings have more in common with semigroups than
+with rings or groups. Very roughly speaking, rings and groups are highly
+structured, providing strong constraints that facilitates their enumeration. On
+the other hand, semigroups, and seemingly semirings also, are less structured,
+more numerous, and harder to enumerate.
 
 We begin with the definition of a semiring; which is a natural generalisation
 of the notion of a ring.
@@ -149,7 +147,7 @@ Recall that if $(S, \times)$ and $(T, \otimes)$ are semigroups, then $\phi:S
 (x)\phi\otimes (y)\phi$ for all $x, y\in S$. Note that we write mappings to the
 right of their arguments and compose them from left to right. If $\phi: S \to
 T$ is a semigroup homomorphism and $\phi$ is bijective, then $\phi$ is an
-\textit{(semigroup) isomorphism}. If a semigroup isomorphism from a semigroup
+\textit{(semigroup) isomorphism}. A semigroup isomorphism from a semigroup
 $(S, \times)$ to itself is called an \textit{automorphism}
 and the group of all such automorphisms is denoted $\Aut(S, \times)$.
 
@@ -294,13 +292,13 @@ small semigroups available in \Smallsemi does a lot of the heavy lifting.
 
 As a sanity check, where possible, we have checked the numbers produced by
 \Semirings against those in the literature, and those we could produce using
-\alg. With one exception, these numbers agreed with each other.
-alg \alg computes that there are $57,443$ semirings
-(\cref{def:semiring}) of order $5$, whereas \Semirings computes $57,427$. Using
-\GAP and \Semirings we attempted to verify whether or not the output of
-\alg was correct. Unfortunately, it appears that $16$ of the pairs
-of multiplication tables output by \alg do not satisfy one or
-the other of the distributivity conditions from \cref{def:semiring}(iii).
+\alg. With one exception, these numbers agreed with each other. \alg computes
+that there are $57,443$ semirings (using \cref{def:semiring}) of order $5$ up
+to isomorphism, whereas \Semirings computes $57,427$. Using \GAP and \Semirings
+we attempted to verify whether or not the output of \alg was correct.
+Unfortunately, it appears that $16$ of the pairs of multiplication tables
+output by \alg do not satisfy one or the other of the distributivity conditions
+from \cref{def:semiring}(iii); see \cite{bauer_alg_issue16} for more details.
 This precisely accounts for the difference between the number output by
 \Semirings and the number output by \alg.
 
@@ -321,8 +319,10 @@ using \Semirings.
     5 & 57,427     & 38,247    \\
     6 & 7,571,579  & 4,102,358
   \end{tabular}
-  \caption{Numbers of semirings (\cref{def:semiring}) with $n$ elements up to isomorphism and up
-    to isomorphism or anti-isomorphism. See \cite{MSsemirings} for \(n\leq4\) up to isomorphism.}
+  \caption{Numbers of semirings (\cref{def:semiring}) with $n$
+    elements up to isomorphism and up
+    to isomorphism or anti-isomorphism. See \cite{MSsemirings} for
+  \(n\leq4\) up to isomorphism.}
   \label{tab:semirings}
 \end{table}
 
@@ -333,9 +333,11 @@ using \Semirings.
     & \multicolumn{4}{c|}{up to isomorphism}
     & \multicolumn{4}{c}{up to isomorphism or anti-isomorphism} \\
     \midrule
-    & \multicolumn{1}{c|}{\shortstack{no additional\\constraints}} & \multicolumn{1}{c|}{with $0$}
+    & \multicolumn{1}{c|}{\shortstack{no additional\\constraints}} &
+    \multicolumn{1}{c|}{with $0$}
     & \multicolumn{1}{c|}{with $1$} & \multicolumn{1}{c|}{with $0$ + $1$}
-    & \multicolumn{1}{c|}{\shortstack{no additional\\constraints}} & \multicolumn{1}{c|}{with $0$}
+    & \multicolumn{1}{c|}{\shortstack{no additional\\constraints}} &
+    \multicolumn{1}{c|}{with $0$}
     & \multicolumn{1}{c|}{with $1$} & \multicolumn{1}{c}{with $0$ + $1$}
     \\
     \midrule
@@ -360,9 +362,11 @@ using \Semirings.
     & \multicolumn{4}{c|}{up to isomorphism}
     & \multicolumn{4}{c}{up to isomorphism or anti-isomorphism} \\
     \midrule
-    & \multicolumn{1}{c|}{\shortstack{no additional\\constraints}} & \multicolumn{1}{c|}{with $0$}
+    & \multicolumn{1}{c|}{\shortstack{no additional\\constraints}} &
+    \multicolumn{1}{c|}{with $0$}
     & \multicolumn{1}{c|}{with $1$} & \multicolumn{1}{c|}{with $0$ + $1$}
-    & \multicolumn{1}{c|}{\shortstack{no additional\\constraints}} & \multicolumn{1}{c|}{with $0$}
+    & \multicolumn{1}{c|}{\shortstack{no additional\\constraints}} &
+    \multicolumn{1}{c|}{with $0$}
     & \multicolumn{1}{c|}{with $1$} & \multicolumn{1}{c}{with $0$ + $1$}
     \\
     \midrule
@@ -375,9 +379,9 @@ using \Semirings.
     7 & 9,908,909     & &&18,554  & 5,470,437  & && 13,171 \\
     8 &               &           &&295,292 &  & && 116,274
   \end{tabular}
-  \caption{Numbers of ai-semirings ($x + x = x$ for all $x\in S$) with $n$
-  elements.}
-  \label{tab:ai-semirings}
+  \caption{Numbers of ai-semirings (i.e. those satisfying $x + x = x$ for all
+    $x\in S$, where ``ai'' stands for ``additively idempotent'') with $n$
+  elements.}\label{tab:ai-semirings}
 \end{table}
 
 \begin{table}[ht]
@@ -387,9 +391,11 @@ using \Semirings.
     & \multicolumn{4}{c|}{up to isomorphism}
     & \multicolumn{4}{c}{up to isomorphism or anti-isomorphism} \\
     \midrule
-    & \multicolumn{1}{c|}{\shortstack{no additional\\constraints}} & \multicolumn{1}{c|}{with $0$}
+    & \multicolumn{1}{c|}{\shortstack{no additional\\constraints}} &
+    \multicolumn{1}{c|}{with $0$}
     & \multicolumn{1}{c|}{with $1$} & \multicolumn{1}{c|}{with $0$ + $1$}
-    & \multicolumn{1}{c|}{\shortstack{no additional\\constraints}} & \multicolumn{1}{c|}{with $0$}
+    & \multicolumn{1}{c|}{\shortstack{no additional\\constraints}} &
+    \multicolumn{1}{c|}{with $0$}
     & \multicolumn{1}{c|}{with $1$} & \multicolumn{1}{c}{with $0$ + $1$}
     \\
     \midrule
@@ -424,7 +430,8 @@ using \Semirings.
     7 & 59,314    & 43,331
   \end{tabular}
   \caption{Numbers of semirings with one and zero with $n$ elements
-    up to isomorphism or anti-isomorphism. See \cite{MSsemiringsWithOneAndZero} for \(n\leq6\) up to isomorphism.}
+    up to isomorphism or anti-isomorphism. See
+  \cite{MSsemiringsWithOneAndZero} for \(n\leq6\) up to isomorphism.}
   \label{tab:semirings-with-one-and-zero}
 \end{table}
 
@@ -446,7 +453,8 @@ using \Semirings.
   \end{tabular}
   \caption{Numbers of ai-semirings with one and zero with $n$
     elements up
-    to isomorphism or anti-isomorphism. See \cite{MSAiSemiringsWithOneAndZero} for \(n\leq7\) up to isomorphism.}
+    to isomorphism or anti-isomorphism. See
+  \cite{MSAiSemiringsWithOneAndZero} for \(n\leq7\) up to isomorphism.}
   \label{tab:ai-semirings-with-one-and-zero}
 \end{table}
 
