@@ -307,27 +307,6 @@ using \Semirings.
 
 \begin{table}[ht]
   \centering
-  \begin{tabular}{l|r|r}
-    \multirow{2}{*}{$n$} & \multicolumn{1}{|c|}{\multirow{2}{*}{up to
-    isomorphism}} & \multicolumn{1}{c}{up to isomorphism} \\
-    & & \multicolumn{1}{l}{or anti-isomorphism}\\
-    \midrule
-    1 & 1                    & 1         \\
-    2 & 10                   & 9         \\
-    3 & 132                  & 106       \\
-    4 & 2,341                & 1,713     \\
-    5 & 57,427     & 38,247    \\
-    6 & 7,571,579  & 4,102,358
-  \end{tabular}
-  \caption{Numbers of semirings (\cref{def:semiring}) with $n$
-    elements up to isomorphism and up
-    to isomorphism or anti-isomorphism. See \cite{MSsemirings} for
-  \(n\leq4\) up to isomorphism.}
-  \label{tab:semirings}
-\end{table}
-
-\begin{table}[ht]
-  \centering
   \begin{tabular}{l|r|r|r|r|r|r|r|r}
     $n$
     & \multicolumn{4}{c|}{up to isomorphism}
@@ -341,16 +320,40 @@ using \Semirings.
     & \multicolumn{1}{c|}{with $1$} & \multicolumn{1}{c}{with $0$ + $1$}
     \\
     \midrule
-    1 &              &          &&&          &     &  \\
-    2 &              &          &&&          &     &  \\
-    3 &             &         &&&          &       &\\
-    4 &            &        &&&         & &\\
-    5 &         &      &&&        & &\\
-    6 &        &    &&&      & &\\
-    7 &      &  &&&     & &\\
-    8 & & &&&    & &\\
+    1 & 1             & &1&   1    & 1          & &1&    1  \\
+    2 & 10             & &4&   2   & 9          & &4&     2  \\
+    3 & 132            & &22&   6   & 106         & &21&   6    \\
+    4 & 2,341           & &169&  40    & 1,713        & &155& 38    \\
+    5 & 57,427        & &1,819&   295 & 38,247      & &1,561&  262  \\
+    6 & 7,571,579       & &41,104& 3,246  & 4,102,358    & &30,112& 2,681 \\
+    7 &             & &&59,314  &   & && 43,331 \\
   \end{tabular}
-  \caption{Numbers of commutative semirings ($x\times y = y \times
+  \caption{Numbers of semirings (\cref{def:semiring}) with $n$
+    elements up to isomorphism and up
+    to isomorphism or anti-isomorphism. See \cite{MSsemirings,MSsemiringsWithOneAndZero,MSsemiringsWithOne} for
+    some of these numbers up to isomorphism.}\label{tab:semirings}
+\end{table}
+
+\begin{table}[ht]
+  \centering
+  \begin{tabular}{l|r|r|r|r}
+    $n$
+    & \multicolumn{4}{c}{up to isomorphism}\\
+    \midrule
+    & \multicolumn{1}{c|}{\shortstack{no additional\\constraints}} &
+    \multicolumn{1}{c|}{with $0$}
+    & \multicolumn{1}{c|}{with $1$} & \multicolumn{1}{c}{with $0$ + $1$}
+    \\
+    \midrule
+    1 &       1       &     1    &    1      &1  \\
+    2 &       8       &     4    &   4       &4  \\
+    3 &       80      &     18   &    20     &18\\
+    4 &       1,067   &   169   &   141    &169\\
+    5 &       18,188  &  1,990  &  1,276   &1,990\\
+    6 &       543,458 &   32,212 &   17,621 &2,075\\
+    7 &      &                     &        &25,640\\
+  \end{tabular}
+  \caption{Numbers of commutative semirings (i.e. those satisfying $x\times y = y \times
   x$ for all $x,y\in S$) with $n$ elements.}
   \label{tab:comm-semirings}
 \end{table}
@@ -370,14 +373,14 @@ using \Semirings.
     & \multicolumn{1}{c|}{with $1$} & \multicolumn{1}{c}{with $0$ + $1$}
     \\
     \midrule
-    1 & 1             & &&1       & 1          & && 1      \\
-    2 & 6             & &&1       & 5          & && 1      \\
-    3 & 61            & &&3       & 45         & && 3      \\
-    4 & 866           & &&20      & 581        & && 18     \\
-    5 & 15,751        & &&149     & 9,750      & && 125    \\
-    6 & 354,409       & &&1,488   & 205,744    & && 1,150  \\
-    7 & 9,908,909     & &&18,554  & 5,470,437  & && 13,171 \\
-    8 &               &           &&295,292 &  & && 116,274
+    1 & 1             & 1      &1     &1       & 1          & 1      &1& 1      \\
+    2 & 6             & 2      &2     &1       & 5          & 2      &2& 1      \\
+    3 & 61            & 12     &11    &3       & 45         & 10     &10& 3      \\
+    4 & 866           & 129    &73    &20      & 581        & 93     &64& 18     \\
+    5 & 15,751        & 1,852  &703   &149     & 9,750      & 1,207  &574& 125    \\
+    6 & 354,409       & 33,391 &9,195 &1,488   & 205,744    & 20,142 &6,835& 1,150  \\
+    7 & 9,908,909     &        &      &18,554  & 5,470,437  &        && 13,171 \\
+    8 &               &        &      &295,292 &            &        && 116,274
   \end{tabular}
   \caption{Numbers of ai-semirings (i.e. those satisfying $x + x = x$ for all
     $x\in S$, where ``ai'' stands for ``additively idempotent'') with $n$
@@ -386,29 +389,24 @@ using \Semirings.
 
 \begin{table}[ht]
   \centering
-  \begin{tabular}{l|r|r|r|r|r|r|r|r}
+  \begin{tabular}{l|r|r|r|r}
     $n$
-    & \multicolumn{4}{c|}{up to isomorphism}
-    & \multicolumn{4}{c}{up to isomorphism or anti-isomorphism} \\
+    & \multicolumn{4}{c}{up to isomorphism}\\
     \midrule
-    & \multicolumn{1}{c|}{\shortstack{no additional\\constraints}} &
-    \multicolumn{1}{c|}{with $0$}
-    & \multicolumn{1}{c|}{with $1$} & \multicolumn{1}{c|}{with $0$ + $1$}
     & \multicolumn{1}{c|}{\shortstack{no additional\\constraints}} &
     \multicolumn{1}{c|}{with $0$}
     & \multicolumn{1}{c|}{with $1$} & \multicolumn{1}{c}{with $0$ + $1$}
     \\
     \midrule
-    1 &              &          &&&          &      & \\
-    2 &              &          &&&          &      & \\
-    3 &             &         &&&          &      & \\
-    4 &            &        &&&         & &\\
-    5 &         &      &&&        & &\\
-    6 &        &    &&&      & &\\
-    7 &      &  &&&     & &\\
-    8 & & &&&    & &\\
+    1 &       1       &        &         &  \\
+    2 &       4       &        &          &  \\
+    3 &       29      &        &         &\\
+    4 &       289   &     &      &\\
+    5 &       3,589  &    &     &\\
+    6 &       53,661 &    &    &\\
+    7 &      &                     &        &\\
   \end{tabular}
-  \caption{Numbers of commutative ai-semirings ($x\times y = y \times
+  \caption{Numbers of commutative ai-semirings (i.e. those satisfying $x\times y = y \times
     x$ and $x + x = x$ for all $x,y\in S$) with $n$
   elements.}
   \label{tab:ai-semirings}
