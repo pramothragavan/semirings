@@ -32,6 +32,7 @@ parallel/logs
 parallel/pid
 parallel/results
 parallel/runs
+parallel/*.txt
 !info.bib
 !info.pdf
 !info.tex

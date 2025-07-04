@@ -1,1 +1,0 @@
-Concatenation([7, true], SEMIRINGS_STRUCTURE_REC.("CommutativeSemiringsWithOne"), [false])
