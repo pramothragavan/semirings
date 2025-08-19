@@ -32,12 +32,17 @@
   <Func Arg="n, [U2E]" Name="AllSemiringsWithOne" />
   <Func Arg="n, [U2E]" Name="AllSemiringsWithZero" />
   <Func Arg="n, [U2E]" Name="AllSemiringsWithOneAndZero" />
+  <Func Arg="n, [U2E]" Name="AllCommutativeSemirings" />
+  <Func Arg="n, [U2E]" Name="AllCommutativeSemiringsWithOne" />
+  <Func Arg="n, [U2E]" Name="AllCommutativeSemiringsWithZero" />
+  <Func Arg="n, [U2E]" Name="AllCommutativeSemiringsWithOneAndZero" />
   <Func Arg="n, [U2E]" Name="AllAiSemirings" />
   <Func Arg="n, [U2E]" Name="AllAiSemiringsWithZero" />
   <Func Arg="n, [U2E]" Name="AllAiSemiringsWithOne" />
   <Func Arg="n, [U2E]" Name="AllAiSemiringsWithOneAndZero" />
   <Func Arg="n, [U2E]" Name="AllRings" />
   <Func Arg="n, [U2E]" Name="AllRingsWithOne" />
+  <Func Arg="n, [U2E]" Name="AllSemifields" />
  <Returns>a list of pairs of Cayley tables
 </Returns>
  <Description>
@@ -56,12 +61,17 @@ These functions return a list of pairs of Cayley tables of
   <Func Arg="n, [U2E]" Name="NrSemiringsWithOne" />
   <Func Arg="n, [U2E]" Name="NrSemiringsWithZero" />
   <Func Arg="n, [U2E]" Name="NrSemiringsWithOneAndZero" />
+  <Func Arg="n, [U2E]" Name="NrCommutativeSemirings" />
+  <Func Arg="n, [U2E]" Name="NrCommutativeSemiringsWithOne" />
+  <Func Arg="n, [U2E]" Name="NrCommutativeSemiringsWithZero" />
+  <Func Arg="n, [U2E]" Name="NrCommutativeSemiringsWithOneAndZero" />
   <Func Arg="n, [U2E]" Name="NrAiSemirings" />
   <Func Arg="n, [U2E]" Name="NrAiSemiringsWithOne" />
   <Func Arg="n, [U2E]" Name="NrAiSemiringsWithZero" />
   <Func Arg="n, [U2E]" Name="NrAiSemiringsWithOneAndZero" />
   <Func Arg="n, [U2E]" Name="NrRings" />
   <Func Arg="n, [U2E]" Name="NrRingsWithOne" />
+  <Func Arg="n, [U2E]" Name="NrSemifields" />
  <Returns>an integer
 </Returns>
  <Description>

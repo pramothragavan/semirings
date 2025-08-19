@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
+set -e
 
 if [[ $# -eq 0 ]]; then
     echo "No Nr*(…) arguments supplied. Nothing to do." >&2
     exit 1
 fi
+
+GAP="/Users/jdm3/gap/gap -m 2g"
 
 SCRIPT_PATH="$(realpath "${BASH_SOURCE[0]}")"
 SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
@@ -14,13 +17,10 @@ cleanup() {
     rm -rf parallel/{results,logs,runs,pid}
 }
 
-trap cleanup INT TERM
-trap cleanup EXIT
+# trap cleanup INT TERM
+# trap cleanup EXIT
 
-: > parallel/structure.txt
-orig_tokens=()
-
-: > parallel/structure.txt
+touch parallel/structure.txt
 orig_tokens=()
 
 for tok in "$@"; do
@@ -62,7 +62,6 @@ echo "Using $SEMIRINGS_CORES cores"
 for d in results logs runs pid; do
     dir="parallel/${d}"
     mkdir -p "$dir"
-    rm -f -- "$dir"/*
 done
 
 run_forjoe() {
@@ -101,7 +100,7 @@ Print("\\nTime taken: ", Float(Runtimes().user_time) / 3600000, " hours\\n");
 quit;
 EOF
 
-    gap -q "${gap_script}" > "parallel/logs/${i}.log" 2>&1 &
+    $GAP -q "${gap_script}" > "parallel/logs/${i}.log" 2>&1 &
     local pid=$!
     pids+=("${pid}")
 }
@@ -110,7 +109,7 @@ idx=0
 while IFS= read -r structure || [[ -n $structure ]]; do
     printf '%s\n' "${structure}" > "parallel/temp_struct.txt"
 
-    gap -q "parallel/distribute.g"
+    $GAP -q "parallel/distribute.g"
 
     pids=()
     for ((i=1; i<=SEMIRINGS_CORES; i++)); do
@@ -136,5 +135,4 @@ while IFS= read -r structure || [[ -n $structure ]]; do
     printf '%s\n' "${label} = ${total}"
     printf '%s\n' '----------------------------------------------------------------------'
 
-    rm -f "parallel"/results/result_*.txt
 done < "parallel/structure.txt"
