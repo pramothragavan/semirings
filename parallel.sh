@@ -6,7 +6,7 @@ if [[ $# -eq 0 ]]; then
     exit 1
 fi
 
-GAP="/Users/jdm3/gap/gap -m 2g"
+GAP="gap -A"
 
 SCRIPT_PATH="$(realpath "${BASH_SOURCE[0]}")"
 SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
@@ -14,11 +14,12 @@ cd "$SCRIPT_DIR" || exit 1
 
 cleanup() {
     rm -f parallel/{structure.txt,temp_struct.txt,cores.txt}
-    rm -rf parallel/{results,logs,runs,pid}
+    rm -rf parallel/{results,runs,pid}
+    # rm -rf parallel/{results,logs,runs,pid}
 }
 
-# trap cleanup INT TERM
-# trap cleanup EXIT
+trap cleanup INT TERM
+trap cleanup EXIT
 
 touch parallel/structure.txt
 orig_tokens=()
@@ -100,7 +101,7 @@ Print("\\nTime taken: ", Float(Runtimes().user_time) / 3600000, " hours\\n");
 quit;
 EOF
 
-    $GAP -q "${gap_script}" > "parallel/logs/${i}.log" 2>&1 &
+    $GAP -q "${gap_script}" >> "parallel/logs/${i}.log" 2>&1 &
     local pid=$!
     pids+=("${pid}")
 }
@@ -124,15 +125,17 @@ while IFS= read -r structure || [[ -n $structure ]]; do
     done
 
     total=0
-    for f in "parallel"/results/result_*.txt; do
+    for f in parallel/results/result_*.txt; do
         [[ -s $f ]] && total=$(( total + $(<"$f") ))
     done
+    
+    [[ -s $f ]] && time=$(tail -n1 "parallel/logs/1.log")
 
     label=${orig_tokens[$idx]}
-    ((idx++))
 
     printf '%s\n' '----------------------------------------------------------------------'
     printf '%s\n' "${label} = ${total}"
+    printf '%s\n' "${time}"
     printf '%s\n' '----------------------------------------------------------------------'
 
 done < "parallel/structure.txt"
