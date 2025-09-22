@@ -105,6 +105,7 @@ f := InputTextFile(Concatenation(GAPInfo.PackagesLoaded.semirings[1],
 structure := EvalString(ReadLine(f));
 CloseStream(f);
 Print("Distributing across cores...\n");
+Print(structure);
 CallFuncList(DISTRIBUTE, structure);
 SetInfoLevel(InfoSemirings, l1);
 SetInfoLevel(InfoSmallsemi, l2);
