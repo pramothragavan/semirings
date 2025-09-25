@@ -671,7 +671,7 @@ BindGlobal("SEMIRINGS_IsSemiring",
     BreakOnError               := oldBoE;
     SilentNonInteractiveErrors := oldSNE;
 
-    if As[1] = false or Ms[1] = false then
+    if As[1] = false or Ms[1] = false or As[2] = fail or Ms[2] = fail then
       return false;
     fi;
 
