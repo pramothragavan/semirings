@@ -40,6 +40,10 @@
   <Func Arg="n, [U2E]" Name="AllAiSemiringsWithZero" />
   <Func Arg="n, [U2E]" Name="AllAiSemiringsWithOne" />
   <Func Arg="n, [U2E]" Name="AllAiSemiringsWithOneAndZero" />
+  <Func Arg="n, [U2E]" Name="AllCommutativeAiSemirings" />
+  <Func Arg="n, [U2E]" Name="AllCommutativeAiSemiringsWithOne" />
+  <Func Arg="n, [U2E]" Name="AllCommutativeAiSemiringsWithZero" />
+  <Func Arg="n, [U2E]" Name="AllCommutativeAiSemiringsWithOneAndZero" />
   <Func Arg="n, [U2E]" Name="AllRings" />
   <Func Arg="n, [U2E]" Name="AllRingsWithOne" />
   <Func Arg="n, [U2E]" Name="AllSemifields" />
@@ -69,6 +73,10 @@ These functions return a list of pairs of Cayley tables of
   <Func Arg="n, [U2E]" Name="NrAiSemiringsWithOne" />
   <Func Arg="n, [U2E]" Name="NrAiSemiringsWithZero" />
   <Func Arg="n, [U2E]" Name="NrAiSemiringsWithOneAndZero" />
+  <Func Arg="n, [U2E]" Name="NrCommutativeAiSemirings" />
+  <Func Arg="n, [U2E]" Name="NrCommutativeAiSemiringsWithOne" />
+  <Func Arg="n, [U2E]" Name="NrCommutativeAiSemiringsWithZero" />
+  <Func Arg="n, [U2E]" Name="NrCommutativeAiSemiringsWithOneAndZero" />
   <Func Arg="n, [U2E]" Name="NrRings" />
   <Func Arg="n, [U2E]" Name="NrRingsWithOne" />
   <Func Arg="n, [U2E]" Name="NrSemifields" />
@@ -142,4 +150,3 @@ is the info class
 
 
 </Chapter>
-

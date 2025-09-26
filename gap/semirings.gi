@@ -406,6 +406,24 @@ rec(
                                           IsSemigroupWithZero, true,
                                           IsMonoidAsSemigroup, true]],
 
+  CommutativeAiSemirings := [[IsBand, true, IsCommutative, true],
+                             [IsCommutative, true]],
+
+  CommutativeAiSemiringsWithOne := [[IsBand, true, IsCommutative, true],
+                                    [IsCommutative, true,
+                                     IsMonoidAsSemigroup, true]],
+
+  CommutativeAiSemiringsWithZero := [[IsBand, true, IsCommutative, true,
+                                      IsMonoidAsSemigroup, true],
+                                     [IsCommutative, true,
+                                      IsSemigroupWithZero, true]],
+
+  CommutativeAiSemiringsWithOneAndZero := [[IsBand, true, IsCommutative, true,
+                                            IsMonoidAsSemigroup, true],
+                                           [IsCommutative, true,
+                                            IsSemigroupWithZero, true,
+                                            IsMonoidAsSemigroup, true]],
+
   Semifields := [[IsCommutative, true, IsMonoidAsSemigroup, true],
                  [IsZeroGroup, true]]));
 

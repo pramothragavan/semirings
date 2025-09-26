@@ -158,6 +158,14 @@ DeclareGlobalFunction("AllAiSemiringsWithOne");
 #! @Arguments n, [U2E]
 DeclareGlobalFunction("AllAiSemiringsWithOneAndZero");
 #! @Arguments n, [U2E]
+DeclareGlobalFunction("AllCommutativeAiSemirings");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("AllCommutativeAiSemiringsWithOne");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("AllCommutativeAiSemiringsWithZero");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("AllCommutativeAiSemiringsWithOneAndZero");
+#! @Arguments n, [U2E]
 DeclareGlobalFunction("AllRings");
 #! @Arguments n, [U2E]
 DeclareGlobalFunction("AllRingsWithOne");
@@ -198,6 +206,14 @@ DeclareGlobalFunction("NrAiSemiringsWithOne");
 DeclareGlobalFunction("NrAiSemiringsWithZero");
 #! @Arguments n, [U2E]
 DeclareGlobalFunction("NrAiSemiringsWithOneAndZero");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("NrCommutativeAiSemirings");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("NrCommutativeAiSemiringsWithOne");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("NrCommutativeAiSemiringsWithZero");
+#! @Arguments n, [U2E]
+DeclareGlobalFunction("NrCommutativeAiSemiringsWithOneAndZero");
 #! @Arguments n, [U2E]
 DeclareGlobalFunction("NrRings");
 #! @Arguments n, [U2E]
