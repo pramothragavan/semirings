@@ -1,0 +1,6 @@
+Using 12 cores
+Distributing across cores...
+[ 8, true, [ <Property "IsBand">, true, <Property "IsCommutative">, true ], 
+100000 completed
+200000 completed
+Running processes concurrently, logs available @ semirings/parallel/logs

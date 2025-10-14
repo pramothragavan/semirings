@@ -1,0 +1,25 @@
+Using 12 cores
+Distributing across cores...
+[ 7, true, 
+  [ <Property "IsCommutative">, true, <Property "IsMonoidAsSemigroup">, true ]
+100000 completed
+200000 completed
+300000 completed
+400000 completed
+500000 completed
+600000 completed
+700000 completed
+Running processes concurrently, logs available @ semirings/parallel/logs
+----------------------------------------------------------------------
+NrSemiringsWithZero(7, true) = 4910824
+Time taken: 202.8502133333333 hours
+----------------------------------------------------------------------
+Distributing across cores...
+[ 4, true, 
+  [ <Property "IsBand">, true, <Property "IsCommutative">, true, 
+      <Property "IsMonoidAsSemigroup">, true ], 
+Running processes concurrently, logs available @ semirings/parallel/logs
+----------------------------------------------------------------------
+NrSemiringsWithZero(7, true) = 129
+Time taken: 0.0009677777777777777 hours
+----------------------------------------------------------------------

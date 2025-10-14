@@ -1,0 +1,7 @@
+Using 12 cores
+Distributing across cores...
+Running processes concurrently, logs available @ semirings/parallel/logs
+----------------------------------------------------------------------
+NrSemirings(5, false) = 57427
+Time taken: 0.002886111111111111 hours
+----------------------------------------------------------------------

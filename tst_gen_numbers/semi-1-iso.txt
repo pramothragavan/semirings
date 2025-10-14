@@ -1,0 +1,8 @@
+Using 12 cores
+Distributing across cores...
+[ 5, true, [ <Property "IsCommutative">, true ], 
+Running processes concurrently, logs available @ semirings/parallel/logs
+----------------------------------------------------------------------
+NrSemiringsWithOne(5, false) = 1819
+Time taken: 0.001238888888888889 hours
+----------------------------------------------------------------------

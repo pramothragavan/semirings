@@ -1,0 +1,9 @@
+Using 12 cores
+Distributing across cores...
+[ 8, true, [ <Property "IsBand">, true, <Property "IsCommutative">, true ], 
+  [ <Property "IsCommutative">, true, <Property "IsMonoidAsSemigroup">, true ]
+Running processes concurrently, logs available @ semirings/parallel/logs
+----------------------------------------------------------------------
+NrCommutativeAiSemiringsWithOne(8, true) = 764329
+Time taken: 32.35596694444444 hours
+----------------------------------------------------------------------

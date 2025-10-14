@@ -1,0 +1,4 @@
+Using 12 cores
+Distributing across cores...
+[ 7, true, [ <Property "IsCommutative">, true ], 
+Running processes concurrently, logs available @ semirings/parallel/logs

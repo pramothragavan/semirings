@@ -1,0 +1,6 @@
+Using 12 cores
+Distributing across cores...
+[ 8, true, 
+  [ <Property "IsCommutative">, true, <Property "IsMonoidAsSemigroup">, true ]
+    , [ <Property "IsCommutative">, true, <Property "IsSemigroupWithZero">, 
+Running processes concurrently, logs available @ semirings/parallel/logs

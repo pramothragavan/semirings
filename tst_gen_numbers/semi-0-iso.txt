@@ -1,0 +1,4 @@
+Using 12 cores
+Distributing across cores...
+[ 5, true, 
+  [ <Property "IsCommutative">, true, <Property "IsMonoidAsSemigroup">, true ]
