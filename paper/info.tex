@@ -294,9 +294,10 @@ that to enumerate the semirings on a set $S$ up to isomorphism (or up to
 isomorphism and anti-isomorphism) it suffices to consider every commutative
 semigroup $(S, +)$ and semigroup $(S, \times)$ and to compute representatives
 of the double cosets \(\Aut(S, \times) \backslash \Sym(S) / \Aut(S, +)\) (or
-\(\Aut^*(S, \times) \backslash \Sym(S) / \Aut(S, +)\)). The semigroups up to
+\(\Aut^*(S, \times) \backslash \Sym(S) / \Aut(S, +)\)). The semigroups with
+order at most $8$ up to
 isomorphism and anti-isomorphism are available in \Smallsemi.  Since $S$ is
-small, it is relatively straightforward to can compute $\Aut(S, \times)$ and
+small, it is relatively straightforward to compute $\Aut(S, \times)$ and
 $\Aut(S, +)$ (using the \Semigroups package for \GAP, which reduces the problem
   to that of computing the automorphism group, using \bliss, of a graph
 associated to $\Aut(S, \times)$). \GAP contains functionality for computing
@@ -324,7 +325,7 @@ to isomorphism, whereas \Semirings computes $57,427$. Using \GAP and \Semirings
 we attempted to verify whether or not the output of \alg was correct.
 Unfortunately, it appears that $16$ of the pairs of multiplication tables
 output by \alg do not satisfy one or the other of the distributivity conditions
-from \cref{def:semiring}(iii); see \cite{bauer_alg_issue16} for more details.
+from \cref{def:semiring}(c); see \cite{bauer_alg_issue16} for more details.
 This precisely accounts for the difference between the number output by
 \Semirings and the number output by \alg.
 
@@ -334,12 +335,9 @@ Pro with 14 threads and 48GB of RAM; an Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz
 processor with 12 threads and 64GB of RAM; an Intel(R) Core(TM)
 i7-12700KF @ 5GHz with 20 threads and 64GB of RAM. We mostly include this
 information to indicate that we did not make use of particularly powerful
-computing resources. The longest running of the computation in the tables below
+computers. The longest running of the computation in the tables below
 took approximately $2400$ CPU hours. This was the time taken to count the
 semirings with $0$ up to isomorphism and anti-isomorphism with $7$ elements.
-
-For each column in each table, the number of CPU hours taken to
-compute the largest value in that column has been included.
 
 These tables are only a sample of the results that can be obtained
 using \Semirings.
@@ -373,10 +371,9 @@ using \Semirings.
     % tex-fmt: on
   \end{tabular}
   \caption{Numbers of semirings (\cref{def:semiring}) with $n$ elements up to
-    isomorphism and up to isomorphism or anti-isomorphism, and the time $t$, in
-    hours, taken to calculate the largest value. See
-    \cite{MSsemirings,MSsemiringsWithOneAndZero,MSsemiringsWithOne} for
-  some of these numbers up to isomorphism.}\label{tab:semirings}
+    isomorphism and up to isomorphism or anti-isomorphism. See
+    \cite{MSsemirings,MSsemiringsWithOneAndZero,MSsemiringsWithOne} for some of
+  these numbers up to isomorphism.}\label{tab:semirings}
 \end{table}
 
 \begin{table}[ht]
@@ -404,8 +401,7 @@ using \Semirings.
     % tex-fmt: on
   \end{tabular}
   \caption{Numbers of commutative semirings (i.e. those satisfying
-    $x\times y = y \times x$ for all $x,y\in S$) with $n$ elements, and the time
-  $t$, in hours, taken to calculate the largest value.}
+  $x\times y = y \times x$ for all $x,y\in S$) with $n$ elements.}
   \label{tab:comm-semirings}
 \end{table}
 
@@ -439,7 +435,7 @@ using \Semirings.
   \end{tabular}
   \caption{Numbers of ai-semirings (i.e. those satisfying $x + x = x$ for all
     $x\in S$, where ``ai'' stands for ``additively idempotent'') with $n$
-    elements, and the time $t$, in hours, taken to calculate the largest value.
+    elements.
   }\label{tab:ai-semirings}
 \end{table}
 
