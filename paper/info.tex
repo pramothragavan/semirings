@@ -9,6 +9,7 @@
 \usepackage{tablefootnote}
 \usepackage{xspace}
 \usepackage[shortlabels, inline]{enumitem}
+\usepackage{thmtools}
 
 \usepackage{hyperref}
 \hypersetup{
@@ -18,21 +19,41 @@
   linkcolor=blue,
   urlcolor=red
 }
-\usepackage[capitalise, nameinlink]{cleveref}
-
-\theoremstyle{definition}
-\newtheorem{defn}{Definition}[section]
-\newtheorem{remark}{Remark}
-
-\theoremstyle{plain}
-\newtheorem{cor}[defn]{Corollary}
-\newtheorem{theorem}[defn]{Theorem}
+\usepackage{zref-clever}
+\zcsetup{nameinlink=true, capfirst}
+\newcommand{\cref}[1]{\zcref[S]{#1}}
 
 \setlength{\unitlength}{0.5mm}
 \renewcommand{\labelenumi}{{\normalfont(\alph{enumi})}}
 \setenumerate{noitemsep, topsep=0pt}
 
-% \DeclareUnicodeCharacter{202F}{XXX}
+\theoremstyle{plain}
+\declaretheorem[name=Theorem, numberwithin=section]{theorem}
+\declaretheorem[name=Corollary, sibling=theorem]{cor}
+
+\theoremstyle{definition}
+\declaretheorem[name=Definition, sibling=theorem]{defn}
+
+\zcRefTypeSetup{theorem}{
+  Name-sg = Theorem,
+  name-sg = Theorem,
+  Name-pl = Theorems,
+  name-pl = theorems,
+}
+
+\zcRefTypeSetup{cor}{
+  Name-sg = Corollary,
+  name-sg = Corollary,
+  Name-pl = Corollaries,
+  name-pl = corollaries,
+}
+
+\zcRefTypeSetup{defn}{
+  Name-sg = Definition,
+  name-sg = Definition,
+  Name-pl = Definitions,
+  name-pl = definitions,
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Bibliography
@@ -85,17 +106,20 @@ Plemmons1967, A027851, A058129, Satoh1994, A001426, A001423},
 inverse semigroups and monoids~\cite{Malandro2019, A001428, A234843,
 A234844, A234845}, and many more too numerous to mention\footnote{The disparity
   in the number of references for semigroups and monoids and the other
-  algebraic structures is a consequence of the author's familiarity with the
+  algebraic structures is a consequence of the authors' familiarity with the
   literature for semigroups and monoids, and there are likely many other
   references that could have been included were it not for us not knowing about
 them.}. In this short note we count the number of finite semirings up to
-isomorphism and up to isomorphism and anti-isomorphism for $n \leq 6$. We also
-count several special classes of semirings for (slightly) larger values of $n$.
+isomorphism and up to isomorphism and anti-isomorphism for $n \leq 6$; see
+\cref{tab:semirings,tab:comm-semirings,tab:ai-semirings,tab:comm-ai-semirings}.
+We also count several special classes of semirings for (slightly)
+larger values of $n$.
 
 This short note was initiated by an email from M. Volkov to the second author
 in February of 2025 asking if it was possible to verify the claim
 in~\cite{Ren2025} that the number of ai-semirings up to isomorphism with $4$
-elements is $866$. After some initial missteps it was relatively
+elements is $866$ (see the caption of \cref{tab:ai-semirings} for the
+definition). After some initial missteps it was relatively
 straightforward to verify that this number is correct, by using the library of
 small semigroups in the \GAP package \Smallsemi. This short note arose out from
 these first steps. In contrast to groups or rings, where the numbers of
@@ -134,13 +158,14 @@ of the notion of a ring.
 \end{defn}
 
 We note that some authors require that $(S, +)$ is a commutative monoid with
-(additive) identity denoted $0$ where $x\times 0 = 0 \times x = 0$ for all
-$x\in S$; see, for example, \cite{Lothaire2005, Sakarovitch2009}. We do not add
-this requirement, and refer to such objects as \textit{semirings with zero}.
-The numbers of semirings with zero are discussed in~\cite{stackexchange} and
-in~\cite{jipsen}; see also~\alg which we will discuss a little
-further below. In~\cite{Zhao2020} it was shown that there are $61$ ai-semirings
-of order $3$.
+(additive) identity; see, for example, \cite{Lothaire2005, Sakarovitch2009}. We
+do not add this requirement, and refer to such objects as \textit{semirings
+with zero}. The numbers of semirings with zero are discussed
+in~\cite{stackexchange} and in~\cite{jipsen}; see also~\alg which we will
+discuss a little further below.
+An \textit{ai-semiring} is a semiring $S$ where $x + x = x$ for all $x \in S$.
+In~\cite{Zhao2020} it was shown that there are
+$61$ ai-semirings of order $3$.
 
 Recall that if $(S, \times)$ and $(T, \otimes)$ are semigroups, then $\phi:S
 \to T$ is a \textit{(semigroup) homomorphism} if $(x\times y)\phi =
