@@ -302,6 +302,7 @@ from \cref{def:semiring}(iii); see \cite{bauer_alg_issue16} for more details.
 This precisely accounts for the difference between the number output by
 \Semirings and the number output by \alg.
 
+% TODO update the below to contain the specs of the new PC, somehow.
 The numbers present in the tables below were computed on an x86\_64 ``Intel(R)
 Core(TM) i7-8700 CPU @ 3.20GHz'' processor with 12 threads. For each column in
 each table, the number of CPU hours taken to compute the largest value in that
@@ -326,15 +327,16 @@ using \Semirings.
     \\
     \midrule
     % tex-fmt: off
-    1   & 1         & 1       & 1          & 1      & 1         & 1         & 1         & 1      \\
-    2   & 10        & 4       & 4          & 2      & 9         & 4         & 4         & 2      \\
-    3   & 132       & 22      & 22         & 6      & 106       & 20        & 21        & 6      \\
-    4   & 2,341     & 283     & 169        & 40     & 1,713     & 226       & 155       & 38     \\
-    5   & 57,427    & 4,717   & 1,819      & 295    & 38,247    & 3,365     & 1,561     & 262    \\
-    6   & 7,571,579 & 108,992 & 41,104     & 3,246  & 4,102,358 & 71,138    & 30,112    & 2,681  \\
-    7   & -         & -       & 11,679,328 & 59,314 & -         & 4,910,824 & 6,268,858 & 43,331 \\
+    1   & 1         & 1         & 1          & 1      & 1         & 1         & 1         & 1      \\
+    2   & 10        & 4         & 4          & 2      & 9         & 4         & 4         & 2      \\
+    3   & 132       & 22        & 22         & 6      & 106       & 20        & 21        & 6      \\
+    4   & 2,341     & 283       & 169        & 40     & 1,713     & 226       & 155       & 38     \\
+    5   & 57,427    & 4,717     & 1,819      & 295    & 38,247    & 3,365     & 1,561     & 262    \\
+    6   & 7,571,579 & 108,992   & 41,104     & 3,246  & 4,102,358 & 71,138    & 30,112    & 2,681  \\
+    7   & -         & 8,925,672 & 11,679,328 & 59,314 & -         & 4,910,824 & 6,268,858 & 43,331 \\
+    8   & -         & -         & -          & -      & -         & -         & -         & OOM (pc24017) \\
     \midrule
-    $t$ & -         &         & 1188       &        &           & 2434      & 643       &
+    $t$ & -         & 1975 (Dehn) & 1188       &        &           & 2434      & 643       &
     % tex-fmt: on
   \end{tabular}
   \caption{Numbers of semirings (\cref{def:semiring}) with $n$ elements up to
@@ -356,17 +358,21 @@ using \Semirings.
     \\
     \midrule
     % tex-fmt: off
-    1 & 1           & 1       & 1       & 1      \\
-    2 & 8           & 4       & 4       & 2      \\
-    3 & 80          & 18      & 20      & 6      \\
-    4 & 1,067       & 169     & 141     & 36     \\
-    5 & 18,188      & 1,990   & 1,276   & 228    \\
-    6 & 543,458     & 32,212  & 17,621  & 2,075  \\
-    7 & 162,744,745 & 799,354 & 690,924 & 25,640
+    1   & 1           & 1       & 1       & 1       \\
+    2   & 8           & 4       & 4       & 2       \\
+    3   & 80          & 18      & 20      & 6       \\
+    4   & 1,067       & 169     & 141     & 36      \\
+    5   & 18,188      & 1,990   & 1,276   & 228     \\
+    6   & 543,458     & 32,212  & 17,621  & 2,075   \\
+    7   & 162,744,745 & 799,354 & 690,924 & 25,640  \\
+    8   &             &         &         & 791,061 \\
+    \midrule
+    $t$ & -           & -       & -       & 1665 % This was using the new PC
     % tex-fmt: on
   \end{tabular}
   \caption{Numbers of commutative semirings (i.e. those satisfying
-  $x\times y = y \times x$ for all $x,y\in S$) with $n$ elements.}
+    $x\times y = y \times x$ for all $x,y\in S$) with $n$ elements, and the time
+  $t$, in hours, taken to calculate the largest value}
   \label{tab:comm-semirings}
 \end{table}
 
@@ -416,19 +422,21 @@ using \Semirings.
     \\
     \midrule
     % tex-fmt: off
-      1 & 1       & 1      & 1      & 1     \\
-      2 & 4       & 2      & 2      & 1     \\
-      3 & 29      & 8      & 9      & 3     \\
-      4 & 289     & 57     & 55     & 16    \\
-      5 & 3,589   & 550    & 437    & 100   \\
-      6 & 53,661  & 6,639  & 4,296  & 794   \\
-      7 & 949,843 & 96,264 & 52,043 & 7,493 \\
-      8 & ?       & ?      & ?      & ?
+      1   & 1          & 1         & 1       & 1      \\
+      2   & 4          & 2         & 2       & 1      \\
+      3   & 29         & 8         & 9       & 3      \\
+      4   & 289        & 57        & 55      & 16     \\
+      5   & 3,589      & 550       & 437     & 100    \\
+      6   & 53,661     & 6,639     & 4,296   & 794    \\
+      7   & 949,843    & 96,264    & 52,043  & 7,493  \\
+      8   & 20,054,643 (Dehn) & 1,639,905 & 764,329 & 84,961 \\
+      \midrule
+      $t$ & 2224        & 367       & 388     & 29
     % tex-fmt: on
   \end{tabular}
   \caption{Numbers of commutative ai-semirings (i.e. those satisfying
     $x\times y = y \times x$ and $x + x = x$ for all $x,y\in S$) with
-  $n$ elements.}
+    $n$ elements.}
   \label{tab:comm-ai-semirings}
 \end{table}
 
