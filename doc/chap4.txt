@@ -1,0 +1,86 @@
+  
+  [1X4 [33X[0;0YParallel Approaches[133X[101X
+  
+  [33X[0;0YGiven the computationally intensive nature of the counting of semirings, the
+  package  provides  a  means  of parallelisation for counting functions (i.e.
+  those of the form [10XNr<Structure>[110X, see [2XNrSemirings[102X ([14X2.1-2[114X)).[133X
+  
+  [33X[0;0YThis  works using a bash script and a Python script. The bash script handles
+  the orchestration of the process, while the Python script is responsible for
+  even  distribution of workload across cores. Naturally, the user must have a
+  Python3 interpreter installed on their system for this to work.[133X
+  
+  [33X[0;0YCurrently,  there  is  no  support  for  parallelisation  of the enumeration
+  functions (i.e. those of the form [10XAll<Structure>[110X, see [2XAllSemirings[102X ([14X2.1-1[114X)).[133X
+  
+  
+  [1X4.1 [33X[0;0YSetup[133X[101X
+  
+  [33X[0;0YTo   use   the   parallelisation,   you   must   first   ensure   that  both
+  [11Xsemirings/parallel.sh[111X  and  [11Xsemirings/parallel/distribute.py[111X are executable.
+  This  can  be done by running the following commands in the terminal, inside
+  the [11Xpkg/semirings[111X directory:[133X
+  
+  [4X[32X  Code  [32X[104X
+    [4X chmod +x parallel.sh[104X
+    [4X chmod +x parallel/distribute.py[104X
+  [4X[32X[104X
+  
+  
+  [1X4.2 [33X[0;0YUsage[133X[101X
+  
+  [33X[0;0YIn  any  examples  in the remainder of the chapter, we assume the user is in
+  the  [11Xpkg/semirings[111X  directory  when  running  commands. This is not strictly
+  necessary,  but  the  user should take care to use the correct filepath when
+  running the [11Xparallel.sh[111X script.[133X
+  
+  [33X[0;0YAn example of how to use the parallelisation is as follows:[133X
+  
+  [4X[32X  Code  [32X[104X
+    [4X SEMIRINGS_CORES=7 ./parallel.sh 'NrAiSemirings(4)'[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis  will  run  the  command  [10XNrAiSemirings(4)[110X  in parallel across 7 cores,
+  distributing the workload evenly. The output will be printed to the terminal
+  and while the process is running, temporary log files will be created in the
+  [11Xparallel/logs[111X  directory,  where  the  user  can check on the progress of an
+  individual  core.  These  files,  along  with any other files created by the
+  script, will be deleted upon successful completion of the script.[133X
+  
+  [33X[0;0YA typical output for the above command might look like the following:[133X
+  
+  [4X[32X  Code  [32X[104X
+    [4X Using 7 cores[104X
+    [4X Establishing how to distribute the workload...[104X
+    [4X Distributing 188 items across 7 cores...[104X
+    [4X Running processes concurrently, logs available @ semirings/parallel/logs[104X
+    [4X ----------------------------------------------------------------------[104X
+    [4X RESULT for NrAiSemirings(4)[104X
+    [4X Total = 866[104X
+    [4X ----------------------------------------------------------------------[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIf  [10XSEMIRINGS_CORES[110X  is  not specified, the script will default to using all
+  available  cores.  Alternatively,  if  the user intends on regularly using [10Xn[110X
+  cores  for  some [10Xn[110X, they can set the [10XSEMIRINGS_CORES[110X environment variable by
+  running the following command in the terminal:[133X
+  
+  [4X[32X  Code  [32X[104X
+    [4X export SEMIRINGS_CORES=n[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis  will  set  the  number  of cores to be used by the script to [10Xn[110X for the
+  current  terminal  session.  The  user  can  add  this  line  to their shell
+  configuration  file  (e.g.,  [10X.bashrc[110X  or [10X.zshrc[110X) to make this change persist
+  across terminal sessions.[133X
+  
+  [33X[0;0YIt  is also possible to run multiple commands in parallel by specifying them
+  as a list in the command line. For example:[133X
+  
+  [4X[32X  Code  [32X[104X
+    [4X SEMIRINGS_CORES=2 ./parallel.sh 'NrAiSemirings(4)' 'NrAiSemirings(5, true)'[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis  will  first  run  [10XNrAiSemirings(4)[110X  across  2  cores,  and  then  upon
+  completion, it will run [10XNrAiSemirings(5, true)[110X across 2 cores.[133X
+  

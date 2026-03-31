@@ -1,0 +1,67 @@
+  
+  [1X3 [33X[0;0YSemi6[133X[101X
+  
+  [33X[0;0YThe  [12XSemirings[112X  package  provides  a  means  of encoding and decoding into a
+  format called [12XSemi6[112X, inspired by the [12Xgraph6[112X format.[133X
+  
+  [33X[0;0Y[12XSemi6[112X encodes a semiring [23XS = (A,M)[123X of order [23Xn[123X (two [23Xn \times n[123X Cayley tables)
+  as one short ASCII string.[133X
+  
+  [33X[0;0YThe first byte is [23Xn + 63[123X, exactly as in [12Xgraph6[112X. The payload is a bit-stream:
+  first  the upper triangle (diagonal included) of the symmetric table [23XA[123X, then
+  the  full  table [23XM[123X. Each entry is stored in [23Xb = \lceil{\log_2 n\rceil}[123X bits,
+  most-significant  bit first. Zero-bits are used for padding until the length
+  is a multiple of 6. The stream is then divided into 6-bit blocks, each block
+  has  63 added, and the resulting bytes (ASCII 63–126) are concatenated. Thus
+  a  semiring becomes one short, string that is identical in spirit to [12Xgraph6[112X,
+  but  with  a  variable‐width  per-entry field instead of the single edge-bit
+  used  for  graphs.  That  is to say, the [23Xb=1[123X case effectively reduces to the
+  [12Xgraph6[112X format (with an additional square table).[133X
+  
+  [33X[0;0YThe order of the semiring must be between 1 and 63, inclusive.[133X
+  
+  
+  [1X3.1 [33X[0;0YEncoding[133X[101X
+  
+  [1X3.1-1 Semi6String[101X
+  
+  [33X[1;0Y[29X[2XSemi6String[102X( [3XS[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya string[133X
+  
+  [33X[0;0YThe  function  [10XSemi6String[110X  encodes  a semiring [3XS[103X into a string in the Semi6
+  format.[133X
+  
+  [1X3.1-2 Semi6Encode[101X
+  
+  [33X[1;0Y[29X[2XSemi6Encode[102X( [3Xf[103X, [3Xsrs[103X[, [3Xmode[103X] ) [32X function[133X
+  
+  [33X[0;0YIf  [3Xsrs[103X is a semiring or list of semirings (as pairs of Cayley tables) and [3Xf[103X
+  is  a string containing the name of a file or an IO file object, [10XSemi6Encode[110X
+  writes the semirings to the file represented by [3Xf[103X in the Semi6 format.[133X
+  
+  [33X[0;0YThe  optional  argument  [3Xmode[103X  can  be  either  [10X"w"[110X  or [10X"a"[110X (default), which
+  determines the mode in which the file is opened for writing.[133X
+  
+  
+  [1X3.2 [33X[0;0YDecoding[133X[101X
+  
+  [1X3.2-1 SemiringFromSemi6String[101X
+  
+  [33X[1;0Y[29X[2XSemiringFromSemi6String[102X( [3Xstr[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list of Cayley tables[133X
+  
+  [33X[0;0YThis function takes a string [3Xstr[103X in the Semi6 format representing a semiring
+  and returns that semiring as a pair of Cayley tables.[133X
+  
+  [1X3.2-2 Semi6Decode[101X
+  
+  [33X[1;0Y[29X[2XSemi6Decode[102X( [3Xf[103X[, [3Xn[103X] ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list of Cayley tables, or a list of pairs of Cayley tables[133X
+  
+  [33X[0;0YIf  [3Xf[103X is a string containing the name of a file containing encoded semirings
+  or  an IO file object, then [10XSemi6Decode[110X returns the semirings encoded in the
+  file as a list of pairs of Cayley tables.[133X
+  
+  [33X[0;0YIf  the  optional  argument  [3Xn[103X  is  given,  then [10XSemi6Decode[110X returns the [3Xn[103Xth
+  semiring encoded in the file as a pair of Cayley tables.[133X
+  

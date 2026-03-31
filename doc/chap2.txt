@@ -1,0 +1,118 @@
+  
+  [1X2 [33X[0;0YFunctionality[133X[101X
+  
+  [33X[0;0YSemirings  and  various  related  algebraic structures of small order can be
+  enumerated  using  the [12XSemirings[112X package. By small order, we mean at most 8,
+  but  in  many  cases  even 8 is computationally unfeasible under the current
+  implementation.  Each  structure  type  has an associated pair of functions:
+  [10XAll<Structure>[110X   for  enumeration  and  [10XNr<Structure>[110X  for  counting.  Here,
+  [10X<Structure>[110X  can  be  one  of:  [10XAiSemirings[110X, [10XRingsWithOne[110X, [10XRings[110X, [10XSemirings[110X,
+  [10XSemiringsWithOneAndZero[110X,    [10XAiSemiringsWithOneAndZero[110X,    [10XSemiringsWithZero[110X,
+  [10XAiSemiringsWithZero[110X, [10XAiSemiringsWithOne[110X, or [10XSemiringsWithOne[110X.[133X
+  
+  [33X[0;0YFor  a  given [10X<Structure>[110X, the [10XAll<Structure>[110X function returns a list of all
+  structures of that type (up to isomorphism or equivalence), each represented
+  as  a pair of Cayley tables. For instance, [10XAllSemirings(n)[110X returns a list of
+  pairs  [10X[A,  M][110X,  where  [10XA[110X  and [10XM[110X are [23Xn\times n[123X Cayley tables as described in
+  Section  [14X1.1[114X. The corresponding [10XNr<Structure>[110X function returns the number of
+  such  structures without storing them, and so is both faster and more memory
+  efficient.[133X
+  
+  
+  [1X2.1 [33X[0;0YFunctions for counting and enumerating structures[133X[101X
+  
+  [1X2.1-1 AllSemirings[101X
+  
+  [33X[1;0Y[29X[2XAllSemirings[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XAllSemiringsWithOne[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XAllSemiringsWithZero[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XAllSemiringsWithOneAndZero[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XAllCommutativeSemirings[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XAllCommutativeSemiringsWithOne[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XAllCommutativeSemiringsWithZero[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XAllCommutativeSemiringsWithOneAndZero[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XAllAiSemirings[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XAllAiSemiringsWithZero[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XAllAiSemiringsWithOne[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XAllAiSemiringsWithOneAndZero[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XAllCommutativeAiSemirings[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XAllCommutativeAiSemiringsWithOne[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XAllCommutativeAiSemiringsWithZero[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XAllCommutativeAiSemiringsWithOneAndZero[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XAllRings[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XAllRingsWithOne[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XAllSemifields[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list of pairs of Cayley tables[133X
+  
+  [33X[0;0YThese  functions  return  a  list  of pairs of Cayley tables of order [3Xn[103X. The
+  optional  argument  [3XU2E[103X  is a boolean that determines whether the structures
+  are considered up to isomorphism (false, default) or equivalence (true).[133X
+  
+  [1X2.1-2 NrSemirings[101X
+  
+  [33X[1;0Y[29X[2XNrSemirings[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XNrSemiringsWithOne[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XNrSemiringsWithZero[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XNrSemiringsWithOneAndZero[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XNrCommutativeSemirings[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XNrCommutativeSemiringsWithOne[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XNrCommutativeSemiringsWithZero[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XNrCommutativeSemiringsWithOneAndZero[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XNrAiSemirings[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XNrAiSemiringsWithOne[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XNrAiSemiringsWithZero[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XNrAiSemiringsWithOneAndZero[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XNrCommutativeAiSemirings[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XNrCommutativeAiSemiringsWithOne[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XNrCommutativeAiSemiringsWithZero[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XNrCommutativeAiSemiringsWithOneAndZero[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XNrRings[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XNrRingsWithOne[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XNrSemifields[102X( [3Xn[103X[, [3XU2E[103X] ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Yan integer[133X
+  
+  [33X[0;0YThese  functions  return  the  number of structures of order [3Xn[103X. The optional
+  argument [3XU2E[103X is a boolean that determines whether the structures are counted
+  up to isomorphism (false, default) or equivalence (true).[133X
+  
+  [33X[0;0YFor  each  [10X<Structure>[110X, it is the case that [10XLength(All<Structure>(n, U2E)) =
+  Nr<Structure>(n, U2E)[110X.[133X
+  
+  [1X2.1-3 AllSemiringsWithX[101X
+  
+  [33X[1;0Y[29X[2XAllSemiringsWithX[102X( [3Xn[103X, [3XstructA[103X, [3XstructM[103X[, [3XU2E[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XNrSemiringsWithX[102X( [3Xn[103X, [3XstructA[103X, [3XstructM[103X[, [3XU2E[103X] ) [32X function[133X
+  
+  [33X[0;0YThese  functions  allow  you  to  enumerate/count the number of semirings of
+  order  [3Xn[103X  respectively,  while  specifying  constraints  on the additive and
+  multiplicative reducts of the semiring.[133X
+  
+  [33X[0;0Y[3XstructA[103X and [3XstructM[103X should be lists of even length, where[133X
+  
+  [30X    [33X[0;6Ythe odd entries [3XstructA[2i - 1][103X and [3XstructM[2i - 1][103X are functions[133X
+  
+  [30X    [33X[0;6Ythe even entries [3XstructA[2i][103X and [3XstructM[2i][103X should be values that can
+        be  returned  by  the  functions  [3XstructA[2i  - 1][103X and [3XstructM[2i - 1][103X
+        respectively.[133X
+  
+  [33X[0;0YThe  optional  argument  [3XU2E[103X  is  a  boolean  that  determines  whether  the
+  structures  are considered up to isomorphism (false, default) or equivalence
+  (true).[133X
+  
+  [33X[0;0YIt  is  not  necessary to specify additive commutativity in [3XstructA[103X. This is
+  always assumed as it forms part of the definition of a semiring.[133X
+  
+  [33X[0;0YFor  instance,  [10XAllSemiringsWithX(n,  [IsBand,  true],  [])[110X is equivalent to
+  [10XAllAiSemirings(n)[110X.[133X
+  
+  
+  [1X2.2 [33X[0;0YMiscellaneous[133X[101X
+  
+  [1X2.2-1 InfoSemirings[101X
+  
+  [33X[1;0Y[29X[2XInfoSemirings[102X [32X info class[133X
+  
+  [33X[0;0Yis  the  info class (see [14X'Reference: Info Functions'[114X) of [12XSemirings[112X. The info
+  level  is  initially  set to 1 which triggers progress messages whenever any
+  function in Section [14X2.1[114X is called.[133X
+  

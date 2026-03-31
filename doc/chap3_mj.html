@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<title>GAP (semirings) - Chapter 3: Semi6</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap3"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap2_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap4_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap3.html">[MathJax off]</a></p>
+<p><a id="X7F55246C78594D45" name="X7F55246C78594D45"></a></p>
+<div class="ChapSects"><a href="chap3_mj.html#X7F55246C78594D45">3 <span class="Heading">Semi6</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3_mj.html#X7B711F1D817E7872">3.1 <span class="Heading">Encoding</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X86BE147F8798B6DB">3.1-1 Semi6String</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X86CF7ECB7E3EF2E8">3.1-2 Semi6Encode</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3_mj.html#X879BCA5B783146E7">3.2 <span class="Heading">Decoding</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X851E896C87CB0B0F">3.2-1 SemiringFromSemi6String</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7D07B0E082AB4A9D">3.2-2 Semi6Decode</a></span>
+</div></div>
+</div>
+
+<h3>3 <span class="Heading">Semi6</span></h3>
+
+<p>The <strong class="button">Semirings</strong> package provides a means of encoding and decoding into a format called <strong class="button">Semi6</strong>, inspired by the <strong class="button">graph6</strong> format.</p>
+
+<p><strong class="button">Semi6</strong> encodes a semiring <span class="SimpleMath">\(S = (A,M)\)</span> of order <span class="SimpleMath">\(n\)</span> (two <span class="SimpleMath">\(n \times n\)</span> Cayley tables) as one short ASCII string.</p>
+
+<p>The first byte is <span class="SimpleMath">\(n + 63\)</span>, exactly as in <strong class="button">graph6</strong>. The payload is a bit-stream: first the upper triangle (diagonal included) of the symmetric table <span class="SimpleMath">\(A\)</span>, then the full table <span class="SimpleMath">\(M\)</span>. Each entry is stored in <span class="SimpleMath">\(b = \lceil{\log_2 n\rceil}\)</span> bits, most-significant bit first. Zero-bits are used for padding until the length is a multiple of 6. The stream is then divided into 6-bit blocks, each block has 63 added, and the resulting bytes (ASCII 63–126) are concatenated. Thus a semiring becomes one short, string that is identical in spirit to <strong class="button">graph6</strong>, but with a variable‐width per-entry field instead of the single edge-bit used for graphs. That is to say, the <span class="SimpleMath">\(b=1\)</span> case effectively reduces to the <strong class="button">graph6</strong> format (with an additional square table).</p>
+
+<p>The order of the semiring must be between 1 and 63, inclusive.</p>
+
+<p><a id="X7B711F1D817E7872" name="X7B711F1D817E7872"></a></p>
+
+<h4>3.1 <span class="Heading">Encoding</span></h4>
+
+<p><a id="X86BE147F8798B6DB" name="X86BE147F8798B6DB"></a></p>
+
+<h5>3.1-1 Semi6String</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Semi6String</code>( <var class="Arg">S</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a string</p>
+
+<p>The function <code class="code">Semi6String</code> encodes a semiring <var class="Arg">S</var> into a string in the Semi6 format.</p>
+
+<p><a id="X86CF7ECB7E3EF2E8" name="X86CF7ECB7E3EF2E8"></a></p>
+
+<h5>3.1-2 Semi6Encode</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Semi6Encode</code>( <var class="Arg">f</var>, <var class="Arg">srs</var>[, <var class="Arg">mode</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>If <var class="Arg">srs</var> is a semiring or list of semirings (as pairs of Cayley tables) and <var class="Arg">f</var> is a string containing the name of a file or an IO file object, <code class="code">Semi6Encode</code> writes the semirings to the file represented by <var class="Arg">f</var> in the Semi6 format.</p>
+
+<p>The optional argument <var class="Arg">mode</var> can be either <code class="code">"w"</code> or <code class="code">"a"</code> (default), which determines the mode in which the file is opened for writing.</p>
+
+<p><a id="X879BCA5B783146E7" name="X879BCA5B783146E7"></a></p>
+
+<h4>3.2 <span class="Heading">Decoding</span></h4>
+
+<p><a id="X851E896C87CB0B0F" name="X851E896C87CB0B0F"></a></p>
+
+<h5>3.2-1 SemiringFromSemi6String</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SemiringFromSemi6String</code>( <var class="Arg">str</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list of Cayley tables</p>
+
+<p>This function takes a string <var class="Arg">str</var> in the Semi6 format representing a semiring and returns that semiring as a pair of Cayley tables.</p>
+
+<p><a id="X7D07B0E082AB4A9D" name="X7D07B0E082AB4A9D"></a></p>
+
+<h5>3.2-2 Semi6Decode</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Semi6Decode</code>( <var class="Arg">f</var>[, <var class="Arg">n</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list of Cayley tables, or a list of pairs of Cayley tables</p>
+
+<p>If <var class="Arg">f</var> is a string containing the name of a file containing encoded semirings or an IO file object, then <code class="code">Semi6Decode</code> returns the semirings encoded in the file as a list of pairs of Cayley tables.</p>
+
+<p>If the optional argument <var class="Arg">n</var> is given, then <code class="code">Semi6Decode</code> returns the <var class="Arg">n</var>th semiring encoded in the file as a pair of Cayley tables.</p>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap2_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap4_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

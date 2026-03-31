@@ -1,0 +1,130 @@
+  
+  [1X1 [33X[0;0YIntroduction[133X[101X
+  
+  [33X[0;0YThe  [12XSemirings[112X  package provides tools for enumerating semirings and related
+  algebraic  structures of small orders. The package allows users to count and
+  generate  semirings  up  to  isomorphism  or equivalence using a rudimentary
+  algorithm  and  the  library  of  small semigroups provided by [12XSmallsemi[112X. It
+  supports  a  variety  of  structures  and  offers  extensibility  to  custom
+  constraints.  This  package  fills  a gap in the literature by providing the
+  first  known  counts  (in  many cases) of semirings and their variants up to
+  equivalence.[133X
+  
+  
+  [1X1.1 [33X[0;0YDefinitions and Preliminaries[133X[101X
+  
+  [33X[0;0YThere  are  various  definitions of semirings in the literature, and we make
+  use  of  the  following  convention.  A  semiring is a set [23XS[123X with two binary
+  operations, addition and multiplication, such that:[133X
+  
+  [30X    [33X[0;6YThe  [13Xadditive  reduct[113X  \((S,  +)\),  which  we  denote  by \(A\), is a
+        commutative semigroup.[133X
+  
+  [30X    [33X[0;6YThe [13Xmultiplicative reduct[113X \((S, \cdot)\), which we denote by \(M\), is
+        a semigroup.[133X
+  
+  [30X    [33X[0;6YMultiplication  distributes  over addition, i.e. for all \(a, b, c \in
+        S\),[133X
+  
+  [33X[0;0Y\[a \cdot (b + c) = (a \cdot b) + (a \cdot c) \quad \text{and} \quad (b + c)
+  \cdot a = (b \cdot a) + (c \cdot a). \] It is sometimes useful to consider a
+  semiring [23XS[123X as the pair [23X(A, M)[123X.[133X
+  
+  [33X[0;0YWe  will  also  make use of the prefix 'ai' to mean 'additively idempotent'.
+  For  instance,  an  [13Xai-semiring[113X [23XS[123X is a semiring with the additional property
+  that \[a + a = a \quad \text{for all } a \in S.\][133X
+  
+  [33X[0;0YWe  make  use  of  the  convention  that  rings  do  not  necessarily have a
+  multiplicative identity.[133X
+  
+  [33X[0;0YIn the remainder of this chapter, we discuss installation of the package.[133X
+  
+  
+  [1X1.2 [33X[0;0YRequirements[133X[101X
+  
+  [33X[0;0YThis  software  is  designed  for use with [12XGAP[112X version 4.5 or later. It also
+  requires  the  [12XSmallsemi[112X  package (version 0.7.2) and the [12XSemigroups[112X package
+  (version 5.5.1 or higher) to function correctly.[133X
+  
+  
+  [1X1.2-1 [33X[0;0YRAM[133X[101X
+  
+  [33X[0;0YDue  to its dependence on [12XSmallsemi[112X, [12XSemirings[112X can use large amounts of RAM.
+  For  more  information  on how [12XGAP[112X uses memory, see [14X'Reference: Command Line
+  Options'[114X. In the case that the user runs into memory issues, see [14X'Smallsemi:
+  Memory Issues'[114X.[133X
+  
+  
+  [1X1.3 [33X[0;0YInstallation[133X[101X
+  
+  
+  [1X1.3-1 [33X[0;0YDownload and Extract Semirings[133X[101X
+  
+  [33X[0;0YThe installation follows standard [12XGAP[112X rules as outlined in the following two
+  steps; see [14X'Reference: Installing a GAP Package'[114X for further details.[133X
+  
+  [30X    [33X[0;6YEnsure that Semigroups version 4.5 or later is available.[133X
+  
+  [30X    [33X[0;6YEnsure that Smallsemi version 0.7.2 or later is available.[133X
+  
+  [30X    [33X[0;6YDownload       an      archive      of      the      package      from
+        [7Xhttps://pramothragavan.github.io/assets/semirings.tar.gz[107X.[133X
+  
+  [30X    [33X[0;6YMove the archive inside a [11Xpkg[111X directory. This can be either the[133X
+  
+  [33X[0;0Ymain [11Xpkg[111X directory in your [12XGAP[112X installation or your personal [11Xpkg[111X directory.[133X
+  
+  [30X    [33X[0;6YUnzip and untar the file, this should create a directory called[133X
+  
+  [33X[0;0Y[11Xsemirings[111X inside the [11Xpkg[111X directory.[133X
+  
+  [30X    [33X[0;6YInside the [11Xpkg/semirings[111X directory, in your terminal type[133X
+  
+  [4X[32X  Code  [32X[104X
+    [4X configure && make[104X
+  [4X[32X[104X
+  
+  
+  [1X1.3-2 [33X[0;0YLoading[133X[101X
+  
+  [33X[0;0YTo  use  the package, start a [12XGAP[112X session and type [10XLoadPackage("semirings");[110X
+  at the [12XGAP[112X prompt. You should see the following:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XLoadPackage("semirings");[127X[104X
+    [4X[28X-----------------------------------------------------------------------------[128X[104X
+    [4X[28XLoading semirings 0.1 (Enumerate semirings)[128X[104X
+    [4X[28Xby James Mitchell (https://jdbm.me) and[128X[104X
+    [4X[28X   Pramoth Ragavan (https://pramothragavan.github.io/).[128X[104X
+    [4X[28XHomepage: https://pramothragavan.github.io/semirings/[128X[104X
+    [4X[28XReport issues at https://github.com/pramothragavan/semirings/issues[128X[104X
+    [4X[28X-----------------------------------------------------------------------------[128X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YYou  might  want  to  start  [12XGAP[112X  with  a  specified  amount  of memory; see
+  [14X'Smallsemi: Memory Issues'[114X.[133X
+  
+  
+  [1X1.3-3 [33X[0;0YTesting[133X[101X
+  
+  [33X[0;0YYou  should verify the success of the installation by running the test file.
+  This is done by the following command and should return a similar output:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XReadPackage("semirings", "tst/testall.g");[127X[104X
+    [4X[28XArchitecture: aarch64-apple-darwin23-default64-kv9[128X[104X
+    [4X[28X[128X[104X
+    [4X[28Xtesting: /semirings/tst/ai.tst[128X[104X
+    [4X[28X    3730 ms (997 ms GC) and 383MB allocated for ai.tst[128X[104X
+    [4X[28Xtesting: /semirings/tst/equivalence.tst[128X[104X
+    [4X[28X   54127 ms (5006 ms GC) and 20.0GB allocated for equivalence.tst[128X[104X
+    [4X[28Xtesting: /semirings/tst/standard.tst[128X[104X
+    [4X[28X    6197 ms (2139 ms GC) and 441MB allocated for standard.tst[128X[104X
+    [4X[28X-----------------------------------[128X[104X
+    [4X[28Xtotal     64054 ms (8142 ms GC) and 20.8GB allocated[128X[104X
+    [4X[28X              0 failures in 3 files[128X[104X
+    [4X[28X[128X[104X
+    [4X[28XI  No errors detected while testing[128X[104X
+  [4X[32X[104X
+  
