@@ -680,8 +680,8 @@ BindGlobal("SEMIRINGS_IsSemiring",
 
     oldBoE := BreakOnError;
     BreakOnError := false;
-    SilentNonInteractiveErrors := true;
     oldSNE := SilentNonInteractiveErrors;
+    SilentNonInteractiveErrors := true;
 
     As := CALL_WITH_CATCH(SemigroupByMultiplicationTable, [A]);
     Ms := CALL_WITH_CATCH(SemigroupByMultiplicationTable, [M]);
