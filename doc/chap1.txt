@@ -68,19 +68,16 @@
   [30X    [33X[0;6YEnsure that Smallsemi version 0.7.2 or later is available.[133X
   
   [30X    [33X[0;6YDownload       an      archive      of      the      package      from
-        [7Xhttps://pramothragavan.github.io/assets/semirings.tar.gz[107X.[133X
+        [7Xhttps://pramothragavan.github.io/semirings/[107X.[133X
   
-  [30X    [33X[0;6YMove the archive inside a [11Xpkg[111X directory. This can be either the[133X
+  [30X    [33X[0;6YMove the archive inside a [11Xpkg[111X subdirectory of your [12XGAP[112X installation.[133X
   
-  [33X[0;0Ymain [11Xpkg[111X directory in your [12XGAP[112X installation or your personal [11Xpkg[111X directory.[133X
+  [30X    [33X[0;6YUnpack the archive:[133X
   
-  [30X    [33X[0;6YUnzip and untar the file, this should create a directory called[133X
-  
-  [33X[0;0Y[11Xsemirings[111X inside the [11Xpkg[111X directory.[133X
-  
-  [30X    [33X[0;6YInside the [11Xpkg/semirings[111X directory, in your terminal type[133X
+  [30X    [33X[0;6YChange into the extracted package directory and compile the package:[133X
   
   [4X[32X  Code  [32X[104X
+    [4X cd /path/to/gap/pkg/semirings[104X
     [4X configure && make[104X
   [4X[32X[104X
   

@@ -6,12 +6,16 @@ description: |
     Enumerate semirings
 
 authors:
+    - name: Joseph Edwards
+      url: https://github.com/Joseph-Edwards
     - name: James Mitchell
       url: https://jdbm.me
     - name: Pramoth Ragavan
       url: https://pramothragavan.github.io/
 
 maintainers:
+    - name: Joseph Edwards
+      url: https://github.com/Joseph-Edwards
     - name: James Mitchell
       url: https://jdbm.me
     - name: Pramoth Ragavan
@@ -41,7 +45,7 @@ doc-html: doc/chap0_mj.html
 doc-pdf: doc/manual.pdf
 citeas: |
     <p class='BibEntry'>
-    [<span class='BibKey'>MR25</span>]   <b class='BibAuthor'>Mitchell, J. and Ragavan, P.</b>,
+    [<span class='BibKey'>EMR25</span>]   <b class='BibAuthor'>Edwards, J., Mitchell, J. and Ragavan, P.</b>,
      <i class='BibTitle'>semirings, Enumerate semirings,
              Version 0.1</i>
      (<span class='BibYear'>2025</span>)<br />
@@ -52,14 +56,13 @@ citeas: |
 
 bibtex: |
     @misc{ semirings,
-      author =           {Mitchell, J. and Ragavan, P.},
+      author =           {Edwards, J. and Mitchell, J. and Ragavan, P.},
       title =            {{semirings}, Enumerate semirings, {V}ersion 0.1},
       month =            {Mar},
       year =             {2025},
       note =             {GAP package},
-      howpublished =     {\href    {https://pramothragavan.github.io/semirings/}
-                          {\texttt{https://pramothragavan.github.io/}\discretionary
+      howpublished =     {\href         {https://pramothragavan.github.io/semirings/}         {\texttt{https://pramothragavan.github.io/}\discretionary
                           {}{}{}\texttt{semirings/}}},
-      printedkey =       {MR25}
+      printedkey =       {EMR25}
     }
 
