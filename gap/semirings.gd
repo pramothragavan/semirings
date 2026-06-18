@@ -54,14 +54,16 @@
 #!      Text="Reference: Installing a GAP Package"/> for further details.
 #! * Ensure that Semigroups version 4.5 or later is available.
 #! * Ensure that Smallsemi version 0.7.2 or later is available.
-#! * Download an archive of the package from <URL>https://pramothragavan.github.io/assets/semirings.tar.gz</URL>.
-#! * Move the archive inside a <F>pkg</F> directory. This can be either the
-#! main <F>pkg</F> directory in your <B>GAP</B> installation or your personal
-#! <F>pkg</F> directory.
-#! * Unzip and untar the file, this should create a directory called
-#! <F>semirings</F> inside the <F>pkg</F> directory.
-#! * Inside the <F>pkg/semirings</F> directory, in your terminal type
+#! * Download an archive of the package from <URL>https://pramothragavan.github.io/semirings/</URL>.
+#! * Move the archive inside a <F>pkg</F> subdirectory of your <B>GAP</B> installation.
+#! * Unpack the archive:
+#! @BeginCode Extract
+#! cd /path/to/gap/pkg
+#! tar -xzf semirings-<version>.tar.gz
+#! @EndCode
+#! * Change into the extracted package directory and compile the package:
 #! @BeginCode Compile
+#! cd /path/to/gap/pkg/semirings
 #! configure && make
 #! @EndCode
 #! @InsertCode Compile

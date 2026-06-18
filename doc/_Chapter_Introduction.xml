@@ -88,23 +88,16 @@ Ensure that Semigroups version 4.5 or later is available.
 Ensure that Smallsemi version 0.7.2 or later is available.
 </Item>
 <Item>
-Download an archive of the package from <URL>https://pramothragavan.github.io/assets/semirings.tar.gz</URL>.
+Download an archive of the package from <URL>https://pramothragavan.github.io/semirings/</URL>.
 </Item>
 <Item>
-Move the archive inside a <F>pkg</F> directory. This can be either the
+Move the archive inside a <F>pkg</F> subdirectory of your <B>GAP</B> installation.
 </Item>
-</List>
- main <F>pkg</F> directory in your <B>GAP</B> installation or your personal
- <F>pkg</F> directory.
-<List>
 <Item>
-Unzip and untar the file, this should create a directory called
+Unpack the archive:
 </Item>
-</List>
- <F>semirings</F> inside the <F>pkg</F> directory.
-<List>
 <Item>
-Inside the <F>pkg/semirings</F> directory, in your terminal type
+Change into the extracted package directory and compile the package:
 </Item>
 </List>
 <#Include Label="Compile">

@@ -16,6 +16,23 @@ License := "GPL-2.0-or-later",
 
 Persons := [
   rec(
+  LastName       := "Edwards",
+  FirstNames     := "Joseph",
+  IsAuthor       := true,
+  IsMaintainer   := true,
+  Email          := "jde1@st-andrews.ac.uk",
+  GithubUsername := "Joseph-Edwards",
+  PostalAddress := Concatenation(
+              "Mathematical Institute\n",
+              "North Haugh\n",
+              "St Andrews\n",
+              "Fife\n",
+              "KY16 9SS\n",
+              "Scotland" ),
+  Place          := "St Andrews",
+  Institution    := "University of St Andrews",
+  WWWHome        := "https://github.com/Joseph-Edwards"),
+  rec(
     FirstNames := "James",
     LastName := "Mitchell",
     WWWHome := "https://jdbm.me",
@@ -36,13 +53,13 @@ Persons := [
     FirstNames := "Pramoth",
     LastName := "Ragavan",
     WWWHome := "https://pramothragavan.github.io/",
-    Email := "pr90@st-andrews.ac.uk",
+    Email := "pramoth.ragavan@gmail.com",
     IsAuthor := true,
     IsMaintainer := true,
     #PostalAddress := TODO,
     #Place := TODO,
     Institution := "University of St Andrews",
-  ),
+  )
 ],
 
 SourceRepository := rec(

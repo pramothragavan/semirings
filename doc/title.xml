@@ -12,6 +12,20 @@
     0.1
   </Version>
   <Author>
+    Joseph Edwards<Alt Only="LaTeX"><Br/></Alt>
+<Address>
+Mathematical Institute<Br/>
+North Haugh<Br/>
+St Andrews<Br/>
+Fife<Br/>
+KY16 9SS<Br/>
+Scotland<Br/>
+</Address>
+<Email>jde1@st-andrews.ac.uk</Email>
+<Homepage>https://github.com/Joseph-Edwards</Homepage>
+
+  </Author>
+  <Author>
     James Mitchell<Alt Only="LaTeX"><Br/></Alt>
 <Address>
 Mathematical Institute<Br/>
@@ -27,7 +41,7 @@ Scotland<Br/>
   </Author>
   <Author>
     Pramoth Ragavan<Alt Only="LaTeX"><Br/></Alt>
-<Email>pr90@st-andrews.ac.uk</Email>
+<Email>pramoth.ragavan@gmail.com</Email>
 <Homepage>https://pramothragavan.github.io/</Homepage>
 
   </Author>
