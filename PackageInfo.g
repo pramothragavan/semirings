@@ -31,7 +31,7 @@ Persons := [
               "Scotland" ),
   Place          := "St Andrews",
   Institution    := "University of St Andrews",
-  WWWHome        := "https://github.com/Joseph-Edwards"),
+  WWWHome        := "https://joseph-edwards.github.io/"),
   rec(
     FirstNames := "James",
     LastName := "Mitchell",
