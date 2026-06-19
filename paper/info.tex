@@ -89,7 +89,7 @@
 
 \begin{abstract}
   In this short note we count the finite semirings up to isomorphism,
-  and up to isomorphism and anti-isomorphism for some small values of
+  and up to isomorphism or anti-isomorphism for some small values of
   $n$; for which we utilise the existing library of small semigroups
   in the \GAP package \Smallsemi.
 \end{abstract}
@@ -110,28 +110,29 @@ A234844, A234845}, and many more too numerous to mention\footnote{The disparity
   literature for semigroups and monoids, and there are likely many other
   references that could have been included were it not for us not knowing about
 them.}. In this short note we count the number of finite semirings up to
-isomorphism and up to isomorphism and anti-isomorphism for $n \leq 6$; see
+isomorphism and up to isomorphism or anti-isomorphism for $n \leq 6$; see
 \cref{tab:semirings,tab:comm-semirings,tab:ai-semirings,tab:comm-ai-semirings}.
 We also count several special classes of semirings for (slightly)
 larger values of $n$.
 
 This short note was initiated by an email from M. Volkov to the second author
 in February of 2025 asking if it was possible to verify the claim
-in~\cite{Ren2025} that the number of ai-semirings up to isomorphism with $4$
+in~\cite{Ren2025} that the number of ai-semirings (additively
+idempotent) up to isomorphism with $4$
 elements is $866$ (see the caption of \cref{tab:ai-semirings} for the
 definition). After some initial missteps it was relatively
 straightforward to verify that this number is correct, by using the library of
-small semigroups in the \GAP package \Smallsemi. This short note arose out from
+small semigroups in the \GAP package \Smallsemi. This short note arose from
 these first steps. In contrast to groups or rings, where the numbers of
 non-isomorphic objects of order $n$ is known for relatively large values of
 $n$, the number of semigroups of order $10$ (up to isomorphism) is apparently
-not known exactly (although the number up to isomorphism and anti-isomorphism
+not known exactly (although the number up to isomorphism or anti-isomorphism
 is known~\cite{Distler2012}). The paper \cite{Kleitman1976} purports to show
 that almost all semigroups of order $n$ (as $n$ tends to infinity) up to
-isomorphism and anti-isomorphism are $3$-nilpotent (and indeed $99.4\%$ of the
+isomorphism or anti-isomorphism are $3$-nilpotent (and indeed $99.4\%$ of the
 semigroups of order $8$ are $3$-nilpotent), and it is shown
 in~\cite{Distler2012ab} that the number of $3$-nilpotent semigroups of order
-$10$ is approximately $10 ^ {19}$, this number is likely close to the exact
+$10$ is approximately $10 ^ {19}$. This number is likely close to the exact
 value. Perhaps unsurprisingly, from the perspective of counting up to
 isomorphism, it seems that semirings have more in common with semigroups than
 with rings or groups. Very roughly speaking, rings and groups are highly
@@ -213,23 +214,23 @@ The next theorem is key to our approach for counting semirings.
 
 \begin{theorem}
   \label{thm:isomorphism-condition}
-  Let \((S, +)\) be a commutative semigroup, let \((S, \times)\) be a semigroup,
-  and let \(\sigma, \tau\in\Sym(S)\) be such that $(S, +, \times ^ \sigma)$ and
-  $(S, +, \times ^ \tau)$ are semirings.
-  Then \((S, +, \times ^ \sigma)\) and \((S, +, \times^\tau)\) are isomorphic
-  if and only if \(\sigma\) and \(\tau\) belong to the same double coset of
+  Let \((S, +)\) be a commutative semigroup, let \((S, \times)\) be a
+  semigroup, and let \(\sigma, \tau\in\Sym(S)\). Then $\phi\in \Aut(S, +)$ is a
+  semigroup isomorphism from \((S,\times^\sigma)\) to \((S, \times ^ \tau)\) if
+  and only if \(\sigma\) and \(\tau\) belong to the same double coset in
   \(\Aut(S, \times) \backslash \Sym(S) / \Aut(S, +)\).
 \end{theorem}
 
 \begin{proof}
-  ($\Rightarrow$) Suppose that $\phi$ is a semiring isomorphism from
-  $(S, +, \times ^ \sigma)$ to $(S, +, \times^\tau)$. Then
-  $\phi \in \Aut(S, +)$ and $(x \times ^ \sigma y)\phi = (x)\phi\times ^ \tau
-  (y)\phi$ for all $x, y\in S$. It follows that
+  ($\Rightarrow$) Suppose that $\phi\in \Aut(S, +)$ is a semigroup isomorphism
+  from $(S, \times ^ \sigma)$ to $(S, \times^\tau)$. Then $(x \times ^ \sigma
+  y)\phi = (x)\phi\times ^ \tau (y)\phi$ for all $x, y\in S$. If $x, y\in S$
+  are arbitrary, then
   \[
     ((x)\sigma ^ {-1} \times (y)\sigma ^ {-1})\sigma \phi \tau ^ {-1} =
     (x \times ^ \sigma y)\phi\tau ^ {-1}
     = ((x)\phi \times ^ {\tau} (y)\phi)\tau ^ {-1}
+    = ((x)\phi\tau^{-1}\times (y)\phi\tau^{-1})\tau\tau^{-1}
     = (x)\phi\tau ^ {-1} \times (y)\phi\tau ^ {-1}.
   \]
   If we set $\gamma = \sigma\phi\tau^{-1}$, $p =
@@ -241,14 +242,12 @@ The next theorem is key to our approach for counting semirings.
   same double coset of $\Aut(S, \times) \backslash \Sym(S) / \Aut(S, +)$.
 
   ($\Leftarrow$) Suppose that $\sigma$ and $\tau$ are in the
-  same double coset of $\Aut(S, +) \backslash \Sym(S) / \Aut(S, \times)$.
+  same double coset of $\Aut(S, \times) \backslash \Sym(S) / \Aut(S, +)$.
   Then there exists $\alpha\in\Aut(S, \times)$ and $\beta\in\Aut(S, +)$ such
   that $\tau=\alpha\sigma\beta$.
 
-  We will show that $\beta$ is a semiring isomorphism from $(S, +, \times
-  ^{\sigma})$ to $(S, +, \times^{\tau})$. Since $\beta\in \Aut(S, +)$, it
-  suffices to show that $\beta$ is an isomorphism from $(S, \times
-  ^{\sigma})$ and $(S, \times^{\tau})$:
+  We will show that $\beta$ is a semigroup isomorphism from $(S, \times
+  ^{\sigma})$ to $(S, \times^{\tau})$:
   \begin{align*}
     (x\times^\sigma y)\beta
     &= (x\sigma ^{-1} \times y\sigma ^{-1})\sigma \beta
@@ -260,84 +259,138 @@ The next theorem is key to our approach for counting semirings.
   \end{align*}
 \end{proof}
 
-If $(S, \times)$ and $(S, \otimes)$ are semigroups, then $(S, \times)$ is said
+An immediate corollary of \cref{thm:isomorphism-condition} is the following.
+
+\begin{cor}\label{cor-double-coset-reps-iso}
+  Let \((S, +)\) be a commutative semigroup, let \((S, \times)\) be a
+  semigroup, and let \(\sigma\) and \(\tau\) belong to the
+  same double coset in
+  \(\Aut(S, \times) \backslash \Sym(S) / \Aut(S, +)\).
+  Then the following hold:
+  \begin{enumerate}
+    \item
+      \((S, +, \times^\sigma)\) is a semiring if and only if
+      \((S, +, \times^\tau)\) is a semiring;
+    \item if \((S, +, \times^\sigma)\) and \((S, +, \times^\tau)\) are
+      semirings, then they are isomorphic.
+  \end{enumerate}
+\end{cor}
+
+If $(S, \times)$ and $(S, \otimes)$ are semigroups, then $(S,
+\times)$ is said
 to be \textit{anti-isomorphic} to $(S, \otimes)$ if there exists a bijection
-$\phi: S \to S$ such that $(x\times y)\phi = y\otimes x$ for all $x, y\in S$.
+$\phi: S \to S$ such that $(x\times y)\phi = y\otimes x$ for all
+$x, y\in S$.
 The bijection $\phi$ is referred to as an \textit{anti-isomorphism}. If the
 operations $\times$ and $\otimes$ coincide, then $\phi$ is an
-\textit{anti-automorphism}. Clearly the composition of two anti-automorphisms
+\textit{anti-automorphism}. Clearly the composition of two
+anti-automorphisms
 is an automorphism, and the composition of an anti-automorphism and an
-automorphism is an anti-automorphism. As such the set of all automorphisms or
-anti-automorphisms forms a group under composition of functions; we denote this
+automorphism is an anti-automorphism. As such the set of all
+automorphisms or
+anti-automorphisms forms a group under composition of functions; we
+denote this
 group by $\Aut^*(S, \times)$.
 
 Similarly, using the obvious analogue of \cref{defn-semiring-iso}, we can
 define anti-isomorphic semirings. It is routine to adapt the proof of
 \cref{thm:isomorphism-condition} to prove the following.
 
-\begin{cor}
+\begin{theorem}
   \label{cor:equiv-condition}
   Let \((S, +)\) be a commutative semigroup, let \((S, \times)\) be a
-  semigroup, and let \(\sigma, \tau\in\Sym(S)\) be such that $(S, +, \times ^
-  \sigma)$ and $(S, +, \times ^ \tau)$ are semirings. Then \((S, +, \times ^
-  \sigma)\) and \((S, +, \times^\tau)\) are isomorphic or anti-isomorphic if
-  and only if \(\sigma\) and \(\tau\) belong to the same double coset of
+  semigroup, and let \(\sigma, \tau\in\Sym(S)\).
+  Then \(\phi\in \Aut(S, +)\) is a semigroup isomorphism or
+  anti-isomorphism from \((S, \times ^ \sigma)\) to \((S, \times^\tau)\)
+  if and only if \(\sigma\) and \(\tau\) belong to the same double coset in
   \(\Aut^*(S, \times) \backslash \Sym(S) / \Aut(S, +)\).
+\end{theorem}
+
+We also obtain a corollary of \cref{cor:equiv-condition} analogous to
+\cref{cor-double-coset-reps-iso}.
+
+\begin{cor}\label{cor-double-coset-reps-equiv}
+  Let \((S, +)\) be a commutative semigroup, let \((S, \times)\) be a
+  semigroup, and let \(\sigma\) and \(\tau\) belong to the
+  same double coset in
+  \(\Aut^*(S, \times) \backslash \Sym(S) / \Aut(S, +)\).
+  Then the following hold:
+  \begin{enumerate}
+    \item
+      \((S, +, \times^\sigma)\) is a semiring if and only if
+      \((S, +, \times^\tau)\) is a semiring;
+    \item if \((S, +, \times^\sigma)\) and \((S, +, \times^\tau)\) are
+      semirings, then they are isomorphic or anti-isomorphic.
+  \end{enumerate}
 \end{cor}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Tables of results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-It follows from \cref{thm:isomorphism-condition} and \cref{cor:equiv-condition}
-that to enumerate the semirings on a set $S$ up to isomorphism (or up to
-isomorphism and anti-isomorphism) it suffices to consider every commutative
-semigroup $(S, +)$ and semigroup $(S, \times)$ and to compute representatives
-of the double cosets \(\Aut(S, \times) \backslash \Sym(S) / \Aut(S, +)\) (or
-\(\Aut^*(S, \times) \backslash \Sym(S) / \Aut(S, +)\)). The semigroups with
-order at most $8$ up to
-isomorphism and anti-isomorphism are available in \Smallsemi.  Since $S$ is
-small, it is relatively straightforward to compute $\Aut(S, \times)$ and
-$\Aut(S, +)$ (using the \Semigroups package for \GAP, which reduces the problem
-  to that of computing the automorphism group, using \bliss, of a graph
-associated to $\Aut(S, \times)$). \GAP contains functionality for computing
-double coset representatives.
-% TODO add "based on \cite{}." if anyone ever tell us where the implementation
-% in GAP comes from https://github.com/gap-system/gap/discussions/6030
-This is the approach implemented by the authors of the current paper in the
-\GAP package \Semirings to compute the numbers in this section.
+The approach we implemented in the \GAP package \Semirings to compute the
+numbers in this section is as follows. It follows from
+\cref{cor-double-coset-reps-iso,cor-double-coset-reps-equiv} that to
+enumerate the semirings on a set $S$ up to isomorphism (or up to
+isomorphism or anti-isomorphism) it suffices to consider every
+commutative semigroup $(S, +)$ and semigroup $(S, \times)$ and to check
+distributivity of $+$ and $\times^{\sigma}$ for one representative
+$\sigma$ of every double coset in \(\Aut(S, \times) \backslash \Sym(S) /
+\Aut(S, +)\) (or in \(\Aut^*(S, \times) \backslash \Sym(S) / \Aut(S,
++)\)). The semigroups with order at most $8$ up to isomorphism and
+anti-isomorphism are available in \Smallsemi.  Since $S$ is small, it is
+relatively straightforward to compute $\Aut(S, \times)$ and $\Aut(S, +)$:
+the problem of computing $\Aut(S, \times)$ reduces to that of
+computing the automorphism group of a graph associated to $(S, \times)$;
+see \cite{Miller1977} for details. The automorphisms of $(S, +)$ can also
+be computed in this way. There are several software tools for computing
+automorphism groups of graphs, for example, \bliss. This is the approach
+used by the \Semigroups package for \GAP, which the authors used to
+compute $\Aut(S, \times)$ and $\Aut(S, +)$ in this paper. Finally, \GAP
+contains functionality for computing double coset representatives; see
+\cite[Section 4.6.8]{Holt2005} for details.
 
-Below are some tables listing the numbers of semirings (\cref{def:semiring}) up
+Below are some tables listing the numbers of semirings
+(\cref{def:semiring}) up
 to isomorphism, and up to isomorphism or anti-isomorphism, with various
-properties for some small values of $n\in \mathbb{N}$. As far as we know, many
-of the numbers in these tables were not previously known. In particular, we are
-not aware of any results in the literature about the number of semirings up to
-isomorphism and anti-isomorphism. Some of the numbers in the tables below can
-be found using \alg, although this approach is considerably slower
+properties for some small values of $n\in \mathbb{N}$. As far as
+we know, many
+of the numbers in these tables were not previously known. In
+particular, we are
+not aware of any results in the literature about the number of
+semirings up to
+isomorphism or anti-isomorphism. Some of the numbers in the
+tables below can
+be found using \alg, although using \alg is considerably slower
 than the approach described here, largely because the precomputed data for
 small semigroups available in \Smallsemi does a lot of the heavy lifting.
 
 As a sanity check, where possible, we have checked the numbers produced by
 \Semirings against those in the literature, and those we could produce using
-\alg. With one exception, these numbers agreed with each other. \alg computes
-that there are $57,443$ semirings (using \cref{def:semiring}) of order $5$ up
-to isomorphism, whereas \Semirings computes $57,427$. Using \GAP and \Semirings
+\alg. With one exception, these numbers agreed with each other.
+\alg computes
+that there are $57,443$ semirings (using \cref{def:semiring}) of
+order $5$ up
+to isomorphism, whereas \Semirings computes $57,427$. Using \GAP
+and \Semirings
 we attempted to verify whether or not the output of \alg was correct.
 Unfortunately, it appears that $16$ of the pairs of multiplication tables
-output by \alg do not satisfy one or the other of the distributivity conditions
+output by \alg do not satisfy one or the other of the
+distributivity conditions
 from \cref{def:semiring}(c); see \cite{bauer_alg_issue16} for more details.
 This precisely accounts for the difference between the number output by
 \Semirings and the number output by \alg.
 
 The numbers present in the tables below were computed using a variety of
 desktop and laptop computers with the following specs: a 2025 MacBook Pro M4
-Pro with 14 threads and 48GB of RAM; an Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz
+Pro with 14 threads and 48GB of RAM; an Intel(R) Core(TM) i7-8700
+CPU @ 3.20GHz
 processor with 12 threads and 64GB of RAM; an Intel(R) Core(TM)
 i7-12700KF @ 5GHz with 20 threads and 64GB of RAM. We mostly include this
 information to indicate that we did not make use of particularly powerful
 computers. The longest running of the computation in the tables below
 took approximately $2400$ CPU hours. This was the time taken to count the
-semirings with $0$ up to isomorphism and anti-isomorphism with $7$ elements.
+semirings with $0$ up to isomorphism or anti-isomorphism with $7$ elements.
 
 These tables are only a sample of the results that can be obtained
 using \Semirings.
@@ -370,9 +423,11 @@ using \Semirings.
     % $t$ & -         & 1975 (Dehn) & 1188       &        &           & 2434      & 643       &
     % tex-fmt: on
   \end{tabular}
-  \caption{Numbers of semirings (\cref{def:semiring}) with $n$ elements up to
+  \caption{Numbers of semirings (\cref{def:semiring}) with $n$
+    elements up to
     isomorphism and up to isomorphism or anti-isomorphism. See
-    \cite{MSsemirings,MSsemiringsWithOneAndZero,MSsemiringsWithOne} for some of
+    \cite{MSsemirings,MSsemiringsWithOneAndZero,MSsemiringsWithOne}
+    for some of
   these numbers up to isomorphism.}\label{tab:semirings}
 \end{table}
 
@@ -433,7 +488,8 @@ using \Semirings.
     % $t$ & -         & 79      &         &         &           &         &         &
     % tex-fmt: on
   \end{tabular}
-  \caption{Numbers of ai-semirings (i.e. those satisfying $x + x = x$ for all
+  \caption{Numbers of ai-semirings (i.e. those satisfying $x + x
+      = x$ for all
     $x\in S$, where ``ai'' stands for ``additively idempotent'') with $n$
     elements.
   }\label{tab:ai-semirings}
