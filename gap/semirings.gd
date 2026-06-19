@@ -61,6 +61,7 @@
 #! cd /path/to/gap/pkg
 #! tar -xzf semirings-<version>.tar.gz
 #! @EndCode
+#! @InsertCode Extract
 #! * Change into the extracted package directory and compile the package:
 #! @BeginCode Compile
 #! cd /path/to/gap/pkg/semirings

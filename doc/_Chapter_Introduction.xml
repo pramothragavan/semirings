@@ -96,6 +96,10 @@ Move the archive inside a <F>pkg</F> subdirectory of your <B>GAP</B> installatio
 <Item>
 Unpack the archive:
 </Item>
+</List>
+<#Include Label="Extract">
+
+<List>
 <Item>
 Change into the extracted package directory and compile the package:
 </Item>
