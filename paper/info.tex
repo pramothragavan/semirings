@@ -3,7 +3,7 @@
 \usepackage[cm]{fullpage}
 
 \usepackage{booktabs}
-\usepackage{amsmath, amssymb, amsthm, hyperref}
+\usepackage{amsmath, amssymb, amsthm}
 \usepackage{multicol}
 \usepackage{multirow}
 \usepackage{tablefootnote}
@@ -100,7 +100,7 @@ Enumeration of algebraic and combinatorial structures of finite order up to
 isomorphism is a classical topic. Among the algebraic structures considered are
 groups~\cite{BESCHE2002,A000001}, rings~\cite{Blackburn2022, Fine1993,
 Kruse1970, A027623}, near-rings~\cite{Chow2024, SONATA, A305858},
-semigroups and monoids~\cite{Distler2010, Distler2010, Distler2012, Distler2013,
+semigroups and monoids~\cite{Distler2010, Distler2012, Distler2013,
   Forsythe1955, Grillet1996, Grillet2014, Jrgensen1977, Motzkin1955,
 Plemmons1967, A027851, A058129, Satoh1994, A001426, A001423},
 inverse semigroups and monoids~\cite{Malandro2019, A001428, A234843,
@@ -124,7 +124,7 @@ definition). After some initial missteps it was relatively
 straightforward to verify that this number is correct, by using the library of
 small semigroups in the \GAP package \Smallsemi. This short note arose from
 these first steps. In contrast to groups or rings, where the numbers of
-non-isomorphic objects of order $n$ is known for relatively large values of
+non-isomorphic objects of order $n$ are known for relatively large values of
 $n$, the number of semigroups of order $10$ (up to isomorphism) is apparently
 not known exactly (although the number up to isomorphism or anti-isomorphism
 is known~\cite{Distler2012}). The paper \cite{Kleitman1976} purports to show
@@ -136,11 +136,11 @@ $10$ is approximately $10 ^ {19}$. This number is likely close to the exact
 value. Perhaps unsurprisingly, from the perspective of counting up to
 isomorphism, it seems that semirings have more in common with semigroups than
 with rings or groups. Very roughly speaking, rings and groups are highly
-structured, providing strong constraints that facilitates their enumeration. On
+structured, providing strong constraints that facilitate their enumeration. On
 the other hand, semigroups, and seemingly semirings also, are less structured,
 more numerous, and harder to enumerate.
 
-We begin with the definition of a semiring; which is a natural generalisation
+We begin with the definition of a semiring, which is a natural generalisation
 of the notion of a ring.
 
 \begin{defn}[Semiring]
@@ -159,7 +159,8 @@ of the notion of a ring.
 \end{defn}
 
 We note that some authors require that $(S, +)$ is a commutative monoid with
-(additive) identity; see, for example, \cite{Lothaire2005, Sakarovitch2009}. We
+(additive) identity $0$ such that $0 \times x = x \times 0 = 0$ for
+all $x\in S$; see, for example, \cite{Lothaire2005, Sakarovitch2009}. We
 do not add this requirement, and refer to such objects as \textit{semirings
 with zero}. The numbers of semirings with zero are discussed
 in~\cite{stackexchange} and in~\cite{jipsen}; see also~\alg which we will
@@ -181,10 +182,10 @@ In this short note we are concerned with counting semirings up to isomorphism,
 and so our next definition is that of an isomorphism.
 
 \begin{defn}[Semiring isomorphism]\label{defn-semiring-iso}
-  We say that two semirings \((S,+,\times)\) and \((S, \oplus, \otimes)\) are
-  \emph{isomorphic} if there exists a bijection \(\phi: S \to S\) which is
-  simultaneously a semigroup isomorphism from $(S, +)$ to $(S, \oplus)$ and
-  from $(S, \times)$ to $(S, \otimes)$. We refer to $\phi$ as a
+  We say that two semirings \((S,+,\times)\) and \((T, \oplus, \otimes)\) are
+  \emph{isomorphic} if there exists a bijection \(\phi: S \to T\) which is
+  simultaneously a semigroup isomorphism from $(S, +)$ to $(T, \oplus)$ and
+  from $(S, \times)$ to $(T, \otimes)$. We refer to $\phi$ as a
   \textit{(semiring) isomorphism}.
 \end{defn}
 
@@ -215,8 +216,9 @@ The next theorem is key to our approach for counting semirings.
 \begin{theorem}
   \label{thm:isomorphism-condition}
   Let \((S, +)\) be a commutative semigroup, let \((S, \times)\) be a
-  semigroup, and let \(\sigma, \tau\in\Sym(S)\). Then $\phi\in \Aut(S, +)$ is a
-  semigroup isomorphism from \((S,\times^\sigma)\) to \((S, \times ^ \tau)\) if
+  semigroup, and let \(\sigma, \tau\in\Sym(S)\). Then there exists a
+  semigroup isomorphism $\phi\in \Aut(S, +)$
+  from \((S,\times^\sigma)\) to \((S, \times ^ \tau)\) if
   and only if \(\sigma\) and \(\tau\) belong to the same double coset in
   \(\Aut(S, \times) \backslash \Sym(S) / \Aut(S, +)\).
 \end{theorem}
@@ -279,7 +281,7 @@ An immediate corollary of \cref{thm:isomorphism-condition} is the following.
 If $(S, \times)$ and $(S, \otimes)$ are semigroups, then $(S,
 \times)$ is said
 to be \textit{anti-isomorphic} to $(S, \otimes)$ if there exists a bijection
-$\phi: S \to S$ such that $(x\times y)\phi = y\otimes x$ for all
+$\phi: S \to S$ such that $(x\times y)\phi = (y)\phi\otimes (x)\phi$ for all
 $x, y\in S$.
 The bijection $\phi$ is referred to as an \textit{anti-isomorphism}. If the
 operations $\times$ and $\otimes$ coincide, then $\phi$ is an
@@ -300,8 +302,9 @@ define anti-isomorphic semirings. It is routine to adapt the proof of
   \label{cor:equiv-condition}
   Let \((S, +)\) be a commutative semigroup, let \((S, \times)\) be a
   semigroup, and let \(\sigma, \tau\in\Sym(S)\).
-  Then \(\phi\in \Aut(S, +)\) is a semigroup isomorphism or
-  anti-isomorphism from \((S, \times ^ \sigma)\) to \((S, \times^\tau)\)
+  Then there exists a semigroup isomorphism or
+  anti-isomorphism \(\phi\in \Aut(S, +)\)  from \((S, \times ^
+  \sigma)\) to \((S, \times^\tau)\)
   if and only if \(\sigma\) and \(\tau\) belong to the same double coset in
   \(\Aut^*(S, \times) \backslash \Sym(S) / \Aut(S, +)\).
 \end{theorem}
@@ -388,7 +391,7 @@ CPU @ 3.20GHz
 processor with 12 threads and 64GB of RAM; an Intel(R) Core(TM)
 i7-12700KF @ 5GHz with 20 threads and 64GB of RAM. We mostly include this
 information to indicate that we did not make use of particularly powerful
-computers. The longest running of the computation in the tables below
+computers. The longest of the computation in the tables below
 took approximately $2400$ CPU hours. This was the time taken to count the
 semirings with $0$ up to isomorphism or anti-isomorphism with $7$ elements.
 
