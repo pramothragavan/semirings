@@ -10,8 +10,8 @@ SetPackageInfo( rec(
 
 PackageName := "semirings",
 Subtitle := "Enumerate semirings",
-Version := "0.1",
-Date := "12/03/2025", # dd/mm/yyyy format
+Version := "1.0.0",
+Date := "19/06/2026", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 
 Persons := [
