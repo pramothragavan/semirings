@@ -75,6 +75,4 @@ jobs:
           # time to time, to receive any bugfixes or updates to parts of the
           # website code that we haven't customised. But this would have to be
           # done carefully.
-          clean: false
           dry-run: ${{ inputs.dry-run }}
-          extra-files: "CHANGELOG.md"
