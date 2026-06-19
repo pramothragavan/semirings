@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<title>GAP (semirings) - Chapter 2: Functionality</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap2"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap1_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap3_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap2.html">[MathJax off]</a></p>
+<p><a id="X87F1120883F5B4D0" name="X87F1120883F5B4D0"></a></p>
+<div class="ChapSects"><a href="chap2_mj.html#X87F1120883F5B4D0">2 <span class="Heading">Functionality</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap2_mj.html#X8377E83781D2CA12">2.1 <span class="Heading">Functions for counting and enumerating structures</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2_mj.html#X783FB7A279AEF486">2.1-1 AllSemirings</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2_mj.html#X7BDCC18386AB4821">2.1-2 NrSemirings</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2_mj.html#X804528937B23DDAF">2.1-3 AllSemiringsWithX</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap2_mj.html#X7C5563A37D566DA5">2.2 <span class="Heading">Miscellaneous</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2_mj.html#X7A8AB47F80129880">2.2-1 InfoSemirings</a></span>
+</div></div>
+</div>
+
+<h3>2 <span class="Heading">Functionality</span></h3>
+
+<p>Semirings and various related algebraic structures of small order can be enumerated using the <strong class="button">Semirings</strong> package. By small order, we mean at most 8, but in many cases even 8 is computationally unfeasible under the current implementation. Each structure type has an associated pair of functions: <code class="code">All&amp;lt;Structure&amp;gt;</code> for enumeration and <code class="code">Nr&amp;lt;Structure&amp;gt;</code> for counting. Here, <code class="code">&amp;lt;Structure&amp;gt;</code> can be one of: <code class="code">AiSemirings</code>, <code class="code">RingsWithOne</code>, <code class="code">Rings</code>, <code class="code">Semirings</code>, <code class="code">SemiringsWithOneAndZero</code>, <code class="code">AiSemiringsWithOneAndZero</code>, <code class="code">SemiringsWithZero</code>, <code class="code">AiSemiringsWithZero</code>, <code class="code">AiSemiringsWithOne</code>, or <code class="code">SemiringsWithOne</code>.</p>
+
+<p>For a given <code class="code">&amp;lt;Structure&amp;gt;</code>, the <code class="code">All&amp;lt;Structure&amp;gt;</code> function returns a list of all structures of that type (up to isomorphism or equivalence), each represented as a pair of Cayley tables. For instance, <code class="code">AllSemirings(n)</code> returns a list of pairs <code class="code">[A, M]</code>, where <code class="code">A</code> and <code class="code">M</code> are <span class="SimpleMath">\(n\times n\)</span> Cayley tables as described in Section <a href="chap1_mj.html#X7919DCEB8400CAAC"><span class="RefLink">1.1</span></a>. The corresponding <code class="code">Nr&amp;lt;Structure&amp;gt;</code> function returns the number of such structures without storing them, and so is both faster and more memory efficient.</p>
+
+<p><a id="X8377E83781D2CA12" name="X8377E83781D2CA12"></a></p>
+
+<h4>2.1 <span class="Heading">Functions for counting and enumerating structures</span></h4>
+
+<p><a id="X783FB7A279AEF486" name="X783FB7A279AEF486"></a></p>
+
+<h5>2.1-1 AllSemirings</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllSemirings</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllSemiringsWithOne</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllSemiringsWithZero</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllSemiringsWithOneAndZero</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllCommutativeSemirings</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllCommutativeSemiringsWithOne</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllCommutativeSemiringsWithZero</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllCommutativeSemiringsWithOneAndZero</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllAiSemirings</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllAiSemiringsWithZero</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllAiSemiringsWithOne</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllAiSemiringsWithOneAndZero</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllCommutativeAiSemirings</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllCommutativeAiSemiringsWithOne</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllCommutativeAiSemiringsWithZero</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllCommutativeAiSemiringsWithOneAndZero</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllRings</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllRingsWithOne</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllSemifields</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list of pairs of Cayley tables</p>
+
+<p>These functions return a list of pairs of Cayley tables of order <var class="Arg">n</var>. The optional argument <var class="Arg">U2E</var> is a boolean that determines whether the structures are considered up to isomorphism (false, default) or equivalence (true).</p>
+
+<p><a id="X7BDCC18386AB4821" name="X7BDCC18386AB4821"></a></p>
+
+<h5>2.1-2 NrSemirings</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NrSemirings</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NrSemiringsWithOne</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NrSemiringsWithZero</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NrSemiringsWithOneAndZero</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NrCommutativeSemirings</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NrCommutativeSemiringsWithOne</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NrCommutativeSemiringsWithZero</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NrCommutativeSemiringsWithOneAndZero</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NrAiSemirings</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NrAiSemiringsWithOne</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NrAiSemiringsWithZero</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NrAiSemiringsWithOneAndZero</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NrCommutativeAiSemirings</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NrCommutativeAiSemiringsWithOne</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NrCommutativeAiSemiringsWithZero</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NrCommutativeAiSemiringsWithOneAndZero</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NrRings</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NrRingsWithOne</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NrSemifields</code>( <var class="Arg">n</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: an integer</p>
+
+<p>These functions return the number of structures of order <var class="Arg">n</var>. The optional argument <var class="Arg">U2E</var> is a boolean that determines whether the structures are counted up to isomorphism (false, default) or equivalence (true).</p>
+
+<p>For each <code class="code">&lt;Structure&gt;</code>, it is the case that <code class="code">Length(All&lt;Structure&gt;(n, U2E)) = Nr&lt;Structure&gt;(n, U2E)</code>.</p>
+
+<p><a id="X804528937B23DDAF" name="X804528937B23DDAF"></a></p>
+
+<h5>2.1-3 AllSemiringsWithX</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllSemiringsWithX</code>( <var class="Arg">n</var>, <var class="Arg">structA</var>, <var class="Arg">structM</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NrSemiringsWithX</code>( <var class="Arg">n</var>, <var class="Arg">structA</var>, <var class="Arg">structM</var>[, <var class="Arg">U2E</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>These functions allow you to enumerate/count the number of semirings of order <var class="Arg">n</var> respectively, while specifying constraints on the additive and multiplicative reducts of the semiring.</p>
+
+<p><var class="Arg">structA</var> and <var class="Arg">structM</var> should be lists of even length, where</p>
+
+
+<ul>
+<li><p>the odd entries <var class="Arg">structA[2i - 1]</var> and <var class="Arg">structM[2i - 1]</var> are functions</p>
+
+</li>
+<li><p>the even entries <var class="Arg">structA[2i]</var> and <var class="Arg">structM[2i]</var> should be values that can be returned by the functions <var class="Arg">structA[2i - 1]</var> and <var class="Arg">structM[2i - 1]</var> respectively.</p>
+
+</li>
+</ul>
+<p>The optional argument <var class="Arg">U2E</var> is a boolean that determines whether the structures are considered up to isomorphism (false, default) or equivalence (true).</p>
+
+<p>It is not necessary to specify additive commutativity in <var class="Arg">structA</var>. This is always assumed as it forms part of the definition of a semiring.</p>
+
+<p>For instance, <code class="code">AllSemiringsWithX(n, [IsBand, true], [])</code> is equivalent to <code class="code">AllAiSemirings(n)</code>.</p>
+
+<p><a id="X7C5563A37D566DA5" name="X7C5563A37D566DA5"></a></p>
+
+<h4>2.2 <span class="Heading">Miscellaneous</span></h4>
+
+<p><a id="X7A8AB47F80129880" name="X7A8AB47F80129880"></a></p>
+
+<h5>2.2-1 InfoSemirings</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; InfoSemirings</code></td><td class="tdright">(&nbsp;info class&nbsp;)</td></tr></table></div>
+<p>is the info class (see <a href="https://docs.gap-system.org/doc/ref/chap7_mj.html#X7A9C902479CB6F7C"><span class="RefLink">Reference: Info Functions</span></a>) of <strong class="button">Semirings</strong>. The info level is initially set to 1 which triggers progress messages whenever any function in Section <a href="chap2_mj.html#X8377E83781D2CA12"><span class="RefLink">2.1</span></a> is called.</p>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap1_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap3_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

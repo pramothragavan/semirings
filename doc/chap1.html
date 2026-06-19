@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>GAP (semirings) - Chapter 1: Introduction</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap1"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap0.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap2.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap1_mj.html">[MathJax on]</a></p>
+<p><a id="X7DFB63A97E67C0A1" name="X7DFB63A97E67C0A1"></a></p>
+<div class="ChapSects"><a href="chap1.html#X7DFB63A97E67C0A1">1 <span class="Heading">Introduction</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1.html#X7919DCEB8400CAAC">1.1 <span class="Heading">Definitions and Preliminaries</span></a>
+</span>
+</div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1.html#X85A08CF187A6D986">1.2 <span class="Heading">Requirements</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X78F27CCA81555251">1.2-1 <span class="Heading">RAM</span></a>
+</span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1.html#X8360C04082558A12">1.3 <span class="Heading">Installation</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X86758B4B7A8AB8FF">1.3-1 <span class="Heading">Download and Extract Semirings</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X861ED1338181C66D">1.3-2 <span class="Heading">Loading</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7DE7E7187BE24368">1.3-3 <span class="Heading">Testing</span></a>
+</span>
+</div></div>
+</div>
+
+<h3>1 <span class="Heading">Introduction</span></h3>
+
+<p>The <strong class="button">Semirings</strong> package provides tools for enumerating semirings and related algebraic structures of small orders. The package allows users to count and generate semirings up to isomorphism or equivalence using a rudimentary algorithm and the library of small semigroups provided by <strong class="button">Smallsemi</strong>. It supports a variety of structures and offers extensibility to custom constraints. This package fills a gap in the literature by providing the first known counts (in many cases) of semirings and their variants up to equivalence.</p>
+
+<p><a id="X7919DCEB8400CAAC" name="X7919DCEB8400CAAC"></a></p>
+
+<h4>1.1 <span class="Heading">Definitions and Preliminaries</span></h4>
+
+<p>There are various definitions of semirings in the literature, and we make use of the following convention. A semiring is a set <span class="Math">S</span> with two binary operations, addition and multiplication, such that:</p>
+
+
+<ul>
+<li><p>The <em>additive reduct</em> \((S, +)\), which we denote by \(A\), is a commutative semigroup.</p>
+
+</li>
+<li><p>The <em>multiplicative reduct</em> \((S, \cdot)\), which we denote by \(M\), is a semigroup.</p>
+
+</li>
+<li><p>Multiplication distributes over addition, i.e. for all \(a, b, c \in S\),</p>
+
+</li>
+</ul>
+<p>\[a \cdot (b + c) = (a \cdot b) + (a \cdot c) \quad \text{and} \quad (b + c) \cdot a = (b \cdot a) + (c \cdot a). \] It is sometimes useful to consider a semiring <span class="Math">S</span> as the pair <span class="Math">(A, M)</span>.</p>
+
+<p>We will also make use of the prefix 'ai' to mean 'additively idempotent'. For instance, an <em>ai-semiring</em> <span class="Math">S</span> is a semiring with the additional property that \[a + a = a \quad \text{for all } a \in S.\]</p>
+
+<p>We make use of the convention that rings do not necessarily have a multiplicative identity.</p>
+
+<p>In the remainder of this chapter, we discuss installation of the package.</p>
+
+<p><a id="X85A08CF187A6D986" name="X85A08CF187A6D986"></a></p>
+
+<h4>1.2 <span class="Heading">Requirements</span></h4>
+
+<p>This software is designed for use with <strong class="button">GAP</strong> version 4.5 or later. It also requires the <strong class="button">Smallsemi</strong> package (version 0.7.2) and the <strong class="button">Semigroups</strong> package (version 5.5.1 or higher) to function correctly.</p>
+
+<p><a id="X78F27CCA81555251" name="X78F27CCA81555251"></a></p>
+
+<h5>1.2-1 <span class="Heading">RAM</span></h5>
+
+<p>Due to its dependence on <strong class="button">Smallsemi</strong>, <strong class="button">Semirings</strong> can use large amounts of RAM. For more information on how <strong class="button">GAP</strong> uses memory, see <a href="https://docs.gap-system.org/doc/ref/chap3.html#X782751D5858A6EAF"><span class="RefLink"> GAP command-line options</span></a>. In the case that the user runs into memory issues, see <a href="https://docs.gap-system.org/pkg/smallsemi/doc/chap1.html#X803939AE7C3565DA"><span class="RefLink">Smallsemi: Memory Issues</span></a>.</p>
+
+<p><a id="X8360C04082558A12" name="X8360C04082558A12"></a></p>
+
+<h4>1.3 <span class="Heading">Installation</span></h4>
+
+<p><a id="X86758B4B7A8AB8FF" name="X86758B4B7A8AB8FF"></a></p>
+
+<h5>1.3-1 <span class="Heading">Download and Extract Semirings</span></h5>
+
+<p>The installation follows standard <strong class="button">GAP</strong> rules as outlined in the following two steps; see <a href="https://docs.gap-system.org/doc/ref/chap76.html#X82473E4B8756C6CD"><span class="RefLink">Reference: Installing a GAP Package</span></a> for further details.</p>
+
+
+<ul>
+<li><p>Ensure that Semigroups version 4.5 or later is available.</p>
+
+</li>
+<li><p>Ensure that Smallsemi version 0.7.2 or later is available.</p>
+
+</li>
+<li><p>Download an archive of the package from <span class="URL"><a href="https://pramothragavan.github.io/semirings/">https://pramothragavan.github.io/semirings/</a></span>.</p>
+
+</li>
+<li><p>Move the archive inside a <code class="file">pkg</code> subdirectory of your <strong class="button">GAP</strong> installation.</p>
+
+</li>
+<li><p>Unpack the archive:</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+ cd /path/to/gap/pkg
+ tar -xzf semirings-&lt;version&gt;.tar.gz
+</pre></div>
+
+
+<ul>
+<li><p>Change into the extracted package directory and compile the package:</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+ cd /path/to/gap/pkg/semirings
+ configure &amp;&amp; make
+</pre></div>
+
+<p><a id="X861ED1338181C66D" name="X861ED1338181C66D"></a></p>
+
+<h5>1.3-2 <span class="Heading">Loading</span></h5>
+
+<p>To use the package, start a <strong class="button">GAP</strong> session and type <code class="code">LoadPackage("semirings");</code> at the <strong class="button">GAP</strong> prompt. You should see the following:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">LoadPackage("semirings");</span>
+-----------------------------------------------------------------------------
+Loading semirings 0.1 (Enumerate semirings)
+by James Mitchell (https://jdbm.me) and
+   Pramoth Ragavan (https://pramothragavan.github.io/).
+Homepage: https://pramothragavan.github.io/semirings/
+Report issues at https://github.com/pramothragavan/semirings/issues
+-----------------------------------------------------------------------------
+true
+</pre></div>
+
+<p>You might want to start <strong class="button">GAP</strong> with a specified amount of memory; see <a href="https://docs.gap-system.org/pkg/smallsemi/doc/chap1.html#X803939AE7C3565DA"><span class="RefLink">Smallsemi: Memory Issues</span></a>.</p>
+
+<p><a id="X7DE7E7187BE24368" name="X7DE7E7187BE24368"></a></p>
+
+<h5>1.3-3 <span class="Heading">Testing</span></h5>
+
+<p>You should verify the success of the installation by running the test file. This is done by the following command and should return a similar output:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ReadPackage("semirings", "tst/testall.g");</span>
+Architecture: aarch64-apple-darwin23-default64-kv9
+
+testing: /semirings/tst/ai.tst
+    3730 ms (997 ms GC) and 383MB allocated for ai.tst
+testing: /semirings/tst/equivalence.tst
+   54127 ms (5006 ms GC) and 20.0GB allocated for equivalence.tst
+testing: /semirings/tst/standard.tst
+    6197 ms (2139 ms GC) and 441MB allocated for standard.tst
+-----------------------------------
+total     64054 ms (8142 ms GC) and 20.8GB allocated
+              0 failures in 3 files
+
+I  No errors detected while testing
+</pre></div>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap0.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap2.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>
