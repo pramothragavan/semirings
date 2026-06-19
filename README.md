@@ -39,14 +39,6 @@ Start GAP in the usual way and type:
 LoadPackage("semirings");
 ```
 
-# Issues
+## Issues
 
 For questions, remarks, suggestions, and issues please use the [issue tracker](https://github.com/pramothragavan/semirings/issues).
-
-
-## License
-
-TODO: Provide information on the license of your package. A license is
-important as it determines who has a right to distribute your package. The
-"default" license to consider is GNU General Public License v2 or later, as
-that is the license of GAP itself.
