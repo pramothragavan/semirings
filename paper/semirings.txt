@@ -1,0 +1,7 @@
+This paper is basically ready to be published now, so I recommend acceptance. 
+
+The only remaining comment I have concerns the computation of Aut(S, \times) and Aut(S, +). I looked into the source code of the GAP semigroups package and the reference provided ([31], by G. L. Miller). The construction used in the code is a much simpler construction than that in [31], so I wouldn't necessarily say that [31] contains the details. Perhaps something more like:
+ 
+"the problem of computing Aut(S, \times) reduces to that of computing the automorphism group of a graph associated to (S, \times); the construction of this graph in in the SEMIGROUPS [32] package for GAP [19] is inspired by the construction in [31]." 
+
+(If there is a paper in which the actual construction used by SEMIGROUPS is described then it should be given, but I could not find one.)

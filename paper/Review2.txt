@@ -1,0 +1,51 @@
+In this paper, theory is developed that enables the counting, in reasonable computational time, of the numbers of finite semirings both up to isomorphism, and up to isomorphism/anti-isomorphism, for small values of n. The theory developed, while short, is elegant and insightful, and the tables of results provided are helpful. I think that this paper provides a meaningful contribution to semigroup theory, and should be published following revisions, detailed below: 
+
+Major issues:
+
+-Section 2 paragraph 1: The algorithm is not clear. 
+---"of a graph associated to Aut(S, \times)": What graph? 
+
+> We've added a reference for this standard construction.
+
+Actually, is this clarification and mentioning of BLISS actually necessary for the paper?
+If this functionality was already available in SEMIGROUPS before this paper, and just happens to use BLISS under the hood, details are not necessary.
+
+> Perhaps not, but we felt that we should provide enough of a description of what we did for the results in the paper to be reproducible (in theory) for readers, and hence have opted to leave these comments in.
+
+---"This is the approach implemented...": "This" being the approach of using GAP to compute double cosets (and BLISS via GAP to compute automorphism groups)?
+
+> We have clarified that we meant "the comments in the preceding paragraph" by "this", and put this at the start of the paragraph instead of the end.
+
+---How is distribution being checked? Theorem 1.3 says that IF \sigma and \tau are permutations that give semirings, then the semirings they give are isomorphic iff the permutations belong to the same double coset. Not all permutations give rise to semirings, though, so computing representatives of double cosets therefore gives an upper bound on the number of semirings. How are you checking/handling which permutations give semirings? Are you computing all double cosets and then checking one representative per coset for distributivity? If so, please mention this and also mention that distributivity is constant on cosets. If you are not computing all double cosets, then how are you filtering prior to computation?
+
+> This is an excellent point, we have reformulated Theorem 1.3, and added a new corollary that explicitly spells this out. The previous version of Theorem 1.3 assumed that (S, +, x^\sigma) and (S, + , x^\tau) were semirings, but didn't use this in the proof at all. We've removed this assumption.
+
+
+-Section 2 paragraph 1: Is the SEMIRINGS package [16] introduced by this paper? If so, say so. The GitHub page also needs some work - at minimum, a license and a readme covering installation and usage, particularly for reproducing the results of this paper.
+
+> DONE.
+
+
+Typos/small edits:
+
+-Throughout the paper and tables, the phrases "up to isomorphism and anti-isomorphism" and "up to isomorphism or anti-isomorphism" are both used to refer to the same concept. Make this consistent throughout the paper.
+
+> DONE.
+
+-Introduction paragraph 2 sentence 1: Mention here that "ai" stands for additively idempotent. 
+
+> DONE
+
+-Introduction: "note arose out from" -> "note arose from"
+
+> DONE
+
+-Introduction: "..., this number is likely close to..." - This is a run-on sentence.
+
+> DONE
+
+-Proof of theorem 1.3: Typo in the first sentence of the reverse direction: Your maps need to be in the same double coset of Aut(S, \times) \ Sym(S) / Aut(S, +).
+
+> DONE
+
+-Section 2 paragraph 2: "although this approach is considerably slower than the approach described here": I think "this" approach refers to using ALG. Please clarify this.
