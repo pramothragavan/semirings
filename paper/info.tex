@@ -74,13 +74,21 @@
 \newcommand{\alg}{\textsc{alg}~\cite{baueralg}\xspace}
 \newcommand{\Sym}{\operatorname{Sym}}
 \newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\keywords}[1]{%
+  \par\noindent\textbf{Keywords:} #1\par
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Preamble ends
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \title{Counting finite semirings}
-\author{J. Edwards, J. D. Mitchell, and P. Ragavan}
+\author{%
+  J. Edwards\thanks{\href{mailto:jde1@st-andrews.ac.uk}{\texttt{jde1@st-andrews.ac.uk}}},
+  J. D. Mitchell\thanks{\href{mailto:jdm3@st-andrews.ac.uk}{\texttt{jdm3@st-andrews.ac.uk}}},
+  and P. Ragavan\thanks{\href{mailto:pramoth.ragavan@gmail.com}{\texttt{pramoth.ragavan@gmail.com}}}\\[0.5em]
+  {\small University of St Andrews, Scotland}%
+}
 \date{\today}
 
 \begin{document}
@@ -93,6 +101,8 @@
   $n$; for which we utilise the existing library of small semigroups
   in the \GAP package \Smallsemi.
 \end{abstract}
+\keywords{Combinatorial enumeration, semirings, semigroups, isomorphism,
+anti-isomorphism}
 
 \section{Introduction}
 
@@ -345,13 +355,14 @@ anti-isomorphism are available in \Smallsemi.  Since $S$ is small, it is
 relatively straightforward to compute $\Aut(S, \times)$ and $\Aut(S, +)$:
 the problem of computing $\Aut(S, \times)$ reduces to that of
 computing the automorphism group of a graph associated to $(S, \times)$;
-see \cite{Miller1977} for details. The automorphisms of $(S, +)$ can also
-be computed in this way. There are several software tools for computing
-automorphism groups of graphs, for example, \bliss. This is the approach
-used by the \Semigroups package for \GAP, which the authors used to
-compute $\Aut(S, \times)$ and $\Aut(S, +)$ in this paper. Finally, \GAP
-contains functionality for computing double coset representatives; see
-\cite[Section 4.6.8]{Holt2005} for details.
+the construction of this graph in the \Semigroups package for \GAP is based on
+a similar construction in \cite{Miller1977}. The automorphisms of $(S, +)$ can
+also be computed in this way. There are several software tools for computing
+automorphism groups of graphs, for example, \bliss. This is the approach used
+by the \Semigroups package for \GAP, which the authors used to compute $\Aut(S,
+\times)$ and $\Aut(S, +)$ in this paper. Finally, \GAP contains functionality
+for computing double coset representatives; see \cite[Section 4.6.8]{Holt2005}
+for details.
 
 Below are some tables listing the numbers of semirings
 (\cref{def:semiring}) up
